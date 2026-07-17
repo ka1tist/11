@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bqqntqsgbwxkn"]
+
+[ext_resource type="Script" uid="uid://croh1uhut526w" path="res://player/scripts/player.gd" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://l4moesjsbk81" path="res://player/states/idle.gd" id="2_g1dw6"]
+[ext_resource type="Script" uid="uid://dxh00u12fmsnu" path="res://player/states/run.gd" id="3_yw30f"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7h0lg"]
+size = Vector2(18, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(16, 46)
+
+[node name="Player" type="CharacterBody2D" unique_id=365008897]
+script = ExtResource("1_oul6g")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
+texture = SubResource("PlaceholderTexture2D_7h0lg")
+offset = Vector2(0, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1156081630]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_7h0lg")
+debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
+
+[node name="States" type="Node" parent="." unique_id=35607546]
+
+[node name="Idle" type="Node" parent="States" unique_id=488010266]
+script = ExtResource("2_g1dw6")
+
+[node name="Run" type="Node" parent="States" unique_id=1731467100]
+script = ExtResource("3_yw30f")
