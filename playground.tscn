@@ -14,9 +14,16 @@ height = 32
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
 size = Vector2(32, 32)
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_rupst"]
-a = Vector2(-0.51297, -14.148785)
-b = Vector2(-0.6334152, 12.795387)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boad6"]
+size = Vector2(32, 32)
+
+[sub_resource type="Gradient" id="Gradient_rupst"]
+colors = PackedColorArray(0.5236514, 0.72526056, 0.85776234, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ieygl"]
+gradient = SubResource("Gradient_rupst")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
 
 [node name="Playground" type="Node2D" unique_id=2116927291]
 
@@ -49,8 +56,8 @@ texture = SubResource("GradientTexture2D_7h0lg")
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D3" unique_id=326721782]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D3/StaticBody2D" unique_id=2026968561]
-position = Vector2(-13.665677, 2.1016462)
-shape = SubResource("SegmentShape2D_rupst")
+position = Vector2(-0.10946846, -0.111605406)
+shape = SubResource("RectangleShape2D_boad6")
 
 [node name="Sprite2D4" type="Sprite2D" parent="." unique_id=951615327]
 position = Vector2(485, 139)
@@ -92,6 +99,20 @@ texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D7/StaticBody2D" unique_id=1578158929]
 shape = SubResource("RectangleShape2D_7h0lg")
+
+[node name="OneWayPlatForm" type="Sprite2D" parent="." unique_id=1811348838]
+position = Vector2(151.00002, 83.00001)
+scale = Vector2(1.4453121, 0.20312494)
+texture = SubResource("GradientTexture2D_ieygl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="OneWayPlatForm" unique_id=1407090782]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayPlatForm/StaticBody2D" unique_id=1371471091]
+scale = Vector2(2.8004746, 1.4983317)
+shape = SubResource("RectangleShape2D_ieygl")
+one_way_collision = true
 
 [node name="Player" parent="." unique_id=365008897 instance=ExtResource("1_rupst")]
 position = Vector2(182, 169)

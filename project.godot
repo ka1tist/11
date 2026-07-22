@@ -70,6 +70,11 @@ action={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Ground"
+2d_physics/layer_2="On Way Platform"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

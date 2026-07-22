@@ -1,5 +1,6 @@
 class_name PlayerStateJump extends PlayerState
 
+@export var jump_velocity : float = 450
 #状态初始化时做什么
 func init() -> void:
 	pass
@@ -7,15 +8,22 @@ func init() -> void:
 #当我们进入这个状态时会发生什么
 func enter() -> void:
 	#动画
+	player.animation_player.play( "jump" )
+	player.add_debug_indicator( Color.LAWN_GREEN )
+	player.velocity.y = -jump_velocity
 	pass
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
+	player.add_debug_indicator( Color.YELLOW )
 	pass
 
 #按下输入会发生什么
-func handle_input( _event : InputEvent ) -> PlayerState:
+func handle_input( event : InputEvent ) -> PlayerState:
 	#处理输入
+	if event.is_action_released("jump"):
+		player.velocity.y *= 0.5
+		return fall
 	return next_state
 	
 	
@@ -27,5 +35,9 @@ func process(_delta: float) -> PlayerState:
 
 #在这个状态下，每个物理过程tick会发生什么
 func physics_process(_delta: float) -> PlayerState:
-
+	if player.is_on_floor():
+		return idle
+	elif player.velocity.y >= 0:
+		return fall
+	player.velocity.x = player.direction.x * player.move_speed
 	return next_state
