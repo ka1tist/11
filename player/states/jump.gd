@@ -9,13 +9,22 @@ func init() -> void:
 func enter() -> void:
 	#动画
 	player.animation_player.play( "jump" )
-	player.add_debug_indicator( Color.LAWN_GREEN )
+	player.animation_player.pause()
+	#player.add_debug_indicator( Color.LAWN_GREEN )
 	player.velocity.y = -jump_velocity
+	
+	
+	if player.previous_state == fall and not Input.is_action_pressed("jump"):
+		await get_tree().physics_frame
+		player.velocity.y *= 0.5
+		player.change_state( fall )
+		pass
+		
 	pass
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
-	player.add_debug_indicator( Color.YELLOW )
+	#player.add_debug_indicator( Color.YELLOW )
 	pass
 
 #按下输入会发生什么
@@ -29,7 +38,7 @@ func handle_input( event : InputEvent ) -> PlayerState:
 	
 #在这个状态下，每个过程tick会发生什么
 func process(_delta: float) -> PlayerState:
-
+	set_jump_frame()
 	return next_state
 
 
@@ -41,3 +50,9 @@ func physics_process(_delta: float) -> PlayerState:
 		return fall
 	player.velocity.x = player.direction.x * player.move_speed
 	return next_state
+
+
+func set_jump_frame() -> void:
+	var frame : float = remap( player.velocity.y,-jump_velocity,0.0,0.0,0.5 )
+	player.animation_player.seek( frame,true )
+	pass

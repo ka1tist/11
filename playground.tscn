@@ -28,8 +28,8 @@ gradient = SubResource("Gradient_rupst")
 [node name="Playground" type="Node2D" unique_id=2116927291]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=436957358]
-position = Vector2(236.00002, 267)
-scale = Vector2(15.9375, 0.625)
+position = Vector2(312.99997, 359)
+scale = Vector2(20.749998, 0.625)
 texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D" unique_id=1744116306]
@@ -38,8 +38,8 @@ texture = SubResource("GradientTexture2D_7h0lg")
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1319675929]
-position = Vector2(4, 134.75002)
-scale = Vector2(0.84375006, 8.828125)
+position = Vector2(4, 180.25002)
+scale = Vector2(0.84375006, 11.671875)
 texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D2" unique_id=842398478]
@@ -48,9 +48,9 @@ texture = SubResource("GradientTexture2D_7h0lg")
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1283302350]
-position = Vector2(412.31552, 238.79701)
-rotation = 1.0640525
-scale = Vector2(3.3311574, 8.828125)
+position = Vector2(525, 349)
+rotation = 1.2040973
+scale = Vector2(4.1689296, 12.734118)
 texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D3" unique_id=326721782]
@@ -60,8 +60,8 @@ position = Vector2(-0.10946846, -0.111605406)
 shape = SubResource("RectangleShape2D_boad6")
 
 [node name="Sprite2D4" type="Sprite2D" parent="." unique_id=951615327]
-position = Vector2(485, 139)
-scale = Vector2(0.84375006, 8.828125)
+position = Vector2(639, 181.5)
+scale = Vector2(0.84375006, 11.718749)
 texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D4" unique_id=1484495142]
@@ -70,8 +70,8 @@ texture = SubResource("GradientTexture2D_7h0lg")
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1408132705]
-position = Vector2(245, 5)
-scale = Vector2(15.9375, 0.625)
+position = Vector2(319.5, 5)
+scale = Vector2(20.59375, 0.625)
 texture = SubResource("GradientTexture2D_7h0lg")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D5" unique_id=865171827]
@@ -80,7 +80,7 @@ texture = SubResource("GradientTexture2D_7h0lg")
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="Sprite2D6" type="Sprite2D" parent="." unique_id=1315629570]
-position = Vector2(105.00001, 229.99998)
+position = Vector2(111, 322)
 scale = Vector2(1.7343746, 1.6718749)
 texture = SubResource("GradientTexture2D_7h0lg")
 
@@ -91,7 +91,7 @@ position = Vector2(-0.43243253, 0.14953272)
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="Sprite2D7" type="Sprite2D" parent="." unique_id=1759523545]
-position = Vector2(38, 147)
+position = Vector2(38, 226)
 scale = Vector2(2.3203125, 0.45312488)
 texture = SubResource("GradientTexture2D_7h0lg")
 
@@ -101,7 +101,7 @@ texture = SubResource("GradientTexture2D_7h0lg")
 shape = SubResource("RectangleShape2D_7h0lg")
 
 [node name="OneWayPlatForm" type="Sprite2D" parent="." unique_id=1811348838]
-position = Vector2(151.00002, 83.00001)
+position = Vector2(147, 147)
 scale = Vector2(1.4453121, 0.20312494)
 texture = SubResource("GradientTexture2D_ieygl")
 
@@ -115,4 +115,4 @@ shape = SubResource("RectangleShape2D_ieygl")
 one_way_collision = true
 
 [node name="Player" parent="." unique_id=365008897 instance=ExtResource("1_rupst")]
-position = Vector2(182, 169)
+position = Vector2(238, 245)
