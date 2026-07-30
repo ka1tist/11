@@ -12,7 +12,7 @@ const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
 #endregion
 
 #region /// export variables
-@export var move_speed : float = 170
+@export var move_speed : float = 200
 @export var max_fall_velocity : float = 600
 #endregion
 
@@ -34,7 +34,10 @@ var gravity_mulitplier : float = 1.0
 
 func _ready() -> void:
 	#初始化状态
+	if get_tree().get_first_node_in_group("Player") != self:
+		self.queue_free()
 	initialize_states()
+	self.call_deferred( "reparent",get_tree().root )
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
