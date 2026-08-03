@@ -5,6 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="2_kl3ll"]
 [ext_resource type="Texture2D" uid="uid://bmg2mhdj8rwxt" path="res://levels/tilesets/sprites/props1.png" id="3_4rsjw"]
 
+[sub_resource type="TileMapPattern" id="TileMapPattern_4rsjw"]
+tile_data = PackedInt32Array(196608, 196608, 1342177309, 1, 131072, 1342177308, 65537, 262144, 1342177304, 131073, 262144, 1342177304, 196609, 196608, 1342177308, 2, 524291, 1073741839, 65538, 589827, 1073741839, 131074, 524291, 1073741839, 196610, 589827, 1073741839)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl3ll"]
 texture = ExtResource("1_7hhcu")
 26:0/0 = 0
@@ -3715,6 +3718,7 @@ texture = ExtResource("3_4rsjw")
 47:79/0 = 0
 60:79/0 = 0
 62:79/0 = 0
+30:18/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hhcu"]
 texture = ExtResource("1_181v3")
@@ -4493,3 +4497,4 @@ sources/3 = SubResource("TileSetAtlasSource_7hhcu")
 sources/0 = SubResource("TileSetAtlasSource_kl3ll")
 sources/1 = SubResource("TileSetAtlasSource_4rsjw")
 sources/2 = SubResource("TileSetAtlasSource_owbvi")
+pattern_0 = SubResource("TileMapPattern_4rsjw")

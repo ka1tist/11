@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cny6wdkiy77yn"]
+
+[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="1_2g50v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eduya"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sm2a"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwnea"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lked1"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adkml"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5umnn"]
+atlas = ExtResource("1_2g50v")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7h0lg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eduya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sm2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwnea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lked1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adkml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5umnn")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="插地火把" type="AnimatedSprite2D" unique_id=109864954]
+sprite_frames = SubResource("SpriteFrames_7h0lg")
+autoplay = "default"
+frame_progress = 0.64937717
+offset = Vector2(0, -16)
