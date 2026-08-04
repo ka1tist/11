@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://cny6wdkiy77yn"]
+[gd_scene format=3 uid="uid://cxrfpicqh2ruo"]
 
 [ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="1_2g50v"]
+[ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_eduya"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eduya"]
 atlas = ExtResource("1_2g50v")
@@ -52,8 +53,58 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_eduya"]
+offsets = PackedFloat32Array(0.12583892, 0.28355706, 0.44798657, 1)
+colors = PackedColorArray(1, 1, 0.01999998, 0.72156864, 1, 0.6443333, 0.029999971, 0.5137255, 1, 0.35000002, 0, 0.5254902, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2g50v"]
+gradient = SubResource("Gradient_eduya")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.49658704, 0.48634812)
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vwnea"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_0sm2a"]
+offsets = PackedFloat32Array(0, 0.23662551, 0.54526746, 1)
+colors = PackedColorArray(1, 1, 0.03529412, 1, 1, 0.7411765, 0.007843138, 1, 1, 0.45490196, 0.02745098, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eduya"]
+gradient = SubResource("Gradient_0sm2a")
+use_hdr = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7h0lg"]
+particle_flag_disable_z = true
+direction = Vector3(1, -8, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 98, 0)
+color_ramp = SubResource("GradientTexture1D_eduya")
+turbulence_enabled = true
+turbulence_influence_max = 0.3
+turbulence_initial_displacement_min = -19.999998
+turbulence_initial_displacement_max = 20.000002
+
 [node name="插地火把" type="AnimatedSprite2D" unique_id=109864954]
 sprite_frames = SubResource("SpriteFrames_7h0lg")
 autoplay = "default"
-frame_progress = 0.64937717
+frame_progress = 0.7982697
 offset = Vector2(0, -16)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1690918322]
+position = Vector2(0, -16)
+energy = 0.5
+texture = SubResource("GradientTexture2D_2g50v")
+script = ExtResource("2_eduya")
+flicker_intensity = 0.2
+flicker_frenquency = 0.1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1963486322]
+material = SubResource("CanvasItemMaterial_vwnea")
+position = Vector2(0, -16)
+amount = 3
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_7h0lg")

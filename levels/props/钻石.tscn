@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://1l4m6d3khflp"]
+
+[ext_resource type="Texture2D" uid="uid://cwuvsugsmjpkh" path="res://levels/tilesets/sprites/钻石.png" id="1_8j52t"]
+[ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_gelct"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gelct"]
+atlas = ExtResource("1_8j52t")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i60n5"]
+atlas = ExtResource("1_8j52t")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pr8r"]
+atlas = ExtResource("1_8j52t")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn3es"]
+atlas = ExtResource("1_8j52t")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0wf5"]
+atlas = ExtResource("1_8j52t")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7h0lg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gelct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i60n5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pr8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn3es")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0wf5")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_3ujte"]
+colors = PackedColorArray(0.24650003, 0.7192417, 0.85, 0.654902, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i60n5"]
+gradient = SubResource("Gradient_3ujte")
+fill = 1
+fill_from = Vector2(0.49658704, 0.48634812)
+metadata/_snap_enabled = true
+
+[node name="钻石" type="AnimatedSprite2D" unique_id=1805056374]
+sprite_frames = SubResource("SpriteFrames_7h0lg")
+autoplay = "default"
+frame_progress = 0.8160433
+offset = Vector2(8, -8)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=433885473]
+position = Vector2(8, -8)
+energy = 2.0
+texture = SubResource("GradientTexture2D_i60n5")
+script = ExtResource("2_gelct")
+flicker_intensity = 0.0
+flicker_frenquency = 0.0
