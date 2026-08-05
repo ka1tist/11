@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/sprites/Torch.png" id="2_kl3ll"]
 [ext_resource type="Texture2D" uid="uid://bmg2mhdj8rwxt" path="res://levels/tilesets/sprites/props1.png" id="3_4rsjw"]
 [ext_resource type="Texture2D" uid="uid://djqall3sjqmmr" path="res://levels/tilesets/sprites/Campfire sheet.png" id="5_owbvi"]
-[ext_resource type="Texture2D" uid="uid://bf2c6qjcc5ro1" path="res://levels/tilesets/Decor.png" id="6_bfynm"]
+[ext_resource type="Texture2D" uid="uid://bf2c6qjcc5ro1" path="res://levels/tilesets/sprites/Decor.png" id="6_bfynm"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_4rsjw"]
 tile_data = PackedInt32Array(196608, 196608, 1342177309, 1, 131072, 1342177308, 65537, 262144, 1342177304, 131073, 262144, 1342177304, 196609, 196608, 1342177308, 2, 524291, 1073741839, 65538, 589827, 1073741839, 131074, 524291, 1073741839, 196610, 589827, 1073741839)
