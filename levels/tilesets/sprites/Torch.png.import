@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2lcnjfl1skh"
-path="res://.godot/imported/background4b.png-c2b13be6c3a4ea54a408b094a5aacf94.ctex"
+uid="uid://cbwescvermjmm"
+path="res://.godot/imported/Torch.png-a7e2d37ef3c219be2c561937fb994f0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://background4b.png"
-dest_files=["res://.godot/imported/background4b.png-c2b13be6c3a4ea54a408b094a5aacf94.ctex"]
+source_file="res://levels/tilesets/sprites/Torch.png"
+dest_files=["res://.godot/imported/Torch.png-a7e2d37ef3c219be2c561937fb994f0c.ctex"]
 
 [params]
 

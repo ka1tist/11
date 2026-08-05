@@ -2,11 +2,11 @@
 
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_uy1v8"]
 [ext_resource type="PackedScene" uid="uid://bqqntqsgbwxkn" path="res://player/player.tscn" id="2_cayt2"]
-[ext_resource type="Texture2D" uid="uid://ncfk4xtpf4c3" path="res://background1.png" id="2_vi5rc"]
-[ext_resource type="Texture2D" uid="uid://ccmd6gp7o5nif" path="res://background2.png" id="3_kek4k"]
-[ext_resource type="Texture2D" uid="uid://palbsq181l3h" path="res://background3.png" id="4_2djti"]
+[ext_resource type="Texture2D" uid="uid://ncfk4xtpf4c3" path="res://levels/tilesets/sprites/background1.png" id="2_vi5rc"]
+[ext_resource type="Texture2D" uid="uid://ccmd6gp7o5nif" path="res://levels/tilesets/sprites/background2.png" id="3_kek4k"]
+[ext_resource type="Texture2D" uid="uid://palbsq181l3h" path="res://levels/tilesets/sprites/background3.png" id="4_2djti"]
 [ext_resource type="Script" uid="uid://bk5xhtoqj11k5" path="res://general/scripts/level_bounds.gd" id="6_fo65y"]
-[ext_resource type="Texture2D" uid="uid://2lcnjfl1skh" path="res://background4b.png" id="6_wcxka"]
+[ext_resource type="Texture2D" uid="uid://2lcnjfl1skh" path="res://levels/tilesets/sprites/background4b.png" id="6_wcxka"]
 [ext_resource type="PackedScene" uid="uid://dmoyxn1xjr8jj" path="res://general/level_transition/level_transition.tscn" id="7_2tqn8"]
 [ext_resource type="PackedScene" uid="uid://1l4m6d3khflp" path="res://levels/props/钻石.tscn" id="10_vi5rc"]
 [ext_resource type="PackedScene" uid="uid://cxrfpicqh2ruo" path="res://levels/props/插地火把.tscn" id="10_wcxka"]
@@ -199,12 +199,6 @@ position = Vector2(96, 288)
 rotation = 3.1415927
 scale = Vector2(0.9999989, -1)
 
-[node name="LevelTransition" parent="." unique_id=394364620 instance=ExtResource("7_2tqn8")]
-position = Vector2(1320, 256)
-size = 3
-location = 1
-target_level = "uid://bmwnfmk7co6hw"
-
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=226576766]
 z_index = 2
 repeat_size = Vector2(512, 0)
@@ -226,3 +220,9 @@ lifetime = 5.0
 randomness = 0.75
 visibility_rect = Rect2(-250, -100, 500, 200)
 process_material = SubResource("ParticleProcessMaterial_hkdiw")
+
+[node name="LevelTransition" parent="." unique_id=394364620 instance=ExtResource("7_2tqn8")]
+position = Vector2(1320, 256)
+size = 3
+location = 1
+target_level = "uid://bmwnfmk7co6hw"

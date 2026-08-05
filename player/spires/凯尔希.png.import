@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctvr2tikwt4tx"
-path="res://.godot/imported/TX Village Props.png-931b8a2e03397bd9e324cb1f894d3754.ctex"
+uid="uid://dc81n2yoevr11"
+path="res://.godot/imported/凯尔希.png-21c8b579bcbd359a802ee9404a791232.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/tilesets/TX Village Props.png"
-dest_files=["res://.godot/imported/TX Village Props.png-931b8a2e03397bd9e324cb1f894d3754.ctex"]
+source_file="res://player/spires/凯尔希.png"
+dest_files=["res://.godot/imported/凯尔希.png-21c8b579bcbd359a802ee9404a791232.ctex"]
 
 [params]
 

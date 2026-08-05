@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbwescvermjmm"
-path="res://.godot/imported/Torch.png-336217d9e68df3079ae9e48bfea879ad.ctex"
+uid="uid://djqall3sjqmmr"
+path="res://.godot/imported/Campfire sheet.png-03e44d112db559c3ed78c33f8567e70e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/tilesets/Torch.png"
-dest_files=["res://.godot/imported/Torch.png-336217d9e68df3079ae9e48bfea879ad.ctex"]
+source_file="res://levels/tilesets/sprites/Campfire sheet.png"
+dest_files=["res://.godot/imported/Campfire sheet.png-03e44d112db559c3ed78c33f8567e70e.ctex"]
 
 [params]
 

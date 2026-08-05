@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://dpckxjq8yj6ce"]
 
-[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="1_u2pdb"]
-[ext_resource type="Texture2D" uid="uid://ctvr2tikwt4tx" path="res://levels/tilesets/TX Village Props.png" id="2_28xoj"]
+[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/sprites/Torch.png" id="1_u2pdb"]
+[ext_resource type="Texture2D" uid="uid://ctvr2tikwt4tx" path="res://levels/tilesets/sprites/TX Village Props.png" id="2_28xoj"]
 [ext_resource type="Texture2D" uid="uid://d1756mvycxpyi" path="res://levels/tilesets/sprites/props2.png" id="3_rhnqu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_28xoj"]

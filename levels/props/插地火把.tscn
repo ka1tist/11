@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cxrfpicqh2ruo"]
 
-[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="1_2g50v"]
+[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/sprites/Torch.png" id="1_2g50v"]
 [ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_eduya"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eduya"]

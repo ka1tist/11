@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://bruwqpauid8qw"]
 
-[ext_resource type="Texture2D" uid="uid://ctvr2tikwt4tx" path="res://levels/tilesets/TX Village Props.png" id="1_ufb4m"]
-[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/Torch.png" id="2_64cl5"]
+[ext_resource type="Texture2D" uid="uid://ctvr2tikwt4tx" path="res://levels/tilesets/sprites/TX Village Props.png" id="1_ufb4m"]
+[ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/sprites/Torch.png" id="2_64cl5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_64cl5"]
 texture = ExtResource("1_ufb4m")
