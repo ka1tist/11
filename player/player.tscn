@@ -150,8 +150,8 @@ unique_name_in_owner = true
 script = ExtResource("6_g6k8r")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
-position = Vector2(1.000001, -13)
-scale = Vector2(1.8787532, 1.8812126)
+position = Vector2(1.1920929e-07, -13)
+scale = Vector2(1.88, 1.88)
 texture = ExtResource("7_boad6")
 offset = Vector2(0, -24)
 hframes = 12

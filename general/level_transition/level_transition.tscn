@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
 size = Vector2(32, 32)
 
-[node name="LevelTransition" type="Node2D" unique_id=394364620 groups=["Player"]]
+[node name="LevelTransition" type="Node2D" unique_id=394364620]
 script = ExtResource("1_d5xbk")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=344744695]

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dffmx5fy2d6ud"]
+
+[ext_resource type="Texture2D" uid="uid://dfedgwugeiu7p" path="res://player/spires/red hood itch free Copy-Sheet.png" id="1_2y6re"]
+[ext_resource type="Script" uid="uid://c7ixws261yha0" path="res://general/player_spawn/player_spawn.gd" id="1_h1cw5"]
+
+[node name="PlayerSpawn" type="Node2D" unique_id=61038727]
+modulate = Color(0, 0.97877026, 0.39106154, 1)
+script = ExtResource("1_h1cw5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=810923531]
+position = Vector2(0.97875977, -13)
+scale = Vector2(-1.8627263, 1.88)
+texture = ExtResource("1_2y6re")
+offset = Vector2(0, -24)
+hframes = 12
+vframes = 11
