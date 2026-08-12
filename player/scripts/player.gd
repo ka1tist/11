@@ -11,6 +11,15 @@ const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 #endregion
 
+#region /// on ready variables
+var hp : float = 20
+var max_hp : float = 20
+var dash : bool = false
+var double_jump : bool = false
+var ground_slam : bool = false
+var morph_roll : bool = false
+#endregion
+
 #region /// export variables
 @export var move_speed : float = 200
 @export var max_fall_velocity : float = 600
@@ -38,9 +47,12 @@ func _ready() -> void:
 		self.queue_free()
 	initialize_states()
 	self.call_deferred( "reparent",get_tree().root )
+	Messages.player_healed.connect( _on_player_healed )
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed( "action" ):
+		Messages.player_interacted.emit( self )
 	change_state( current_state.handle_input( event ) )
 	pass
 
@@ -130,4 +142,11 @@ func add_debug_indicator( color : Color = Color.RED ) -> void:
 	d.modulate = color
 	await get_tree().create_timer( 3.0 ).timeout
 	d.queue_free()
+	pass
+
+
+
+
+func _on_player_healed( amount : float ) -> void:
+	hp += amount
 	pass

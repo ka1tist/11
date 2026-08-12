@@ -34,6 +34,9 @@ tile_data = PackedInt32Array(0, 786435, 268435477, 65536, 786435, 268435476, 131
 [sub_resource type="TileMapPattern" id="TileMapPattern_vw16g"]
 tile_data = PackedInt32Array(0, 196611, 2, 65536, 196611, 3, 131072, 196611, 2, 196608, 196611, 3, 1, 917507, 21, 65537, 983043, 18, 131073, 327683, 6, 196609, 327683, 7, 2, 983043, 21, 65538, 786435, 20, 131074, 393219, 6, 196610, 393219, 7)
 
+[sub_resource type="TileMapPattern" id="TileMapPattern_lw8au"]
+tile_data = PackedInt32Array(0, 3080195, 3, 1, 3276803, 3, 2, 3342339, 3, 3, 3407875, 3, 4, 3473411, 3, 5, 3538947, 3, 6, 3735555, 3)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl3ll"]
 texture = ExtResource("1_7hhcu")
 texture_region_size = Vector2i(32, 32)
@@ -4940,3 +4943,4 @@ pattern_5 = SubResource("TileMapPattern_irarf")
 pattern_6 = SubResource("TileMapPattern_ib72m")
 pattern_7 = SubResource("TileMapPattern_kp0et")
 pattern_8 = SubResource("TileMapPattern_vw16g")
+pattern_9 = SubResource("TileMapPattern_lw8au")

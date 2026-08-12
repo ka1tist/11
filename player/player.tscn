@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://bjx3ikkggms5e" path="res://player/states/fall.gd" id="5_g6k8r"]
 [ext_resource type="Script" uid="uid://dufhimmdh4wyd" path="res://player/states/crouch.gd" id="6_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://dfedgwugeiu7p" path="res://player/spires/red hood itch free Copy-Sheet.png" id="7_boad6"]
+[ext_resource type="Script" uid="uid://csskjnunwlvsa" path="res://player/scripts/input_hints.gd" id="8_hg6s5"]
+[ext_resource type="Texture2D" uid="uid://b5iqeeberasqa" path="res://player/spires/input_icons.png" id="8_rgyib"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uqgm8"]
 radius = 12.0
@@ -170,6 +172,7 @@ shape = SubResource("CapsuleShape2D_qbbkt")
 debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
 
 [node name="Label" type="Label" parent="." unique_id=1564163269]
+visible = false
 offset_left = 18.00002
 offset_top = -75.0
 offset_right = 58.00002
@@ -192,6 +195,7 @@ max_results = 12
 collision_mask = 2
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=825696280]
+process_mode = 3
 position = Vector2(0, -48)
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]
@@ -200,3 +204,14 @@ color = Color(0.91037446, 0.6085643, 0.32586607, 1)
 energy = 0.5
 texture = SubResource("GradientTexture2D_7h0lg")
 texture_scale = 2.0
+
+[node name="InputHints" type="Node2D" parent="." unique_id=107579952]
+position = Vector2(0, -68)
+script = ExtResource("8_hg6s5")
+
+[node name="Sprite2D" type="Sprite2D" parent="InputHints" unique_id=790598235]
+position = Vector2(0, -4)
+scale = Vector2(-1.1207023, 1)
+texture = ExtResource("8_rgyib")
+hframes = 16
+frame = 15

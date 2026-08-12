@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://dld7eaeynsh0b"]
+
+[ext_resource type="Script" uid="uid://d1ijeuaxv5q1u" path="res://general/save_point/save_point.gd" id="1_5y7y7"]
+[ext_resource type="PackedScene" uid="uid://bq28j8sakjjix" path="res://levels/props/篝火.tscn" id="1_a0gwv"]
+[ext_resource type="FontFile" uid="uid://cwsu3k6lb8wkk" path="res://general/fonts/AaXiangSuJiangHu-Ben-2.ttf" id="3_5y7y7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(64, 32)
+
+[sub_resource type="Animation" id="Animation_5y7y7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-16, -48)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8soah"]
+resource_name = "game_saved"
+length = 3.0000000000000004
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.7, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-24, -40), Vector2(-24, -48), Vector2(-24, -48), Vector2(-24, -40)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.7, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uqlpe"]
+_data = {
+&"RESET": SubResource("Animation_5y7y7"),
+&"game_saved": SubResource("Animation_8soah")
+}
+
+[node name="SavePoint" type="Node2D" unique_id=606649999]
+script = ExtResource("1_5y7y7")
+
+[node name="篝火" parent="." unique_id=1981103534 instance=ExtResource("1_a0gwv")]
+position = Vector2(-9.536743e-07, 0)
+scale = Vector2(1.9999999, 2.2499998)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1462030123]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1406189846]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_7h0lg")
+debug_color = Color(0, 0.5950001, 0.7, 0)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=326881272]
+
+[node name="Label" type="Label" parent="Node2D" unique_id=1129316802]
+visible = false
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 32.0
+offset_bottom = -25.0
+theme_override_colors/font_color = Color(1, 0.6673933, 0.5315673, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_5y7y7")
+text = "已保存"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D" unique_id=1865123045]
+libraries/ = SubResource("AnimationLibrary_uqlpe")

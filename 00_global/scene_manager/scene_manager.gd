@@ -3,9 +3,11 @@ extends CanvasLayer
 signal load_scene_started
 signal new_scene_ready( target_name : String , offset : Vector2 )
 signal load_scene_finished
-
+signal scene_entered( uid : String )
 
 @onready var fade: Control = $Fade
+
+var current_scene_uid : String
 
 
 func _ready() -> void:
@@ -40,12 +42,16 @@ func transition_scene( new_scene : String , target_area : String , player_offset
 		# 加载完成后再切换场景（此时资源已在内存中，切换瞬时完成）
 		var packed : PackedScene = ResourceLoader.load_threaded_get( new_scene )
 		get_tree().change_scene_to_packed( packed )
+		
+		current_scene_uid = ResourceUID.path_to_uid( new_scene )
+		scene_entered.emit( current_scene_uid )
 
 		await get_tree().scene_changed
 		
 		new_scene_ready.emit( target_area , player_offset )
 		
 		#淡入新场景
+		await get_tree().process_frame
 		await fade_screen( Vector2.ZERO , -fade_pos )
 		
 		fade.visible = false
