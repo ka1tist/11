@@ -14,6 +14,8 @@ func _ready() -> void:
 	fade.visible = false
 	await get_tree().process_frame
 	load_scene_finished.emit()
+	var current_scene : String = get_tree().current_scene.scene_file_path
+	current_scene_uid = ResourceUID.path_to_uid( current_scene )
 	pass
 
 
