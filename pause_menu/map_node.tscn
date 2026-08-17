@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://d3yg75ywy76wv"]
+
+[ext_resource type="Script" uid="uid://05gdwftips43" path="res://pause_menu/scripts/map_node.gd" id="1_j1ovi"]
+
+[node name="MapNode" type="Control" unique_id=179225958]
+custom_minimum_size = Vector2(24, 12)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 24.0
+offset_bottom = 12.0
+script = ExtResource("1_j1ovi")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=947223443]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=140050005]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=1514906258]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="ColorRect4" type="ColorRect" parent="." unique_id=1671241465]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=711704263]
+modulate = Color(1, 1, 1, 0.5019608)
+layout_mode = 1
+offset_left = 1.9999999
+offset_top = 1.9999998
+offset_right = 50.0
+offset_bottom = 24.0
+scale = Vector2(0.1, 0.1)
+text = "关卡名"
+
+[node name="TransitionBlocks" type="Control" parent="." unique_id=1400327314]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -12,8 +12,16 @@ const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
 #endregion
 
 #region /// on ready variables
-var hp : float = 20
-var max_hp : float = 20
+var hp : float = 20 : 
+	set( value ) :
+		hp = clampf( value , 0 , max_hp )
+		Messages.player_health_changed.emit( hp , max_hp )
+
+var max_hp : float = 20 : 
+	set( value ) :
+		max_hp = value
+		Messages.player_health_changed.emit( hp , max_hp )
+
 var dash : bool = false
 var double_jump : bool = false
 var ground_slam : bool = false
@@ -48,11 +56,17 @@ func _ready() -> void:
 	initialize_states()
 	self.call_deferred( "reparent",get_tree().root )
 	Messages.player_healed.connect( _on_player_healed )
+	Messages.back_to_title_screen.connect( queue_free )
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed( "action" ):
 		Messages.player_interacted.emit( self )
+	elif event.is_action_pressed( "pause" ):
+		get_tree().paused = true
+		var pause_menu : PauseMenu = load( "res://pause_menu/pause_menu.tscn" ).instantiate()
+		add_child( pause_menu )
+		return
 	change_state( current_state.handle_input( event ) )
 	pass
 

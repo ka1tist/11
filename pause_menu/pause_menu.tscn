@@ -1,0 +1,309 @@
+[gd_scene format=3 uid="uid://syyv8vxtf1kk"]
+
+[ext_resource type="Script" uid="uid://0rsckejyeo3q" path="res://pause_menu/scripts/pause_menu.gd" id="1_5hbt6"]
+[ext_resource type="PackedScene" uid="uid://d3yg75ywy76wv" path="res://pause_menu/map_node.tscn" id="2_rd7dy"]
+
+[sub_resource type="FontVariation" id="FontVariation_7h0lg"]
+spacing_glyph = 8
+
+[sub_resource type="Gradient" id="Gradient_rd7dy"]
+offsets = PackedFloat32Array(0, 0.4748322, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.64731395, 0.64731395, 1, 1, 0.36, 0.36, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7h0lg"]
+gradient = SubResource("Gradient_rd7dy")
+width = 5
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_uwtdo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_b4s0c"]
+resource_name = "default"
+length = 0.7
+loop_mode = 2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.63, 0.63, 0.5254902)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s1glv"]
+_data = {
+&"RESET": SubResource("Animation_uwtdo"),
+&"default": SubResource("Animation_b4s0c")
+}
+
+[sub_resource type="FontVariation" id="FontVariation_5hbt6"]
+spacing_glyph = 2
+
+[sub_resource type="FontVariation" id="FontVariation_ieygl"]
+spacing_glyph = 5
+
+[sub_resource type="FontVariation" id="FontVariation_i8n5y"]
+spacing_glyph = 5
+
+[sub_resource type="FontVariation" id="FontVariation_hkdiw"]
+spacing_glyph = 10
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1583146940]
+process_mode = 3
+script = ExtResource("1_5hbt6")
+
+[node name="Control" type="Control" parent="." unique_id=702423518]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1864160996]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3104, 0.31919998, 0.32, 0.32156864)
+
+[node name="ColorRect2" type="ColorRect" parent="Control" unique_id=1634504145]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(0.25272304, 0.25272304, 0.25272304, 1)
+
+[node name="Label" type="Label" parent="Control/ColorRect2" unique_id=1908400267]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = -11.0
+offset_right = -18.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.3454619, 0.2842903, 1)
+theme_override_fonts/font = SubResource("FontVariation_7h0lg")
+text = "暂停"
+horizontal_alignment = 2
+
+[node name="PauseScreen" type="Control" parent="Control" unique_id=40334937]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Map" type="Control" parent="Control/PauseScreen" unique_id=1895856850]
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 500.0
+offset_bottom = 324.0
+
+[node name="MapNode" parent="Control/PauseScreen/Map" unique_id=179225958 instance=ExtResource("2_rd7dy")]
+modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
+layout_mode = 0
+offset_left = 84.0
+offset_top = 159.0
+offset_right = 150.0
+offset_bottom = 189.0
+linked_scene = "uid://d31trrcaeoqp4"
+entrances_right = Array[float]([21.8])
+indicator_offset = Vector2(-8, -240)
+
+[node name="MapNode2" parent="Control/PauseScreen/Map" unique_id=760710721 instance=ExtResource("2_rd7dy")]
+modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
+layout_mode = 0
+offset_left = 152.0
+offset_top = 140.0
+offset_right = 184.0
+offset_bottom = 187.0
+linked_scene = "uid://bmwnfmk7co6hw"
+entrances_left = Array[float]([41.4, 7.0])
+indicator_offset = Vector2(0, -632)
+
+[node name="MapNode3" parent="Control/PauseScreen/Map" unique_id=520479031 instance=ExtResource("2_rd7dy")]
+modulate = Color(0.60522425, 0.25803313, 0.25803313, 1)
+layout_mode = 0
+offset_left = 118.0
+offset_top = 134.0
+offset_right = 150.0
+offset_bottom = 152.0
+linked_scene = "uid://bjqpdbunwtlh0"
+entrances_right = Array[float]([13.0])
+indicator_offset = Vector2(0, 8)
+
+[node name="PlayerIndicator" type="Control" parent="Control/PauseScreen/Map" unique_id=1142013513]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 66.0
+offset_top = 56.0
+offset_right = 66.0
+offset_bottom = 56.0
+
+[node name="TextureRect" type="TextureRect" parent="Control/PauseScreen/Map/PlayerIndicator" unique_id=2032136479]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+texture = SubResource("GradientTexture2D_7h0lg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/PauseScreen/Map/PlayerIndicator" unique_id=1359111854]
+libraries/ = SubResource("AnimationLibrary_s1glv")
+autoplay = &"default"
+
+[node name="Label" type="Label" parent="Control/PauseScreen" unique_id=27960616]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 38.0
+text = "能力"
+
+[node name="Label2" type="Label" parent="Control/PauseScreen" unique_id=608944600]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 168.0
+offset_bottom = 38.0
+text = "地图"
+
+[node name="SystemMenuButton" type="Button" parent="Control/PauseScreen" unique_id=2066587030]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 517.0
+offset_top = 276.0
+offset_right = 622.0
+offset_bottom = 306.0
+theme_override_fonts/font = SubResource("FontVariation_5hbt6")
+text = "系统设置"
+
+[node name="System" type="Control" parent="Control" unique_id=877829041]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/System" unique_id=2040334425]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 38.0
+offset_right = 192.0
+offset_bottom = 344.0
+grow_horizontal = 2
+theme_override_constants/separation = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=1172298144]
+layout_mode = 2
+
+[node name="MapButton" type="Button" parent="Control/System/VBoxContainer/HBoxContainer" unique_id=1512873660]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_ieygl")
+text = "返回地图"
+
+[node name="TitleButton" type="Button" parent="Control/System/VBoxContainer/HBoxContainer" unique_id=1834529006]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_i8n5y")
+text = "返回标题"
+
+[node name="Label" type="Label" parent="Control/System/VBoxContainer" unique_id=1404166118]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_hkdiw")
+text = "声音设置"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=368589570]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/System/VBoxContainer/HBoxContainer2" unique_id=923229854]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "音乐设置"
+
+[node name="MusicSlider" type="HSlider" parent="Control/System/VBoxContainer/HBoxContainer2" unique_id=990753444]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=1027496612]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/System/VBoxContainer/HBoxContainer3" unique_id=450900171]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "音效设置"
+
+[node name="SFXSlider" type="HSlider" parent="Control/System/VBoxContainer/HBoxContainer3" unique_id=87568953]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=1003134444]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/System/VBoxContainer/HBoxContainer4" unique_id=1103489094]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "UI设置"
+
+[node name="UISlider" type="HSlider" parent="Control/System/VBoxContainer/HBoxContainer4" unique_id=1530966289]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
