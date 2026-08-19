@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://dbkem0vqkor6v" path="res://levels/props/侧面火把.tscn" id="6_uiiip"]
 [ext_resource type="PackedScene" uid="uid://bq28j8sakjjix" path="res://levels/props/篝火.tscn" id="7_p7x7j"]
 [ext_resource type="Texture2D" uid="uid://dkunrh3ijoobn" path="res://player/spires/凯尔希.png" id="9_1oos5"]
+[ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="10_jabur"]
+[ext_resource type="AudioStream" uid="uid://hf3gn5mg4eff" path="res://music/title1.ogg" id="11_uiiip"]
 
 [sub_resource type="Animation" id="Animation_1oos5"]
 length = 0.001
@@ -48,6 +50,12 @@ _data = {
 &"RESET": SubResource("Animation_1oos5"),
 &"start": SubResource("Animation_fh6ay")
 }
+
+[sub_resource type="FontVariation" id="FontVariation_jabur"]
+spacing_glyph = 9
+
+[sub_resource type="FontVariation" id="FontVariation_uiiip"]
+spacing_glyph = 10
 
 [node name="TitleScreen" type="CanvasLayer" unique_id=407806557]
 layer = 5
@@ -196,6 +204,20 @@ frame = 86
 libraries/ = SubResource("AnimationLibrary_jabur")
 autoplay = &"start"
 
+[node name="Label" type="Label" parent="Control/MainMenu/Logo" unique_id=1671838891]
+modulate = Color(0.95246416, 0.30084303, 0.30084303, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 24.0
+offset_right = 64.0
+offset_bottom = 46.0
+grow_horizontal = 2
+theme_override_fonts/font = SubResource("FontVariation_jabur")
+text = "空洞骑士：歌之丝"
+
 [node name="开始" type="Button" parent="Control/MainMenu" unique_id=806447243]
 unique_name_in_owner = true
 layout_mode = 2
@@ -207,6 +229,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = " 加 载 游 戏 "
+
+[node name="设置" type="Button" parent="Control/MainMenu" unique_id=2066765515]
+unique_name_in_owner = true
+layout_mode = 2
+text = "设 置"
 
 [node name="NewMainMenu" type="VBoxContainer" parent="Control" unique_id=1640816709]
 unique_name_in_owner = true
@@ -317,3 +344,81 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "  加 载 存 档 3 "
+
+[node name="SettingMenu" type="VBoxContainer" parent="Control" unique_id=600479227]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = -15.0
+offset_right = 176.0
+offset_bottom = 145.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="Control/SettingMenu" unique_id=1111422793]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_uiiip")
+text = "声音设置"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/SettingMenu" unique_id=1346088157]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer2" unique_id=1111032644]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "音乐设置"
+
+[node name="MusicSlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer2" unique_id=1707084205]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/SettingMenu" unique_id=486536359]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer3" unique_id=994404844]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "音效设置"
+
+[node name="SFXSlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer3" unique_id=1168228135]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/SettingMenu" unique_id=174699091]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer4" unique_id=146688177]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "UI设置"
+
+[node name="UISlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer4" unique_id=1489389423]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="MusicAutoTrigger" type="Node" parent="." unique_id=773671215]
+script = ExtResource("10_jabur")
+track = ExtResource("11_uiiip")
+metadata/_custom_type_script = "uid://bqm81bjcxucow"

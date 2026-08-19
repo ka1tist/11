@@ -158,12 +158,14 @@ indicator_offset = Vector2(0, -632)
 [node name="MapNode3" parent="Control/PauseScreen/Map" unique_id=520479031 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.60522425, 0.25803313, 0.25803313, 1)
 layout_mode = 0
-offset_left = 118.0
+offset_left = 112.0
 offset_top = 134.0
 offset_right = 150.0
 offset_bottom = 152.0
 linked_scene = "uid://bjqpdbunwtlh0"
+entrances_top = Array[float]([13.0])
 entrances_right = Array[float]([13.0])
+entrances_left = Array[float]([13.0])
 indicator_offset = Vector2(0, 8)
 
 [node name="PlayerIndicator" type="Control" parent="Control/PauseScreen/Map" unique_id=1142013513]
@@ -214,7 +216,6 @@ text = "系统设置"
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

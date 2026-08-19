@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://dbkem0vqkor6v" path="res://levels/props/侧面火把.tscn" id="6_pq2rq"]
 [ext_resource type="PackedScene" uid="uid://1l4m6d3khflp" path="res://levels/props/钻石.tscn" id="11_bebe2"]
 [ext_resource type="Material" uid="uid://bq0utih6663vc" path="res://materials_and_shaders/fog_fade_material.tres" id="12_tc81a"]
+[ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="13_41f62"]
+[ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="14_uj8rf"]
 
 [sub_resource type="Gradient" id="Gradient_wcxka"]
 colors = PackedColorArray(0.10980392, 0.14117648, 0.14509805, 1, 0.0476, 0.058800004, 0.07, 0)
@@ -224,3 +226,9 @@ position = Vector2(0, -432)
 size = 3
 target_level = "uid://bjqpdbunwtlh0"
 target_area_name = "LevelTransition2"
+
+[node name="MusicAutoTrigger" type="Node" parent="." unique_id=981171889]
+script = ExtResource("13_41f62")
+track = ExtResource("14_uj8rf")
+reverb = 2
+metadata/_custom_type_script = "uid://bqm81bjcxucow"
