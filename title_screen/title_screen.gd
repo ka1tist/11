@@ -8,10 +8,11 @@ extends CanvasLayer
 @onready var setting_menu: VBoxContainer = %SettingMenu
 
 
-
 @onready var 开始: Button = %开始
 @onready var 加载: Button = %加载
 @onready var 设置: Button = %设置
+@onready var 结束: Button = %结束
+
 
 @onready var 存档1: Button = %存档1
 @onready var 存档2: Button = %存档2
@@ -34,6 +35,8 @@ func _ready() -> void:
 	开始.pressed.connect( show_new_game_menu )
 	加载.pressed.connect( show_load_game_menu )
 	设置.pressed.connect( show_setting_menu  )
+	结束.pressed.connect( quit_game )
+	
 	
 	存档1.pressed.connect( _on_new_game_pressed.bind( 0 ) )
 	存档2.pressed.connect( _on_new_game_pressed.bind( 1 ) )
@@ -113,6 +116,8 @@ func show_setting_menu() -> void:
 	music_slider.value_changed.connect( _on_music_slider_changed )
 	sfx_slider.value_changed.connect( _on_sfx_slider_changed )
 	ui_slider.value_changed.connect( _on_ui_slider_changed )
+	
+	music_slider.grab_focus()
 	pass
 
 func _on_new_game_pressed( slot : int ) -> void:
@@ -155,6 +160,11 @@ func _on_ui_slider_changed( v : float ) -> void:
 	Audio.ui_focus_change()
 	SaveManager.save_configuration()
 	pass
+
+func quit_game() -> void:
+	get_tree().quit()
+	pass
+	
 #func _on_animation_finished( anim_name : String ) -> void:
 	#if anim_name == "start":
 		#animation_player.play( "loop" )

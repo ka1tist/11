@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bjx3ikkggms5e" path="res://player/states/fall.gd" id="5_g6k8r"]
 [ext_resource type="Script" uid="uid://dufhimmdh4wyd" path="res://player/states/crouch.gd" id="6_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://dfedgwugeiu7p" path="res://player/spires/red hood itch free Copy-Sheet.png" id="7_boad6"]
+[ext_resource type="Script" uid="uid://c7npwm4xqaarh" path="res://player/scripts/player_camera.gd" id="8_8t03j"]
 [ext_resource type="Script" uid="uid://csskjnunwlvsa" path="res://player/scripts/input_hints.gd" id="8_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://b5iqeeberasqa" path="res://player/spires/input_icons.png" id="8_rgyib"]
 
@@ -198,6 +199,7 @@ collision_mask = 2
 process_mode = 3
 position = Vector2(0, -48)
 limit_smoothed = true
+script = ExtResource("8_8t03j")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]
 position = Vector2(0, -32)

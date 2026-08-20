@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="1"
-run/main_scene="uid://d31trrcaeoqp4"
+run/main_scene="uid://8gi77ckq0nbd"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+run/max_fps=120
 config/icon="uid://dx8df05481usg"
 
 [audio]
@@ -26,6 +27,7 @@ SaveManager="*uid://cvsivmwrxuk"
 Messages="*uid://canpe3vjmohte"
 PlayerHud="*uid://7iukok5bsrlu"
 Audio="*uid://bdrf16clksca4"
+VisualEffects="*uid://dot6j6iwxlbbr"
 
 [display]
 

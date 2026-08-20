@@ -182,7 +182,7 @@ tile_map_data = PackedByteArray("AAD+/xgAAwADAAMAAAD//wwAAwAMABIAAAD//xIAAwAMABA
 tile_set = ExtResource("1_uy1v8")
 
 [node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("11_kek4k")]
-position = Vector2(80, 288)
+position = Vector2(81, 289)
 
 [node name="Props" type="Node2D" parent="." unique_id=374830893]
 
