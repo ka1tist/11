@@ -5,6 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://dmoyxn1xjr8jj" path="res://general/level_transition/level_transition.tscn" id="3_m60e3"]
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="4_kgcce"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="5_w1tcc"]
+[ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="6_w1tcc"]
+[ext_resource type="AudioStream" uid="uid://dedlvms7fc0q2" path="res://general/audio/hit.wav" id="8_x7rvi"]
+[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="8_xy3px"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
+size = Vector2(56, 54)
 
 [node name="04" type="Node2D" unique_id=49539005]
 
@@ -41,3 +47,18 @@ script = ExtResource("4_kgcce")
 track = ExtResource("5_w1tcc")
 reverb = 1
 metadata/_custom_type_script = "uid://bqm81bjcxucow"
+
+[node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("6_w1tcc")]
+position = Vector2(173, 333)
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=1426171122]
+position = Vector2(217, 252)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("8_xy3px")
+audio = ExtResource("8_x7rvi")
+metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=346599880]
+position = Vector2(17, 57)
+shape = SubResource("RectangleShape2D_ieygl")
