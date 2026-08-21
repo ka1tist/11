@@ -52,7 +52,7 @@ metadata/_custom_type_script = "uid://bqm81bjcxucow"
 position = Vector2(173, 333)
 
 [node name="DamageArea" type="Area2D" parent="." unique_id=1426171122]
-position = Vector2(217, 252)
+position = Vector2(254, 305)
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("8_xy3px")
@@ -60,5 +60,4 @@ audio = ExtResource("8_x7rvi")
 metadata/_custom_type_script = "uid://c1unhfbuk57mo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=346599880]
-position = Vector2(17, 57)
 shape = SubResource("RectangleShape2D_ieygl")

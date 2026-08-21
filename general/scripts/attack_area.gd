@@ -2,6 +2,8 @@
 class_name AttackArea extends Area2D
 
 @export var damege : float = 1
+@onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
+
 
 func _ready() -> void:
 	body_entered.connect( _on_body_entered )

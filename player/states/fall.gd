@@ -17,10 +17,10 @@ func enter() -> void:
 	player.animation_player.play( "jump" )
 	player.animation_player.pause()
 	player.gravity_mulitplier = fal_gravity_mulitplier
-	if player.previous_state == jump:
-		coyote_timer = 0
-	else:
+	if player.previous_state == idle or player.previous_state == run or player.previous_state == crouch:
 		coyote_timer = coyote_time
+	else:
+		coyote_timer = 0
 	pass
 	
 #当我们退出这个状态会发生什么
@@ -32,6 +32,8 @@ func exit() -> void:
 #按下输入会发生什么
 func handle_input( _event : InputEvent ) -> PlayerState:
 	#处理输入
+	if _event.is_action_pressed("attack"):
+		return attack
 	if _event.is_action_pressed("jump"):
 		if coyote_timer > 0:
 			return jump 

@@ -62,11 +62,8 @@ func _ready() -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
-	#测试
-	if event.is_action_pressed("attack"):
-		attack_area.activate()
-		return
-	#
+	if event.is_action_released("jump"):
+		velocity.y *= 0.5
 	if event.is_action_pressed( "action" ):
 		Messages.player_interacted.emit( self )
 	elif event.is_action_pressed( "pause" ):

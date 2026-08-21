@@ -10,6 +10,7 @@ var next_state : PlayerState
 @onready var jump: PlayerStateJump = %Jump
 @onready var fall: PlayerStateFall = %Fall
 @onready var crouch: PlayerStateCrouch = %Crouch
+@onready var attack: PlayerStateAttack = %Attack
 #endregion
 
 
