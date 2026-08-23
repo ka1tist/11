@@ -38,8 +38,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ebec5"]
 resource_name = "attack"
-length = 0.35
-step = 0.05
+length = 0.2121
+step = 0.03
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -47,7 +47,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"times": PackedFloat32Array(0, 0.030303031, 0.060606062, 0.09090909, 0.121212125, 0.15151516, 0.18181819),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [56, 57, 58, 59, 60, 61, 62]
@@ -55,8 +55,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_yllr7"]
 resource_name = "attack_2"
-length = 0.35
-step = 0.05
+length = 0.2121
+step = 0.03
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -64,7 +64,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"times": PackedFloat32Array(0, 0.030303031, 0.060606062, 0.09090909, 0.121212125, 0.15151516, 0.18181819),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [63, 64, 65, 66, 67, 68, 69]
@@ -179,7 +179,7 @@ fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ebec5"]
-size = Vector2(51.000053, 56)
+size = Vector2(56.000057, 56)
 
 [node name="Player" type="CharacterBody2D" unique_id=365008897 groups=["Player"]]
 z_index = 1
@@ -291,6 +291,6 @@ script = ExtResource("11_2ieo8")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=42164731]
-position = Vector2(-25.500025, 0)
+position = Vector2(-23.000023, 0)
 shape = SubResource("RectangleShape2D_ebec5")
 debug_color = Color(0.70196074, 0, 0, 0.41960785)

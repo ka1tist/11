@@ -6,11 +6,9 @@
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="4_kgcce"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="5_w1tcc"]
 [ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="6_w1tcc"]
-[ext_resource type="AudioStream" uid="uid://dedlvms7fc0q2" path="res://general/audio/hit.wav" id="8_x7rvi"]
-[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="8_xy3px"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
-size = Vector2(56, 54)
+[ext_resource type="PackedScene" uid="uid://c81yo7875nu0m" path="res://levels/props/木箱.tscn" id="8_x7rvi"]
+[ext_resource type="PackedScene" uid="uid://cf3i3x86y18c7" path="res://levels/props/隐藏右.tscn" id="9_4ew43"]
+[ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
 
 [node name="04" type="Node2D" unique_id=49539005]
 
@@ -51,13 +49,13 @@ metadata/_custom_type_script = "uid://bqm81bjcxucow"
 [node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("6_w1tcc")]
 position = Vector2(173, 333)
 
-[node name="DamageArea" type="Area2D" parent="." unique_id=1426171122]
-position = Vector2(254, 305)
-collision_layer = 32
-collision_mask = 0
-script = ExtResource("8_xy3px")
-audio = ExtResource("8_x7rvi")
-metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+[node name="Props" type="Node2D" parent="." unique_id=2120328920]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=346599880]
-shape = SubResource("RectangleShape2D_ieygl")
+[node name="TextDummy" parent="Props" unique_id=779192118 instance=ExtResource("9_xy3px")]
+position = Vector2(84, 337)
+
+[node name="Breakable" parent="." unique_id=254897557 instance=ExtResource("8_x7rvi")]
+position = Vector2(260, 319)
+
+[node name="隐藏" parent="Breakable" unique_id=1887491372 instance=ExtResource("9_4ew43")]
+position = Vector2(109, -17)

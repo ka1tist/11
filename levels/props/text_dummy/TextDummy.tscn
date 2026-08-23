@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dplo3nrgjt825"]
+
+[ext_resource type="Texture2D" uid="uid://h4njcbyi8rno" path="res://general/sprites/props_destructible.png" id="1_1keva"]
+[ext_resource type="Script" uid="uid://2636fn67t4p8" path="res://levels/props/text_dummy/text_dummy.gd" id="1_5xe1d"]
+[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="2_5xe1d"]
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="2_p1tr3"]
+[ext_resource type="Resource" uid="uid://c6dts04djv7kp" path="res://00_global/visual_effects/hit_particle_settings/小木屑.tres" id="3_y3sgp"]
+[ext_resource type="AudioStream" uid="uid://dedlvms7fc0q2" path="res://general/audio/hit.wav" id="6_y3sgp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7h0lg"]
+atlas = ExtResource("1_1keva")
+region = Rect2(16, 10, 16, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ieygl"]
+atlas = ExtResource("1_1keva")
+region = Rect2(15, 52, 18, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(14, 28)
+
+[node name="TextDummy" type="Node2D" unique_id=779192118]
+script = ExtResource("1_5xe1d")
+particles = Array[ExtResource("2_p1tr3")]([ExtResource("3_y3sgp")])
+
+[node name="BodySprite" type="Sprite2D" parent="." unique_id=1370528120]
+position = Vector2(0, -11)
+texture = SubResource("AtlasTexture_7h0lg")
+offset = Vector2(0, -19)
+
+[node name="BaseSprite" type="Sprite2D" parent="." unique_id=408463150]
+position = Vector2(0, -5)
+texture = SubResource("AtlasTexture_ieygl")
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=199371113]
+position = Vector2(0, -1)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("2_5xe1d")
+audio = ExtResource("6_y3sgp")
+metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1727307195]
+position = Vector2(0, -34)
+shape = SubResource("RectangleShape2D_7h0lg")
+debug_color = Color(0, 0.5950001, 0.7, 0)

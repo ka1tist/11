@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cn77rh2w1lb5n"]
+
+[ext_resource type="Script" uid="uid://bgsabdlxuib6n" path="res://general/scripts/breakable.gd" id="1_bspxe"]
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="2_kc0jm"]
+[ext_resource type="Resource" uid="uid://dvdo7bgr4025r" path="res://00_global/visual_effects/hit_particle_settings/隐藏墙破坏.tres" id="3_x7st1"]
+[ext_resource type="Resource" uid="uid://c0a20fjpwbvhn" path="res://00_global/visual_effects/hit_particle_settings/隐藏墙破坏2.tres" id="4_nbmxx"]
+[ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="5_xpnbx"]
+[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="6_vxlwp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(16, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
+size = Vector2(16, 64)
+
+[node name="隐藏左" type="Node2D" unique_id=1887491372]
+script = ExtResource("1_bspxe")
+fixed_hit_count = true
+hit_particles = Array[ExtResource("2_kc0jm")]([ExtResource("3_x7st1")])
+destroy_particles = Array[ExtResource("2_kc0jm")]([ExtResource("4_nbmxx"), ExtResource("3_x7st1")])
+metadata/_custom_type_script = "uid://bgsabdlxuib6n"
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=932704684]
+modulate = Color(0.76862746, 0.76862746, 0.76862746, 1)
+tile_map_data = PackedByteArray(0, 0, 255, 255, 254, 255, 3, 0, 8, 0, 15, 0, 0, 80, 255, 255, 255, 255, 3, 0, 9, 0, 15, 0, 0, 80, 255, 255, 0, 0, 3, 0, 8, 0, 15, 0, 0, 80, 255, 255, 1, 0, 3, 0, 9, 0, 15, 0, 0, 80)
+tile_set = ExtResource("5_xpnbx")
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=369260356]
+position = Vector2(-15, 0)
+collision_layer = 96
+collision_mask = 0
+script = ExtResource("6_vxlwp")
+metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=714521828]
+position = Vector2(7, 0)
+shape = SubResource("RectangleShape2D_7h0lg")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=809073592]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2097446849]
+position = Vector2(-8, 0)
+shape = SubResource("RectangleShape2D_ieygl")
+debug_color = Color(0.51484907, 0.83493584, 0.8893296, 0.41960785)
