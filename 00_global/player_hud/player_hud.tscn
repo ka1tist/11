@@ -23,6 +23,7 @@ script/source = "extends Button
 
 @export var particle_settings : HitParticleSettings
 
+
 func _ready() -> void:
 	pressed.connect( _on_pressed )
 	pass
@@ -30,10 +31,14 @@ func _ready() -> void:
 
 
 func _on_pressed() -> void:
-	var pos : Vector2 = get_tree().get_first_node_in_group( \"Player\" ).global_position
-	VisualEffects.hit_particles( pos , Vector2( 1 , 0 ) , particle_settings )
+	#var pos : Vector2 = get_tree().get_first_node_in_group( \"Player\" ).global_position
+	#VisualEffects.hit_particles( pos , Vector2( 1 , 0 ) , particle_settings )
+	PlayerHud.show_game_over()
 	pass
 "
+
+[sub_resource type="FontVariation" id="FontVariation_7h0lg"]
+spacing_glyph = 12
 
 [node name="PlayerHud" type="CanvasLayer" unique_id=416662479]
 layer = 2
@@ -94,3 +99,66 @@ text = "测试
 "
 script = SubResource("GDScript_7h0lg")
 particle_settings = ExtResource("3_26715")
+
+[node name="GameOver" type="Control" parent="Control" unique_id=60678857]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control/GameOver" unique_id=2066878741]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.23779999, 0.26129, 0.29, 0.8627451)
+
+[node name="Label" type="Label" parent="Control/GameOver" unique_id=153305919]
+modulate = Color(0.47843137, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -27.0
+offset_right = 50.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("FontVariation_7h0lg")
+text = "游戏结束"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/GameOver" unique_id=2063432169]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadButton" type="Button" parent="Control/GameOver/HBoxContainer" unique_id=2012224741]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "返回上一个存档"
+
+[node name="QuitButton" type="Button" parent="Control/GameOver/HBoxContainer" unique_id=581424509]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "返回标题界面"

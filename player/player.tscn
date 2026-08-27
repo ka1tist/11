@@ -10,8 +10,15 @@
 [ext_resource type="Script" uid="uid://bf5adafuk21i6" path="res://player/attack.gd" id="7_ebec5"]
 [ext_resource type="Script" uid="uid://c7npwm4xqaarh" path="res://player/scripts/player_camera.gd" id="8_8t03j"]
 [ext_resource type="Script" uid="uid://csskjnunwlvsa" path="res://player/scripts/input_hints.gd" id="8_hg6s5"]
+[ext_resource type="Script" uid="uid://j4esi5a1w7pn" path="res://player/take_damage.gd" id="8_kb6p2"]
 [ext_resource type="Texture2D" uid="uid://b5iqeeberasqa" path="res://player/spires/input_icons.png" id="8_rgyib"]
+[ext_resource type="Script" uid="uid://dyjf7ku35t7tq" path="res://player/death.gd" id="9_32hag"]
 [ext_resource type="Script" uid="uid://bg12sd4evf6j7" path="res://general/scripts/attack_area.gd" id="11_2ieo8"]
+[ext_resource type="Texture2D" uid="uid://bwr3n38w2hu5d" path="res://general/sprites/idle sheet-Sheet.png" id="11_tqiix"]
+[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="13_yllr7"]
+[ext_resource type="AudioStream" uid="uid://oaqdnva1kruj" path="res://general/audio/hurt_01.wav" id="15_wodsf"]
+[ext_resource type="AudioStream" uid="uid://cwhvso8ircol" path="res://general/audio/jump.wav" id="18_e7oew"]
+[ext_resource type="AudioStream" uid="uid://bkjtuekmdg035" path="res://general/audio/land.wav" id="19_c35mf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uqgm8"]
 radius = 12.0
@@ -33,6 +40,18 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [0]
 }
 
@@ -104,8 +123,38 @@ tracks/0/keys = {
 "values": [50, 34]
 }
 
+[sub_resource type="Animation" id="Animation_32hag"]
+resource_name = "death"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [121, 122, 121, 122, 123, 124, 125]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7, 0.8),
+"transitions": PackedFloat32Array(1, -2),
+"update": 0,
+"values": [Color(1, 1, 1, 0.58431375), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_hg6s5"]
 resource_name = "idle"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -117,6 +166,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_e7oew"]
+resource_name = "idle_2"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335, 0.26666668, 0.3, 0.33333334, 0.36666667, 0.40000004, 0.43333337, 0.4666667, 0.5, 0.53333336, 0.5666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 }
 
 [sub_resource type="Animation" id="Animation_8t03j"]
@@ -149,8 +215,25 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.03999996, 0.07999992, 0.120000005, 0.16, 0.2, 0.23999996, 0.2799999, 0.32, 0.36, 0.39999998, 0.44, 0.48000002, 0.52, 0.56, 0.59999996, 0.64000005, 0.68, 0.71999997, 0.76000005, 0.8, 0.84, 0.88000005, 0.92),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [20, 21, 22, 23, 24, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+}
+
+[sub_resource type="Animation" id="Animation_wodsf"]
+resource_name = "take_damage"
+length = 0.22
+step = 0.033
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.1, 0.13333334, 0.16666667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [120, 121, 122, 123, 124, 125, 126]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
@@ -160,9 +243,12 @@ _data = {
 &"attack_2": SubResource("Animation_yllr7"),
 &"attack_3": SubResource("Animation_kb6p2"),
 &"crouch": SubResource("Animation_rgyib"),
+&"death": SubResource("Animation_32hag"),
 &"idle": SubResource("Animation_hg6s5"),
+&"idle_2": SubResource("Animation_e7oew"),
 &"jump": SubResource("Animation_8t03j"),
-&"run": SubResource("Animation_2ieo8")
+&"run": SubResource("Animation_2ieo8"),
+&"take_damage": SubResource("Animation_wodsf")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
@@ -215,6 +301,15 @@ script = ExtResource("6_g6k8r")
 unique_name_in_owner = true
 script = ExtResource("7_ebec5")
 
+[node name="TakeDamage" type="Node" parent="States" unique_id=453341094]
+unique_name_in_owner = true
+script = ExtResource("8_kb6p2")
+invulnerable_duration = 1.0
+
+[node name="Death" type="Node" parent="States" unique_id=110268160]
+unique_name_in_owner = true
+script = ExtResource("9_32hag")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
 position = Vector2(0, -13)
 scale = Vector2(1.88, 1.88)
@@ -222,6 +317,13 @@ texture = ExtResource("7_boad6")
 offset = Vector2(0, -24)
 hframes = 12
 vframes = 11
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2047697532]
+position = Vector2(0, -12)
+scale = Vector2(-1.8799946, 1.88)
+texture = ExtResource("11_tqiix")
+offset = Vector2(11, -13)
+hframes = 18
 
 [node name="CollisionStand" type="CollisionShape2D" parent="." unique_id=1156081630]
 visible = false
@@ -233,6 +335,7 @@ debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
 visible = false
 position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_qbbkt")
+disabled = true
 debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
 
 [node name="Label" type="Label" parent="." unique_id=1564163269]
@@ -284,6 +387,7 @@ frame = 15
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=2079898119]
 unique_name_in_owner = true
+visible = false
 position = Vector2(0, -32)
 collision_layer = 0
 collision_mask = 96
@@ -294,3 +398,39 @@ metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 position = Vector2(-23.000023, 0)
 shape = SubResource("RectangleShape2D_ebec5")
 debug_color = Color(0.70196074, 0, 0, 0.41960785)
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=73630680]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("13_yllr7")
+metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+
+[node name="DAStand" type="CollisionShape2D" parent="DamageArea" unique_id=83528410]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -26)
+shape = SubResource("CapsuleShape2D_uqgm8")
+debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
+
+[node name="DACrouch" type="CollisionShape2D" parent="DamageArea" unique_id=685215578]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_qbbkt")
+disabled = true
+debug_color = Color(0, 0.8653951, 0.89821786, 0.41960785)
+
+[node name="AudioStreams" type="Node2D" parent="." unique_id=77089515]
+
+[node name="HurtAudio" type="AudioStreamPlayer2D" parent="AudioStreams" unique_id=72505953]
+unique_name_in_owner = true
+stream = ExtResource("15_wodsf")
+
+[node name="JumpAudio" type="AudioStreamPlayer2D" parent="AudioStreams" unique_id=364244121]
+unique_name_in_owner = true
+stream = ExtResource("18_e7oew")
+
+[node name="LandAudio" type="AudioStreamPlayer2D" parent="AudioStreams" unique_id=325462075]
+unique_name_in_owner = true
+stream = ExtResource("19_c35mf")

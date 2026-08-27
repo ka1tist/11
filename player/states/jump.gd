@@ -1,5 +1,10 @@
 class_name PlayerStateJump extends PlayerState
 
+@onready var sprite_2d: Sprite2D = $"../../Sprite2D"
+@onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
+@onready var jump_audio: AudioStreamPlayer2D = %JumpAudio
+
+
 @export var jump_velocity : float = 450
 #状态初始化时做什么
 func init() -> void:
@@ -8,6 +13,9 @@ func init() -> void:
 #当我们进入这个状态时会发生什么
 func enter() -> void:
 	#动画
+	sprite_2d.visible = true
+	sprite_2d_2.visible = false
+	jump_audio.play()
 	VisualEffects.jump_dust( player.global_position )
 	player.animation_player.play( "jump" )
 	player.animation_player.pause()
@@ -25,6 +33,8 @@ func enter() -> void:
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
+	sprite_2d.visible = false
+	sprite_2d_2.visible = true
 	#player.add_debug_indicator( Color.YELLOW )
 	pass
 

@@ -15,12 +15,11 @@ size = Vector2(16, 64)
 
 [node name="隐藏右" type="Node2D" unique_id=1887491372]
 script = ExtResource("1_0eo8u")
-fixed_hit_count = true
 hit_particles = Array[ExtResource("2_4lhhn")]([ExtResource("3_20n6p")])
-destroy_particles = Array[ExtResource("2_4lhhn")]([ExtResource("4_20n6p"), ExtResource("3_20n6p")])
+destroy_particles = Array[ExtResource("2_4lhhn")]([ExtResource("3_20n6p"), ExtResource("4_20n6p")])
 metadata/_custom_type_script = "uid://bgsabdlxuib6n"
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=932704684]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1988317298]
 modulate = Color(0.76862746, 0.76862746, 0.76862746, 1)
 tile_map_data = PackedByteArray(0, 0, 0, 0, 254, 255, 3, 0, 8, 0, 15, 0, 0, 64, 0, 0, 255, 255, 3, 0, 9, 0, 15, 0, 0, 64, 0, 0, 0, 0, 3, 0, 8, 0, 15, 0, 0, 64, 0, 0, 1, 0, 3, 0, 9, 0, 15, 0, 0, 64)
 tile_set = ExtResource("2_ceu43")

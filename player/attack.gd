@@ -1,5 +1,7 @@
 class_name PlayerStateAttack extends PlayerState
 
+@onready var sprite_2d: Sprite2D = $"../../Sprite2D"
+@onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
 
 const AUDIO_ATTACK = preload("uid://45r5bi2yyufq")
 
@@ -17,12 +19,16 @@ func init() -> void:
 	
 #当我们进入这个状态时会发生什么
 func enter() -> void:
+	sprite_2d.visible = true
+	sprite_2d_2.visible = false
 	do_attack()
 	player.animation_player.animation_finished.connect( _on_animation_finished )
 	pass
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
+	sprite_2d.visible = false
+	sprite_2d_2.visible = true
 	timer = 0
 	combo = 0
 	player.animation_player.animation_finished.disconnect( _on_animation_finished )

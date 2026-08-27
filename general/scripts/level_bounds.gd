@@ -20,10 +20,15 @@ func _ready() -> void:
 		await get_tree().process_frame
 		camera = get_viewport().get_camera_2d()
 		
-	camera.limit_left = int( global_position.x )
-	camera.limit_top = int( global_position.y )
-	camera.limit_right = int( global_position.x ) + width
-	camera.limit_bottom = int( global_position.y ) + height
+	var left : float = global_position.x
+	var top : float = global_position.y
+	var right : float = global_position.x + width
+	var bottom : float = global_position.y + height
+	
+	camera.limit_left = int( left )
+	camera.limit_top = int( top )
+	camera.limit_right = int( right )
+	camera.limit_bottom = int( bottom )
 
 	#更新摄像头限制
 	pass

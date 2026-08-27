@@ -1,5 +1,8 @@
 class_name PlayerStateCrouch extends PlayerState
 
+@onready var sprite_2d: Sprite2D = $"../../Sprite2D"
+@onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
+
 @export var deceleration_rate : float = 20
 
 #状态初始化时做什么
@@ -10,15 +13,23 @@ func init() -> void:
 #进入这个状态时会发生什么
 func enter() -> void:
 	#动画
+	sprite_2d.visible = true
+	sprite_2d_2.visible = false
 	player.animation_player.play( "crouch" )
 	player.collision_stand.disabled = true
 	player.collision_crouch.disabled = false
+	player.da_stand.disabled = true
+	player.da_crouch.disabled = false
 	pass
 	
 #退出这个状态会发生什么
 func exit() -> void:
+	sprite_2d.visible = false
+	sprite_2d_2.visible = true
 	player.collision_stand.disabled = false
 	player.collision_crouch.disabled = true
+	player.da_stand.disabled = false
+	player.da_crouch.disabled = true
 	pass
 
 #按下输入会发生什么

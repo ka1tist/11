@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c81yo7875nu0m" path="res://levels/props/木箱.tscn" id="8_x7rvi"]
 [ext_resource type="PackedScene" uid="uid://cf3i3x86y18c7" path="res://levels/props/隐藏右.tscn" id="9_4ew43"]
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
+[ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="10_4ew43"]
 
 [node name="04" type="Node2D" unique_id=49539005]
 
@@ -57,5 +58,8 @@ position = Vector2(84, 337)
 [node name="Breakable" parent="." unique_id=254897557 instance=ExtResource("8_x7rvi")]
 position = Vector2(260, 319)
 
-[node name="隐藏" parent="Breakable" unique_id=1887491372 instance=ExtResource("9_4ew43")]
-position = Vector2(109, -17)
+[node name="隐藏" parent="." unique_id=1887491372 instance=ExtResource("9_4ew43")]
+position = Vector2(369, 302)
+
+[node name="SpikeDummy" parent="." unique_id=1455579154 instance=ExtResource("10_4ew43")]
+position = Vector2(30, 337)

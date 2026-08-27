@@ -1,5 +1,10 @@
 class_name PlayerStateFall extends PlayerState
 
+@onready var sprite_2d: Sprite2D = $"../../Sprite2D"
+@onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
+@onready var land_audio: AudioStreamPlayer2D = %LandAudio
+
+
 @export var fal_gravity_mulitplier : float = 1.165
 @export var coyote_time : float = 0.125
 @export var jump_buffer_time : float = 0.2
@@ -14,6 +19,8 @@ func init() -> void:
 #当我们进入这个状态时会发生什么
 func enter() -> void:
 	#动画
+	sprite_2d.visible = true
+	sprite_2d_2.visible = false
 	player.animation_player.play( "jump" )
 	player.animation_player.pause()
 	player.gravity_mulitplier = fal_gravity_mulitplier
@@ -25,6 +32,8 @@ func enter() -> void:
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
+	sprite_2d.visible = false
+	sprite_2d_2.visible = true
 	player.gravity_mulitplier = 1.0
 	buffer_timer = 0
 	pass
@@ -54,6 +63,7 @@ func process(_delta: float) -> PlayerState:
 func physics_process(_delta: float) -> PlayerState:
 	if player.is_on_floor():
 		VisualEffects.land_dust( player.global_position )
+		land_audio.play()
 		#player.add_debug_indicator(  )
 		if buffer_timer > 0:
 			return jump 

@@ -49,8 +49,8 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 		clear_collision()
 		var tween : Tween = create_tween()
 		tween.tween_property( self , "modulate" , Color( modulate , 0 ) , 0.4 )
-		await tween.finished
-		queue_free()
+		destroyed.emit()
+		tween.finished.connect( queue_free )
 		
 	pass
 
