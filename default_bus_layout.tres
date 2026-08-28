@@ -3,7 +3,9 @@
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_j3pel"]
 resource_name = "Reverb"
 
+
 [resource]
+
 bus/1/name = &"EffectPass"
 bus/1/solo = false
 bus/1/mute = false

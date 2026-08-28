@@ -15,14 +15,14 @@ func enter() -> void:
 	#动画
 	sprite_2d.visible = true
 	sprite_2d_2.visible = false
-	jump_audio.play()
-	VisualEffects.jump_dust( player.global_position )
+	if player.is_on_floor():
+		VisualEffects.jump_dust( player.global_position )
+	else:
+		VisualEffects.hit_dust( player.global_position )
 	player.animation_player.play( "jump" )
 	player.animation_player.pause()
 	#player.add_debug_indicator( Color.LAWN_GREEN )
-	player.velocity.y = -jump_velocity
-	
-	
+	do_jump()
 	if player.previous_state == fall and not Input.is_action_pressed("jump"):
 		await get_tree().physics_frame
 		player.velocity.y *= 0.5
@@ -62,6 +62,18 @@ func physics_process(_delta: float) -> PlayerState:
 		return fall
 	player.velocity.x = player.direction.x * player.move_speed
 	return next_state
+
+
+func do_jump() -> void:
+	if player.jump_count > 0:
+		if player.double_jump == false:
+			return
+		elif player.jump_count > 1:
+			return
+	player.jump_count += 1
+	player.velocity.y = -jump_velocity
+	jump_audio.play()
+	pass
 
 
 func set_jump_frame() -> void:
