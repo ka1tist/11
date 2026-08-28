@@ -15,6 +15,7 @@ size = Vector2(16, 64)
 
 [node name="隐藏左" type="Node2D" unique_id=1887491372]
 script = ExtResource("1_bspxe")
+persistent = true
 fixed_hit_count = true
 hit_particles = Array[ExtResource("2_kc0jm")]([ExtResource("3_x7st1")])
 destroy_particles = Array[ExtResource("2_kc0jm")]([ExtResource("4_nbmxx"), ExtResource("3_x7st1")])

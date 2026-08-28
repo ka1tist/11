@@ -47,7 +47,12 @@ func _ready() -> void:
 	加载存档3.pressed.connect( _on_load_game_presssed.bind( 2 ) )
 	
 	Audio.setup_button_audio( self )
-	
+
+	#滑条信号只连接一次，重复connect会报错
+	music_slider.value_changed.connect( _on_music_slider_changed )
+	sfx_slider.value_changed.connect( _on_sfx_slider_changed )
+	ui_slider.value_changed.connect( _on_ui_slider_changed )
+
 	show_main_menu()
 	#animation_player.animation_finished.connect( _on_animation_finished )
 	
@@ -112,11 +117,7 @@ func show_setting_menu() -> void:
 	music_slider.value = AudioServer.get_bus_volume_linear( 2 )
 	sfx_slider.value = AudioServer.get_bus_volume_linear( 3 )
 	ui_slider.value = AudioServer.get_bus_volume_linear( 4 )
-	
-	music_slider.value_changed.connect( _on_music_slider_changed )
-	sfx_slider.value_changed.connect( _on_sfx_slider_changed )
-	ui_slider.value_changed.connect( _on_ui_slider_changed )
-	
+
 	music_slider.grab_focus()
 	pass
 

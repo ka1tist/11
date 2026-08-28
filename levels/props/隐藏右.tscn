@@ -15,6 +15,7 @@ size = Vector2(16, 64)
 
 [node name="隐藏右" type="Node2D" unique_id=1887491372]
 script = ExtResource("1_0eo8u")
+persistent = true
 hit_particles = Array[ExtResource("2_4lhhn")]([ExtResource("3_20n6p")])
 destroy_particles = Array[ExtResource("2_4lhhn")]([ExtResource("3_20n6p"), ExtResource("4_20n6p")])
 metadata/_custom_type_script = "uid://bgsabdlxuib6n"

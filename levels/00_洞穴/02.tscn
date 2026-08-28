@@ -191,6 +191,7 @@ position = Vector2(600, -360)
 
 [node name="隐藏左" parent="Props" unique_id=1887491372 instance=ExtResource("11_uj8rf")]
 position = Vector2(640, 224)
+persistent = null
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1721174053]
 z_index = 2

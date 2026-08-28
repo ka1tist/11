@@ -25,6 +25,13 @@ func exit() -> void:
 #按下输入会发生什么
 func handle_input( _event : InputEvent ) -> PlayerState:
 	#处理输入
+	#松开方向键进入idle后0.2秒内按反方向键，进入run时播放转向动画
+	if _event.is_action_pressed( "left" ) or _event.is_action_pressed( "right" ):
+		var press_dir : float = -1.0 if _event.is_action_pressed( "left" ) else 1.0
+		var time_since_run : int = Time.get_ticks_msec() - run.exit_time_msec
+		if run.exit_direction != 0 and press_dir == -run.exit_direction and time_since_run <= run.TURN_INPUT_WINDOW_MSEC:
+			run.turn_on_enter = true
+			return run
 	if _event.is_action_pressed("attack"):
 		return attack
 	if _event.is_action_pressed("jump"):

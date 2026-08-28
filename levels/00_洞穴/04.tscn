@@ -60,7 +60,7 @@ position = Vector2(84, 337)
 position = Vector2(260, 319)
 
 [node name="隐藏" parent="." unique_id=1887491372 instance=ExtResource("9_4ew43")]
-position = Vector2(369, 302)
+position = Vector2(312, 302)
 
 [node name="SpikeDummy" parent="." unique_id=1455579154 instance=ExtResource("10_4ew43")]
 position = Vector2(30, 337)

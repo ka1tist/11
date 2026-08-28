@@ -35,7 +35,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().paused = false
 		queue_free()
 	if pause_screen.visible == true:
+		if event.is_action_pressed( "ui_cancel" ):
+			get_viewport().set_input_as_handled()
+			get_tree().paused = false
+			queue_free()
 		if event.is_action_pressed( "right" ) or event.is_action_pressed( "down" ):
+			system_menu_button.grab_focus()
+	if system.visible == true:
+		#系统设置界面按ui_cancel返回暂停主界面
+		if event.is_action_pressed( "ui_cancel" ):
+			get_viewport().set_input_as_handled()
+			show_pause_screen()
 			system_menu_button.grab_focus()
 	pass
 

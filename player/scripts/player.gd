@@ -6,6 +6,7 @@ signal damage_taken
 #region /// on ready variables
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var sprite_2: Sprite2D = $Sprite2D2
+@onready var sprite_2d_3: Sprite2D = $Sprite2D3
 @onready var collision_stand: CollisionShape2D = $CollisionStand
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
 @onready var da_stand: CollisionShape2D = %DAStand
