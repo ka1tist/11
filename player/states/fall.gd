@@ -37,13 +37,14 @@ func enter() -> void:
 	if player.jump_count == 0:
 		player.jump_count = 1
 	
-	if player.previous_state == idle or player.previous_state == run or player.previous_state == crouch:
-		coyote_timer = coyote_time
+	var prev : PlayerState = player.previous_state
+	if prev == jump or prev == run or prev == dash:
+		coyote_timer = 0
 	elif player.previous_state == crouch:
 		coyote_timer = 0
 		player.jump_count = 1
 	else:
-		coyote_timer = 0
+		coyote_timer = coyote_time
 	pass
 	
 #当我们退出这个状态会发生什么
@@ -62,7 +63,11 @@ func handle_input( _event : InputEvent ) -> PlayerState:
 	if land_lock_timer > 0:
 		return next_state
 	#处理输入
+	if _event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	if _event.is_action_pressed("attack"):
+		if player.ground_slam and Input.is_action_pressed( "down" ):
+			return ground_slam
 		return attack
 	if _event.is_action_pressed("jump"):
 		if coyote_timer > 0:

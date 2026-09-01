@@ -4,9 +4,10 @@ const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
 signal damage_taken
 
 #region /// on ready variables
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var sprite_2: Sprite2D = $Sprite2D2
+@onready var sprite: PlayerSprite = $Sprite2D
+@onready var sprite_2d_2: Sprite2D = $Sprite2D2
 @onready var sprite_2d_3: Sprite2D = $Sprite2D3
+@onready var sprite_2d_4: PlayerSprite = $Sprite2D4
 @onready var collision_stand: CollisionShape2D = $CollisionStand
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
 @onready var da_stand: CollisionShape2D = %DAStand
@@ -28,10 +29,11 @@ var max_hp : float = 20 :
 		max_hp = value
 		Messages.player_health_changed.emit( hp , max_hp )
 
-var dash : bool = false
-var double_jump : bool = false
+var dash : bool = true
+var dash_count : int = 0
+var double_jump : bool = true
 var jump_count : int = 0
-var ground_slam : bool = false
+var ground_slam : bool = true
 var morph_roll : bool = false
 #endregion
 
@@ -153,12 +155,12 @@ func update_direction() -> void:
 		attack_area.flip( direction.x )
 		if direction.x < 0:
 			sprite.flip_h = true
-			sprite_2.flip_h = true
-			sprite_2.position.x = 40
+			sprite_2d_2.flip_h = true
+			sprite_2d_2.position.x = 40
 		elif direction.x > 0:
 			sprite.flip_h = false
-			sprite_2.flip_h = false
-			sprite_2.position.x = 0
+			sprite_2d_2.flip_h = false
+			sprite_2d_2.position.x = 0
 	pass
 
 
@@ -186,3 +188,10 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 	hp -= attack_area.damege
 	damage_taken.emit()
 	pass
+
+
+
+func can_dash() -> bool:
+	if dash == false or dash_count > 0 :
+		return false
+	return true

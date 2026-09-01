@@ -7,6 +7,7 @@ const DEATH_01 = preload("uid://dwh80hhj3giq7")
 @onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
 
 
+
 #状态初始化时做什么
 func init() -> void:
 	pass

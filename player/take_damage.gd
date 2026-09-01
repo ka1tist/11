@@ -4,6 +4,7 @@ class_name PlayerStateTakeDamage extends PlayerState
 @onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
 
 
+
 @export var move_speed : float = 100
 @export var invulnerable_duration : float = 0.5
 var time : float = 0.0

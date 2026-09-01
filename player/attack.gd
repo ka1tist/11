@@ -3,6 +3,7 @@ class_name PlayerStateAttack extends PlayerState
 @onready var sprite_2d: Sprite2D = $"../../Sprite2D"
 @onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
 
+
 const AUDIO_ATTACK = preload("uid://45r5bi2yyufq")
 
 @export var combo_time_window : float = 0.2
@@ -40,6 +41,8 @@ func handle_input( _event : InputEvent ) -> PlayerState:
 	#处理输入
 	if  _event.is_action_pressed("attack"):
 		timer = combo_time_window
+	if _event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	return null
 	
 	

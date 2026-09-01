@@ -16,6 +16,7 @@ func enter() -> void:
 	sprite_2d_2.visible = true
 	player.animation_player.play( "idle_2" )
 	player.jump_count = 0
+	player.dash_count = 0
 	pass
 	
 #当我们退出这个状态会发生什么
@@ -32,6 +33,8 @@ func handle_input( _event : InputEvent ) -> PlayerState:
 		if run.exit_direction != 0 and press_dir == -run.exit_direction and time_since_run <= run.TURN_INPUT_WINDOW_MSEC:
 			run.turn_on_enter = true
 			return run
+	if _event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	if _event.is_action_pressed("attack"):
 		return attack
 	if _event.is_action_pressed("jump"):

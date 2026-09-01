@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b8m7pmqpk2u2j"]
+
+[ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_c3jbr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(80, 13)
+
+[node name="SlamBreakable" type="StaticBody2D" unique_id=157671628]
+collision_layer = 129
+collision_mask = 0
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1374568684]
+modulate = Color(0.76862746, 0.76862746, 0.76862746, 1)
+tile_map_data = PackedByteArray(0, 0, 254, 255, 255, 255, 5, 0, 23, 0, 9, 0, 0, 0, 255, 255, 255, 255, 5, 0, 24, 0, 9, 0, 0, 0, 0, 0, 255, 255, 5, 0, 23, 0, 9, 0, 0, 0, 1, 0, 255, 255, 5, 0, 23, 0, 9, 0, 0, 0, 2, 0, 255, 255, 5, 0, 24, 0, 9, 0, 0, 0)
+tile_set = ExtResource("1_c3jbr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=546766389]
+position = Vector2(8, -6.5)
+shape = SubResource("RectangleShape2D_7h0lg")

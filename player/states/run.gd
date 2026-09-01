@@ -52,6 +52,8 @@ func handle_input( _event : InputEvent ) -> PlayerState:
 	if not turning and player.direction.x > 0 and _event.is_action_pressed( "left" ):
 		_start_turn( true )
 		return next_state
+	if _event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	if _event.is_action_pressed("attack"):
 		return attack
 	if _event.is_action_pressed("jump"):

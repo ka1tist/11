@@ -7,6 +7,7 @@ signal  destroyed
 
 @export var hp : float = 3
 @export var fixed_hit_count : bool = false
+
 #持久化：破坏后记录到SaveManager.persistent_data，切换地图/读档不再刷新，新游戏时重置
 @export var persistent : bool = false
 
@@ -27,6 +28,7 @@ func _ready() -> void:
 	if persistent and SaveManager.persistent_data.has( _get_persistent_id() ):
 		queue_free()
 		return
+		
 	for c in get_children():
 		if c is DamageArea:
 			c.damage_taken.connect( _on_damage_taken )
@@ -60,6 +62,7 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 		#记录已破坏状态，切换地图后不再刷新
 		if persistent:
 			SaveManager.persistent_data[ _get_persistent_id() ] = true
+			
 		Audio.play_spatial_sound( destroy_audio , pos )
 		for p in destroy_particles:
 			VisualEffects.hit_particles( pos , dir , p )
@@ -75,7 +78,7 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 
 func clear_collision() -> void:
 	for c in get_children():
-		if c is StaticBody2D:
+		if c is StaticBody2D or c is DamageArea:
 			c.queue_free()
 	pass
 

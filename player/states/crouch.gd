@@ -3,6 +3,7 @@ class_name PlayerStateCrouch extends PlayerState
 @onready var sprite_2d: Sprite2D = $"../../Sprite2D"
 @onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
 
+
 @export var deceleration_rate : float = 20
 
 #状态初始化时做什么
@@ -26,15 +27,17 @@ func enter() -> void:
 func exit() -> void:
 	sprite_2d.visible = false
 	sprite_2d_2.visible = true
-	player.collision_stand.disabled = false
-	player.collision_crouch.disabled = true
-	player.da_stand.disabled = false
-	player.da_crouch.disabled = true
+	player.collision_stand.set_deferred( "disabled" , false )
+	player.collision_crouch.set_deferred( "disabled" , true )
+	player.da_stand.set_deferred( "disabled" , false )
+	player.da_crouch.set_deferred( "disabled" , true )
 	pass
 
 #按下输入会发生什么
 func handle_input( _event : InputEvent ) -> PlayerState:
 	#处理输入
+	if _event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	if _event.is_action_pressed("attack"):
 		return attack
 	if _event.is_action_pressed("jump"):

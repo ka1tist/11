@@ -41,7 +41,11 @@ func exit() -> void:
 #按下输入会发生什么
 func handle_input( event : InputEvent ) -> PlayerState:
 	#处理输入
+	if event.is_action_pressed( "dash" ) and player.can_dash():
+		return dash
 	if event.is_action_pressed("attack"):
+		if player.ground_slam and Input.is_action_pressed( "down" ):
+			return ground_slam
 		return attack
 	if event.is_action_released("jump"):
 		return fall
