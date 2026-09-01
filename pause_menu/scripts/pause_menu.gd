@@ -23,7 +23,7 @@ func _ready() -> void:
 	system_menu_button.pressed.connect( show_system_menu )
 	Audio.setup_button_audio( self )
 	setup_system_menu()
-	var player : Node2D = get_tree().get_first_node_in_group( "Player" )
+	player = get_tree().get_first_node_in_group( "Player" ) as Player
 	if player:
 		player_position = player.global_position
 	pass

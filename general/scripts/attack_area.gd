@@ -2,6 +2,8 @@
 class_name AttackArea extends Area2D
 
 @export var damege : float = 1
+#开启后碰到Breakable直接摧毁（与ground_slam的ShapeCast判定一致），不走扣血流程
+@export var instant_destroy_breakable : bool = false
 
 
 func _ready() -> void:
@@ -15,7 +17,12 @@ func _ready() -> void:
 
 func _on_body_entered( body : Node2D ) -> void:
 	if body is DamageArea:
-		body.take_damage( self )
+		if instant_destroy_breakable and body.get_parent() is Breakable:
+			var b : Breakable = body.get_parent()
+			b.destroy()
+			Audio.play_spatial_sound( b.destroy_audio , global_position )
+		else:
+			body.take_damage( self )
 		var pos : Vector2 = global_position
 		pos.x = body.global_position.x
 		VisualEffects.hit_dust( pos )

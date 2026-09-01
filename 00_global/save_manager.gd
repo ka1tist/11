@@ -88,7 +88,10 @@ func load_game( slot : int ) -> void:
 		
 	var save_file = FileAccess.open( get_file_name( current_slot ), FileAccess.READ )
 	save_data = JSON.parse_string( save_file.get_line() )
-	persistent_data = save_data.get( "persistent_data" , {} ) 
+	#合并而非替换：破坏过的墙体记录不因读档回档而丢失，新游戏时才重置
+	var loaded_persistent : Dictionary = save_data.get( "persistent_data" , {} )
+	for key in loaded_persistent:
+		persistent_data[ key ] = loaded_persistent[ key ]
 	discovered_areas = save_data.get( "discovered_areas" , [] )
 	var scene_path : String = save_data.get( "scene_path" , "uid://d31trrcaeoqp4" )
 	SceneManager.transition_scene( scene_path , "" , Vector2.ZERO , "up" )

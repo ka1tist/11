@@ -43,6 +43,13 @@ func _get_persistent_id() -> String:
 	return str( get_path() )
 
 
+#外部直接销毁（如ground_slam）时调用，确保持久化状态被记录
+func destroy() -> void:
+	if persistent:
+		SaveManager.persistent_data[ _get_persistent_id() ] = true
+	queue_free()
+
+
 func _on_damage_taken( attack_area : AttackArea ) -> void:
 	if fixed_hit_count:
 		hp -= 1
