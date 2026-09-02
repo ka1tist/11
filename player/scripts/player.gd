@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody2D
 
 const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
+const MORPH = preload("uid://bw4a85fy11igm")
 signal damage_taken
 
 #region /// on ready variables
@@ -16,6 +17,13 @@ signal damage_taken
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var attack_area: AttackArea = %AttackArea
 @onready var damage_area: DamageArea = %DamageArea
+#记录各精灵的初始modulate，ready闪光结束后恢复为默认值而非运行时值
+@onready var _sprite_default_modulates : Array[Color] = [
+	sprite.modulate ,
+	sprite_2d_2.modulate ,
+	sprite_2d_3.modulate ,
+	sprite_2d_4.modulate ,
+]
 #endregion
 
 #region /// on ready variables
@@ -34,6 +42,8 @@ var dash_count : int = 0
 #地面dash内置CD：上次地面dash的时间戳（毫秒），防止在地面连续闪避
 const GROUND_DASH_COOLDOWN_MSEC : int = 1000
 var last_ground_dash_msec : int = -1000
+#地面dash冷却是否进行中，用于在冷却结束时触发一次ready提示
+var _ground_dash_cooldown_active : bool = false
 var double_jump : bool = false
 var jump_count : int = 0
 var ground_slam : bool = false
@@ -88,9 +98,39 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	update_direction() 
-	change_state( current_state.process( _delta ) ) 
+	update_direction()
+	_update_dash_ready()
+	change_state( current_state.process( _delta ) )
 	pass
+
+#检测地面dash冷却是否转好，转好时播放一次ready闪光提示
+func _update_dash_ready() -> void:
+	if dash == false:
+		return
+	var elapsed : int = Time.get_ticks_msec() - last_ground_dash_msec
+	if _ground_dash_cooldown_active == false:
+		if elapsed < GROUND_DASH_COOLDOWN_MSEC:
+			_ground_dash_cooldown_active = true
+	else:
+		if elapsed >= GROUND_DASH_COOLDOWN_MSEC:
+			_ground_dash_cooldown_active = false
+			Audio.play_spatial_sound( MORPH , global_position , -4.0 )
+			_play_dash_ready_flash()
+	pass
+
+
+#ready闪光：用Tween短暂提亮当前可见的精灵后回到默认modulate，不干扰AnimationPlayer正在播放的状态动画
+func _play_dash_ready_flash() -> void:
+	var sprites : Array[Sprite2D] = [ sprite , sprite_2d_2 , sprite_2d_3 , sprite_2d_4 ]
+	for i in range( sprites.size() ):
+		var s : Sprite2D = sprites[ i ]
+		var orig : Color = _sprite_default_modulates[ i ]
+		var flash : Color = Color( orig.r * 2.5 , orig.g * 2.5 , orig.b * 2.5 , orig.a )
+		var tw : Tween = create_tween()
+		tw.tween_property( s , "modulate" , flash , 0.05 )
+		tw.tween_property( s , "modulate" , orig , 0.05 )
+	pass
+
 
 
 

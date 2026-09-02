@@ -85,12 +85,13 @@ func set_reverb( type : REVERB_TYPE ) -> void:
 	pass
 
 
-func play_spatial_sound( audio : AudioStream , pos : Vector2 ) -> void:
+func play_spatial_sound( audio : AudioStream , pos : Vector2 , volume_db : float = 0.0 ) -> void:
 	var ap : AudioStreamPlayer2D = AudioStreamPlayer2D.new()
 	add_child( ap )
 	ap.bus = "SFX"
 	ap.global_position = pos
 	ap.stream = audio
+	ap.volume_db = volume_db
 	ap.finished.connect( ap.queue_free )
 	ap.play()
 	pass

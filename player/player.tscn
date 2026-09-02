@@ -520,6 +520,7 @@ max_results = 12
 collision_mask = 2
 
 [node name="GroundSlamShapeCast" type="ShapeCast2D" parent="." unique_id=1451438387]
+visible = false
 position = Vector2(0, -4)
 enabled = false
 shape = SubResource("RectangleShape2D_g4c7l")
@@ -532,6 +533,7 @@ collide_with_areas = true
 process_mode = 3
 position = Vector2(0, -48)
 limit_smoothed = true
+position_smoothing_speed = 15.0
 script = ExtResource("8_8t03j")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]
@@ -568,6 +570,7 @@ debug_color = Color(0.70196074, 0, 0, 0.41960785)
 
 [node name="GroundSlamAttackArea" type="Area2D" parent="." unique_id=1304086685]
 unique_name_in_owner = true
+visible = false
 collision_layer = 0
 collision_mask = 96
 script = ExtResource("11_2ieo8")

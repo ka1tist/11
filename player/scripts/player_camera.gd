@@ -9,6 +9,7 @@ var shake_strengh : float = 0.0
 
 func _ready() -> void:
 	VisualEffects.camera_shook.connect( _apply_shake )
+	SceneManager.new_scene_ready.connect( _on_scene_transition )
 	pass
 
 
@@ -23,4 +24,9 @@ func _process( delta: float ) -> void:
 
 func _apply_shake( strength : float ) -> void:
 	shake_strengh = min( strength , max_shake_offset )
+	pass
+
+
+func _on_scene_transition( _t , _o ) -> void:
+	reset_smoothing.call_deferred()
 	pass
