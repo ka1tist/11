@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b8m7pmqpk2u2j"]
 
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_c3jbr"]
+[ext_resource type="Script" uid="uid://cu72rcxsovpgv" path="res://general/scripts/slam_breakable.gd" id="2_slam"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
 size = Vector2(80, 13)
@@ -8,6 +9,7 @@ size = Vector2(80, 13)
 [node name="SlamBreakable" type="StaticBody2D" unique_id=157671628]
 collision_layer = 129
 collision_mask = 0
+script = ExtResource("2_slam")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1374568684]
 modulate = Color(0.76862746, 0.76862746, 0.76862746, 1)

@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://0rsckejyeo3q" path="res://pause_menu/scripts/pause_menu.gd" id="1_5hbt6"]
 [ext_resource type="PackedScene" uid="uid://d3yg75ywy76wv" path="res://pause_menu/map_node.tscn" id="2_rd7dy"]
+[ext_resource type="Script" uid="uid://bbne74ub21hfx" path="res://pause_menu/scripts/abilities_list.gd" id="3_b4s0c"]
+[ext_resource type="Texture2D" uid="uid://cvgif0t51o31n" path="res://player/spires/abilities.png" id="4_s1glv"]
 
 [sub_resource type="FontVariation" id="FontVariation_7h0lg"]
 spacing_glyph = 8
@@ -59,6 +61,18 @@ _data = {
 
 [sub_resource type="FontVariation" id="FontVariation_5hbt6"]
 spacing_glyph = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wn31l"]
+atlas = ExtResource("4_s1glv")
+region = Rect2(96, 33, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7h0lg"]
+atlas = ExtResource("4_s1glv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0obc"]
+atlas = ExtResource("4_s1glv")
+region = Rect2(64, 63, 32, 32)
 
 [sub_resource type="FontVariation" id="FontVariation_ieygl"]
 spacing_glyph = 5
@@ -213,6 +227,35 @@ offset_right = 622.0
 offset_bottom = 306.0
 theme_override_fonts/font = SubResource("FontVariation_5hbt6")
 text = "系统设置"
+
+[node name="AbilitiesList" type="VBoxContainer" parent="Control/PauseScreen" unique_id=1057989401]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 47.0
+offset_right = 60.0
+offset_bottom = 151.0
+script = ExtResource("3_b4s0c")
+
+[node name="AbilityDoubleJump" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=1219526803]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_wn31l")
+stretch_mode = 3
+
+[node name="AbilityDash" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=1080999415]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_7h0lg")
+stretch_mode = 3
+
+[node name="AbilityGroundSlam" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=444461796]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_b0obc")
+stretch_mode = 3
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]
 unique_name_in_owner = true

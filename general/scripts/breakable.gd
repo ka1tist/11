@@ -3,7 +3,7 @@
 class_name Breakable extends Node2D
 
 signal  destroyed
-
+signal  damage_taken
 
 @export var hp : float = 3
 @export var fixed_hit_count : bool = false
@@ -43,11 +43,19 @@ func _get_persistent_id() -> String:
 	return str( get_path() )
 
 
-#外部直接销毁（如ground_slam）时调用，确保持久化状态被记录
-func destroy() -> void:
+#外部直接销毁（如ground_slam）时调用，走与正常击破一致的完整流程（信号/音效/粒子/淡出），并确保持久化状态被记录
+func destroy( dir : Vector2 = Vector2.UP ) -> void:
 	if persistent:
 		SaveManager.persistent_data[ _get_persistent_id() ] = true
-	queue_free()
+	destroyed.emit()
+	var pos : Vector2 = global_position + emission_offset
+	Audio.play_spatial_sound( destroy_audio , pos )
+	for p in destroy_particles:
+		VisualEffects.hit_particles( pos , dir , p )
+	clear_collision()
+	var tween : Tween = create_tween()
+	tween.tween_property( self , "modulate" , Color( modulate , 0 ) , 0.4 )
+	tween.finished.connect( queue_free )
 
 
 func _on_damage_taken( attack_area : AttackArea ) -> void:
@@ -62,22 +70,13 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 		dir.x *= -1
 		
 	if hp > 0:
+		damage_taken.emit()
 		Audio.play_spatial_sound( hit_audio , pos )
 		for p in hit_particles:
 			VisualEffects.hit_particles( pos , dir , p )
 	else:
-		#记录已破坏状态，切换地图后不再刷新
-		if persistent:
-			SaveManager.persistent_data[ _get_persistent_id() ] = true
-			
-		Audio.play_spatial_sound( destroy_audio , pos )
-		for p in destroy_particles:
-			VisualEffects.hit_particles( pos , dir , p )
-		clear_collision()
-		var tween : Tween = create_tween()
-		tween.tween_property( self , "modulate" , Color( modulate , 0 ) , 0.4 )
-		destroyed.emit()
-		tween.finished.connect( queue_free )
+		#走destroy()统一击破流程：发destroyed信号、播放音效粒子、清除碰撞并淡出
+		destroy( dir )
 		
 	pass
 

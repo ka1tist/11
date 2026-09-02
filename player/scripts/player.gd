@@ -29,11 +29,14 @@ var max_hp : float = 20 :
 		max_hp = value
 		Messages.player_health_changed.emit( hp , max_hp )
 
-var dash : bool = true
+var dash : bool = false
 var dash_count : int = 0
-var double_jump : bool = true
+#地面dash内置CD：上次地面dash的时间戳（毫秒），防止在地面连续闪避
+const GROUND_DASH_COOLDOWN_MSEC : int = 1000
+var last_ground_dash_msec : int = -1000
+var double_jump : bool = false
 var jump_count : int = 0
-var ground_slam : bool = true
+var ground_slam : bool = false
 var morph_roll : bool = false
 #endregion
 
@@ -193,5 +196,8 @@ func _on_damage_taken( attacker : AttackArea ) -> void:
 
 func can_dash() -> bool:
 	if dash == false or dash_count > 0 :
+		return false
+	#地面dash内置1秒CD：1秒内不能在地面再次闪避（空中dash不受影响）
+	if is_on_floor() and Time.get_ticks_msec() - last_ground_dash_msec < GROUND_DASH_COOLDOWN_MSEC:
 		return false
 	return true

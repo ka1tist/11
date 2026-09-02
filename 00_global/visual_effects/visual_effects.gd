@@ -6,6 +6,21 @@ const HIT_PARTICLES = preload("uid://w5vvcvi053qg")
 
 signal camera_shook( strength : float )
 
+
+func _ready() -> void:
+	#切换地图时清空残留特效：灰尘/粒子挂在autoload节点上会跨场景存活，
+	#暂停期间被冻结、新地图淡入后继续播完，导致上一个地图的特效出现在新地图
+	SceneManager.load_scene_started.connect( clear_effects )
+	pass
+
+
+#清空所有正在播放的临时特效（灰尘、打击粒子）
+func clear_effects() -> void:
+	for c in get_children():
+		c.queue_free()
+	pass
+
+
 func _create_dust_effect( pos : Vector2 ) -> DustEffect:
 	var dust : DustEffect = DUST_EFFECT.instantiate()
 	add_child( dust )

@@ -89,12 +89,14 @@ func check_collisions( _delta ) -> bool:
 			
 			if c.get_parent() is Breakable:
 				var b : Breakable = c.get_parent()
-				b.destroy()
-				Audio.play_spatial_sound( b.destroy_audio , pos )
-				for p in b.destroy_particles:
-					VisualEffects.hit_particles( pos , Vector2.DOWN , p )
+				#destroy()内走完整击破流程（destroyed信号/音效/粒子/淡出），AbilityPickup等依赖destroyed信号
+				b.destroy( Vector2.DOWN )
 			else:
-				c.queue_free()
+				if c is SlamBreakable:
+					#SlamBreakable走destroy()记录持久化，切换地图后不再刷新
+					c.destroy()
+				else:
+					c.queue_free()
 				VisualEffects.hit_particles( pos , Vector2.UP , 地面破坏1 )
 				VisualEffects.hit_particles( pos , Vector2.DOWN , 地面破坏2 )
 				VisualEffects.hit_particles( pos , Vector2.UP , 地面破坏3 )

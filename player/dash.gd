@@ -40,6 +40,9 @@ func enter() -> void:
 	player.velocity.y = 0
 	
 	player.dash_count += 1
+	#地面dash时记录时间戳并进入冷却，供can_dash()判定与就绪粒子提示
+	if player.is_on_floor():
+		player.last_ground_dash_msec = Time.get_ticks_msec()
 	pass
 	
 #当我们退出这个状态会发生什么

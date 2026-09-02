@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://cf3i3x86y18c7" path="res://levels/props/隐藏右.tscn" id="9_4ew43"]
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
 [ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="10_4ew43"]
+[ext_resource type="PackedScene" uid="uid://cn77rh2w1lb5n" path="res://levels/props/隐藏左.tscn" id="12_15s8f"]
+[ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 
 [node name="04" type="Node2D" unique_id=49539005]
 
@@ -32,8 +34,8 @@ tile_set = ExtResource("1_4kr1r")
 [node name="SlamBreakable" parent="TileMap" unique_id=157671628 instance=ExtResource("3_1efua")]
 position = Vector2(-336, 352)
 
-[node name="SlamBreakable2" parent="TileMap" unique_id=764309377 instance=ExtResource("3_1efua")]
-position = Vector2(-152, 280)
+[node name="SlamBreakable2" parent="TileMap" unique_id=69565250 instance=ExtResource("3_1efua")]
+position = Vector2(-64, 273)
 
 [node name="LevelTransition3" parent="." unique_id=394364620 instance=ExtResource("3_m60e3")]
 position = Vector2(488, 357)
@@ -61,19 +63,37 @@ position = Vector2(173, 333)
 [node name="Props" type="Node2D" parent="." unique_id=2120328920]
 
 [node name="TextDummy" parent="Props" unique_id=779192118 instance=ExtResource("9_xy3px")]
-position = Vector2(84, 337)
+position = Vector2(-120, 338)
 
-[node name="Breakable" parent="." unique_id=254897557 instance=ExtResource("8_x7rvi")]
+[node name="SpikeDummy" parent="Props" unique_id=1455579154 instance=ExtResource("10_4ew43")]
+position = Vector2(-160, 338)
+
+[node name="Breakable" parent="Props" unique_id=254897557 instance=ExtResource("8_x7rvi")]
 position = Vector2(260, 319)
+persistent = true
 
-[node name="Breakable2" parent="." unique_id=1186028067 instance=ExtResource("8_x7rvi")]
+[node name="Breakable2" parent="Props" unique_id=1186028067 instance=ExtResource("8_x7rvi")]
 position = Vector2(260, 288)
+persistent = true
 
-[node name="Breakable3" parent="." unique_id=366846643 instance=ExtResource("8_x7rvi")]
+[node name="Breakable3" parent="Props" unique_id=366846643 instance=ExtResource("8_x7rvi")]
 position = Vector2(260, 256)
+persistent = true
 
-[node name="隐藏" parent="." unique_id=1887491372 instance=ExtResource("9_4ew43")]
-position = Vector2(312, 302)
+[node name="隐藏右" parent="Props" unique_id=1887491372 instance=ExtResource("9_4ew43")]
+position = Vector2(360, 302)
 
-[node name="SpikeDummy" parent="." unique_id=1455579154 instance=ExtResource("10_4ew43")]
-position = Vector2(30, 337)
+[node name="隐藏左" parent="Props" unique_id=719526588 instance=ExtResource("12_15s8f")]
+position = Vector2(336, 302)
+
+[node name="AbilityPickup" parent="." unique_id=899164570 instance=ExtResource("13_vry50")]
+position = Vector2(128, 302)
+type = 2
+
+[node name="AbilityPickup2" parent="." unique_id=967049074 instance=ExtResource("13_vry50")]
+position = Vector2(80, 302)
+type = 0
+
+[node name="AbilityPickup3" parent="." unique_id=94000343 instance=ExtResource("13_vry50")]
+position = Vector2(32, 302)
+type = 1

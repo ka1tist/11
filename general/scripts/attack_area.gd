@@ -19,8 +19,8 @@ func _on_body_entered( body : Node2D ) -> void:
 	if body is DamageArea:
 		if instant_destroy_breakable and body.get_parent() is Breakable:
 			var b : Breakable = body.get_parent()
+			#destroy()内走完整击破流程（destroyed信号/音效/粒子/淡出），AbilityPickup等依赖destroyed信号
 			b.destroy()
-			Audio.play_spatial_sound( b.destroy_audio , global_position )
 		else:
 			body.take_damage( self )
 		var pos : Vector2 = global_position
