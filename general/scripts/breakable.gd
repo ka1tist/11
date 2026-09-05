@@ -11,6 +11,10 @@ signal  damage_taken
 #持久化：破坏后记录到SaveManager.persistent_data，切换地图/读档不再刷新，新游戏时重置
 @export var persistent : bool = false
 
+#镜头限制（可选）：未被破坏时将镜头对应侧边界钳制在本墙x坐标处，破坏后由LevelBounds恢复整体边界
+#0=无 1=限制镜头左边界（如"隐藏右"，墙后区域在墙左侧） 2=限制镜头右边界（如"隐藏左"，墙后区域在墙右侧）
+@export_enum( "无" , "限制镜头左边界" , "限制镜头右边界" ) var camera_limit_side : int = 0
+
 @export_category( "Particles" )
 @export var emission_offset : Vector2 = Vector2.ZERO
 @export var hit_particles : Array[ HitParticleSettings ]
@@ -24,7 +28,7 @@ signal  damage_taken
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-	#已破坏过的持久化墙体直接消失，不再刷新
+	#已破坏过的持久化墙体直接消失，不再刷新（queue_free后不会注册镜头限制）
 	if persistent and SaveManager.persistent_data.has( _get_persistent_id() ):
 		queue_free()
 		return
@@ -32,6 +36,29 @@ func _ready() -> void:
 	for c in get_children():
 		if c is DamageArea:
 			c.damage_taken.connect( _on_damage_taken )
+
+	#挂接镜头限制：注册延迟一帧执行，确保LevelBounds已就绪
+	if camera_limit_side != 0:
+		destroyed.connect( _release_camera_limit )
+		_apply_camera_limit.call_deferred()
+	pass
+
+
+#向LevelBounds注册镜头限制，未破坏期间镜头该侧边界钳制在本墙x坐标处
+func _apply_camera_limit() -> void:
+	if camera_limit_side == 0 or is_queued_for_deletion():
+		return
+	var bounds : LevelBounds = get_tree().get_first_node_in_group( "level_bounds" )
+	if bounds:
+		bounds.set_camera_wall_limit( str( get_path() ) , camera_limit_side , global_position.x )
+	pass
+
+
+#墙被破坏时注销镜头限制：镜头该侧平滑扩展回levelbounds边界
+func _release_camera_limit() -> void:
+	var bounds : LevelBounds = get_tree().get_first_node_in_group( "level_bounds" )
+	if bounds:
+		bounds.clear_camera_wall_limit( str( get_path() ) , camera_limit_side )
 	pass
 
 

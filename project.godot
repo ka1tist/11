@@ -36,6 +36,7 @@ window/size/viewport_height=360
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
+window/main_scene="uid://8gi77ckq0nbd"
 
 [global_group]
 

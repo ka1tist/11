@@ -8,10 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="5_w1tcc"]
 [ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="6_w1tcc"]
 [ext_resource type="PackedScene" uid="uid://c81yo7875nu0m" path="res://levels/props/木箱.tscn" id="8_x7rvi"]
-[ext_resource type="PackedScene" uid="uid://cf3i3x86y18c7" path="res://levels/props/隐藏右.tscn" id="9_4ew43"]
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
 [ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="10_4ew43"]
-[ext_resource type="PackedScene" uid="uid://cn77rh2w1lb5n" path="res://levels/props/隐藏左.tscn" id="12_15s8f"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 [ext_resource type="PackedScene" uid="uid://b3oo3pfb6w71r" path="res://enemies/slime/slime.tscn" id="14_x2wf1"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
@@ -81,12 +79,6 @@ persistent = true
 [node name="Breakable3" parent="Props" unique_id=366846643 instance=ExtResource("8_x7rvi")]
 position = Vector2(260, 256)
 persistent = true
-
-[node name="隐藏右" parent="Props" unique_id=1887491372 instance=ExtResource("9_4ew43")]
-position = Vector2(360, 302)
-
-[node name="隐藏左" parent="Props" unique_id=719526588 instance=ExtResource("12_15s8f")]
-position = Vector2(336, 302)
 
 [node name="AbilityPickup" parent="." unique_id=899164570 instance=ExtResource("13_vry50")]
 position = Vector2(128, 302)

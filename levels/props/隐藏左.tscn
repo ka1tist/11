@@ -17,6 +17,7 @@ size = Vector2(16, 64)
 script = ExtResource("1_bspxe")
 persistent = true
 fixed_hit_count = true
+camera_limit_side = 2
 hit_particles = Array[ExtResource("2_kc0jm")]([ExtResource("3_x7st1")])
 destroy_particles = Array[ExtResource("2_kc0jm")]([ExtResource("4_nbmxx"), ExtResource("3_x7st1")])
 metadata/_custom_type_script = "uid://bgsabdlxuib6n"
