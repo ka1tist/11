@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dbqu1e25wxj3i" path="res://00_global/player_hud/health_bar_frame.png" id="1_hv14i"]
 [ext_resource type="Script" uid="uid://od3l7ij507n4" path="res://00_global/player_hud/player_hud.gd" id="1_vb1bs"]
-[ext_resource type="Resource" uid="uid://ot25twm6tx4o" path="res://00_global/visual_effects/hit_particle_settings/地面破坏3.tres" id="3_26715"]
+[ext_resource type="Resource" uid="uid://emn3dpnofbmu" path="res://00_global/visual_effects/hit_particle_settings/史莱姆.tres" id="3_26715"]
 
 [sub_resource type="Gradient" id="Gradient_vb1bs"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)

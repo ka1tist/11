@@ -6,6 +6,8 @@ class_name Slime extends CharacterBody2D
 @export var move_speed : float = 30
 @export var face_left_on_start : bool = false
 @export var death_sound : AudioStream
+@export var hit_particles : HitParticleSettings
+@export var emission_offset : Vector2 = Vector2.ZERO
 
 var dir : float = 1.0
 var move_tween : Tween
@@ -59,6 +61,13 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 	
 	
 	knockback( attack_area.global_position )
+	
+	if hit_particles:
+		var pos : Vector2 = global_position + emission_offset
+		var dir : Vector2 = Vector2( 1 , -1 )
+		if attack_area.global_position.x > global_position.x:
+			dir.x *= -1
+		VisualEffects.hit_particles( pos , dir , hit_particles )
 	
 	if health > 0 :
 		#连续受击时强制从头播放stun：play()在stun已在播放时不会回到第0帧，需seek回起点重新播放

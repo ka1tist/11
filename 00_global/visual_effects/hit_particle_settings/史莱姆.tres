@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HitParticleSettings" format=3 uid="uid://emn3dpnofbmu"]
+
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="1_wp8lq"]
+[ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime/slime.png" id="2_3arcj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayg3k"]
+atlas = ExtResource("2_3arcj")
+region = Rect2(143, 70, 5, 6)
+
+[resource]
+script = ExtResource("1_wp8lq")
+count = 16
+texture = SubResource("AtlasTexture_ayg3k")
+metadata/_custom_type_script = "uid://jl2mctya5sog"

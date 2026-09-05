@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HitParticleSettings" format=3 uid="uid://dy1uux4sbgmos"]
+
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="1_24shy"]
+[ext_resource type="Texture2D" uid="uid://dfedgwugeiu7p" path="res://player/spires/red hood itch free Copy-Sheet.png" id="2_24shy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayg3k"]
+atlas = ExtResource("2_24shy")
+region = Rect2(828, 1291, 2, 2)
+
+[resource]
+script = ExtResource("1_24shy")
+count = 16
+texture = SubResource("AtlasTexture_ayg3k")
+metadata/_custom_type_script = "uid://jl2mctya5sog"

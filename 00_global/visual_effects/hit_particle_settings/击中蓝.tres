@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_wo0u3")
-count = 25
-color = Color(0, 16.796894, 18.892157, 1)
+count = 14
+color = Color(0.078431375, 0.5529412, 0.9019608, 1)
 metadata/_custom_type_script = "uid://jl2mctya5sog"

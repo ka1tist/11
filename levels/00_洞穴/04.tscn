@@ -18,9 +18,9 @@
 
 [node name="LevelBounds" type="Node2D" parent="." unique_id=1712360839]
 z_index = 256
-position = Vector2(-624, -136)
+position = Vector2(-464, -136)
 script = ExtResource("1_of531")
-width = 1264
+width = 1104
 height = 494
 metadata/_custom_type_script = "uid://bk5xhtoqj11k5"
 
