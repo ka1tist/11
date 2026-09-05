@@ -42,7 +42,7 @@ func enter() -> void:
 	
 #当我们退出这个状态会发生什么
 func exit() -> void:
-	VisualEffects.camera_shake( 8.0 )
+	VisualEffects.camera_shake( 8.0 , 0.4 )
 	VisualEffects.land_dust( player.global_position )
 	VisualEffects.hit_dust( player.global_position )
 	Audio.play_spatial_sound( BOOM_AUDIO , player.global_position )
@@ -85,7 +85,7 @@ func check_collisions( _delta ) -> bool:
 			var pos : Vector2 = ground_slam_shape_cast.get_collision_point( i )
 			
 			VisualEffects.hit_dust( pos )
-			VisualEffects.camera_shake( 8.0 )
+			VisualEffects.camera_shake( 8.0 , 0.3 )
 			
 			if c.get_parent() is Breakable:
 				var b : Breakable = c.get_parent()

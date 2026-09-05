@@ -533,8 +533,7 @@ collide_with_areas = true
 [node name="Camera2D" type="Camera2D" parent="." unique_id=825696280]
 process_mode = 3
 position = Vector2(0, -48)
-limit_smoothed = true
-position_smoothing_speed = 15.0
+position_smoothing_enabled = true
 script = ExtResource("8_8t03j")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]

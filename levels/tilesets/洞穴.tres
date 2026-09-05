@@ -19,6 +19,9 @@ tile_data = PackedInt32Array(0, 524291, 1073741839, 65536, 589827, 1073741839, 1
 [sub_resource type="TileMapPattern" id="TileMapPattern_nytwj"]
 tile_data = PackedInt32Array(0, 1507333, 9, 1, 1572869, 9, 2, 1507333, 9, 3, 1507333, 9, 4, 1572869, 9)
 
+[sub_resource type="TileMapPattern" id="TileMapPattern_5vgnu"]
+tile_data = PackedInt32Array(0, 1769475, 37, 65536, 1769475, 38, 1, 196611, 37, 65537, 196611, 38, 2, 720899, 39, 65538, 720899, 40)
+
 [sub_resource type="TileMapPattern" id="TileMapPattern_c3ljs"]
 tile_data = PackedInt32Array(0, 1638403, 11, 65536, 2228227, 6, 131072, 2228227, 7, 1, 1703939, 11, 65537, 1703939, 12, 131073, 1310723, 7, 2, 983043, 23, 65538, 524291, 12, 131074, 1703939, 7, 3, 1114115, 23, 65539, 524291, 12, 131075, 1769475, 7, 4, 1245187, 23, 65540, 524291, 12, 131076, 917507, 7, 196612, 917507, 8, 5, 1638403, 23, 65541, 524291, 12, 131077, 983043, 7, 196613, 983043, 8, 6, 1048579, 11, 65542, 1114115, 6, 131078, 1114115, 7, 7, 1114115, 11, 65543, 524291, 6, 131079, 524291, 7)
 
@@ -4948,3 +4951,4 @@ pattern_8 = SubResource("TileMapPattern_vw16g")
 pattern_9 = SubResource("TileMapPattern_lw8au")
 pattern_10 = SubResource("TileMapPattern_q6j2b")
 pattern_11 = SubResource("TileMapPattern_nytwj")
+pattern_12 = SubResource("TileMapPattern_5vgnu")

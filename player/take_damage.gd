@@ -30,7 +30,7 @@ func enter() -> void:
 	time = player.animation_player.current_animation_length
 	damage_area.make_invulnerable( invulnerable_duration )
 	hurt_audio.play()
-	VisualEffects.camera_shake( 2.0 )
+	VisualEffects.camera_shake( 5.0 , 0.25 )
 	pass
 	
 #当我们退出这个状态会发生什么

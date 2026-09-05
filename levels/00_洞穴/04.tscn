@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cn77rh2w1lb5n" path="res://levels/props/隐藏左.tscn" id="12_15s8f"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 [ext_resource type="PackedScene" uid="uid://b3oo3pfb6w71r" path="res://enemies/slime/slime.tscn" id="14_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
 
@@ -101,3 +102,6 @@ type = 1
 
 [node name="Slime" parent="." unique_id=1862335051 instance=ExtResource("14_x2wf1")]
 position = Vector2(128, 208)
+
+[node name="操作" parent="." unique_id=960810658 instance=ExtResource("15_6bkb3")]
+position = Vector2(-16, 324)

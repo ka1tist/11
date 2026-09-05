@@ -4,7 +4,7 @@ const DUST_EFFECT = preload("uid://qs2i4ldiy3hl")
 const HIT_PARTICLES = preload("uid://w5vvcvi053qg")
 
 
-signal camera_shook( strength : float )
+signal camera_shook( strength : float , duration : float )
 
 
 func _ready() -> void:
@@ -54,6 +54,6 @@ func hit_particles( pos: Vector2 , dir: Vector2 , settings : HitParticleSettings
 	pass
 
 
-func camera_shake( strength : float = 1.0 ) -> void:
-	camera_shook.emit( strength )
+func camera_shake( strength : float = 1.0 , duration : float = 0.25 ) -> void:
+	camera_shook.emit( strength , duration )
 	pass

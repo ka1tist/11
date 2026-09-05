@@ -1,0 +1,13 @@
+[gd_scene format=4 uid="uid://qm42vs2m1127"]
+
+[ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_5mu8h"]
+[ext_resource type="Script" uid="uid://dt5c0iunn5bt5" path="res://levels/props/地刺.gd" id="2_dici"]
+
+[node name="地刺" type="Node2D" unique_id=2144615846]
+script = ExtResource("2_dici")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1373884751]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Sprite2D" unique_id=2136818250]
+tile_map_data = PackedByteArray("AAD///7/AwAbACUAAAD/////AwAbACYAAAAAAP7/AwADACUAAAAAAP//AwADACYAAAABAP7/AwALACcAAAABAP//AwALACgAAAA=")
+tile_set = ExtResource("1_5mu8h")
