@@ -9,6 +9,6 @@ region = Rect2(143, 70, 5, 6)
 
 [resource]
 script = ExtResource("1_wp8lq")
-count = 16
+count = 12
 texture = SubResource("AtlasTexture_ayg3k")
 metadata/_custom_type_script = "uid://jl2mctya5sog"

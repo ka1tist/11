@@ -2,6 +2,9 @@ extends Node
 
 enum REVERB_TYPE{ NONE , SMALL , MEDIUM , LARGE }
 
+
+signal player_made_sound( pos : Vector2 , volume : float )
+
 @export var ui_focus_audio : AudioStream
 @export var ui_select_audio : AudioStream
 @export var ui_cancel_audio : AudioStream
@@ -11,6 +14,9 @@ enum REVERB_TYPE{ NONE , SMALL , MEDIUM , LARGE }
 var current_track : int = 0
 var music_tweens : Array[ Tween ]
 var ui_audio_player : AudioStreamPlaybackPolyphonic
+var audio_pool : Array[ AudioStreamPlayer2D ]
+var audio_index : int = 0
+
 
 @onready var music_1: AudioStreamPlayer = %Music1
 @onready var music_2: AudioStreamPlayer = %Music2
@@ -19,6 +25,12 @@ var ui_audio_player : AudioStreamPlaybackPolyphonic
 func _ready() -> void:
 	ui.play()
 	ui_audio_player = ui.get_stream_playback()
+	for i in 32:
+		var audio_player : AudioStreamPlayer2D = AudioStreamPlayer2D.new()
+		add_child( audio_player )
+		audio_player.bus = "SFX"
+		audio_pool.append( audio_player )
+		pass
 	pass
 
 
@@ -85,22 +97,42 @@ func set_reverb( type : REVERB_TYPE ) -> void:
 	pass
 
 
-func play_spatial_sound( audio : AudioStream , pos : Vector2 , volume_db : float = 0.0 ) -> void:
-	var ap : AudioStreamPlayer2D = AudioStreamPlayer2D.new()
-	add_child( ap )
-	ap.bus = "SFX"
-	ap.global_position = pos
-	ap.stream = audio
-	ap.volume_db = volume_db
-	ap.finished.connect( ap.queue_free )
-	ap.play()
+
+func play_spatial_sound(
+	 audio : AudioStream , 
+	pos : Vector2 , 
+	volume_db : float = 0.0 ,
+	 ignore_bool : bool = false , 
+	was_player : bool = false ,
+	volume : float = 0.5
+	) -> void:
+	if ignore_bool:
+		var ap : AudioStreamPlayer2D = AudioStreamPlayer2D.new()
+		add_child( ap )
+		ap.bus = "SFX"
+		ap.global_position = pos
+		ap.stream = audio
+		ap.volume_db = volume_db
+		ap.finished.connect( ap.queue_free )
+		ap.play()
+	else:
+		var ap : AudioStreamPlayer2D = audio_pool[ audio_index ]
+		ap.global_position = pos
+		ap.stream = audio
+		ap.volume_db = volume_db
+		ap.play()
+		audio_index = wrapi( audio_index + 1 , 0 , 32 )
+		pass
+	
+	if was_player:
+		player_made_sound.emit( pos , volume )
 	pass
 
 
 
 func play_ui_audio( audio : AudioStream ) -> void:
 	if ui_audio_player:
-		ui_audio_player.play_stream( audio )
+		ui_audio_player.play_stream( audio , 0.0 , -12.0 )
 	pass
 
 

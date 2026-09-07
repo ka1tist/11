@@ -34,7 +34,7 @@ func enter() -> void:
 	sprite_2d_2.visible = false
 	player.animation_player.play( "ground_slam" )
 	player.sprite.tween_color()
-	Audio.play_spatial_sound( DASH_AUDIO , player.global_position )
+	Audio.play_spatial_sound( DASH_AUDIO , player.global_position , false , true , 0.75 )
 	damage_area.start_invulnerable()
 	ground_slam_attack_area.flip( -1 if player.sprite.flip_h else 1 )
 	ground_slam_attack_area.set_activate()
@@ -48,7 +48,7 @@ func exit() -> void:
 	VisualEffects.hit_particles( player.global_position , -player.direction , preload("uid://m1d5fs000xy6") )
 	VisualEffects.hit_particles( player.global_position , -player.direction , preload("uid://dy1uux4sbgmos") )
 	VisualEffects.hit_particles( player.global_position , -player.direction , preload("uid://dy1uux4sbgmos") )
-	Audio.play_spatial_sound( BOOM_AUDIO , player.global_position )
+	Audio.play_spatial_sound( BOOM_AUDIO , player.global_position , false , true , 1 )
 	damage_area.end_invulnerable()
 	ground_slam_attack_area.set_activate( false )
 	pass
@@ -103,6 +103,6 @@ func check_collisions( _delta ) -> bool:
 				VisualEffects.hit_particles( pos , Vector2.UP , 地面破坏1 )
 				VisualEffects.hit_particles( pos , Vector2.DOWN , 地面破坏2 )
 				VisualEffects.hit_particles( pos , Vector2.UP , 地面破坏3 )
-				Audio.play_spatial_sound( BREAK_WOOD_AUDIO , pos )
+				Audio.play_spatial_sound( BREAK_WOOD_AUDIO , pos , false , true , 0.75 )
 		return true
 	return false

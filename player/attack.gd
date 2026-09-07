@@ -62,7 +62,7 @@ func physics_process(_delta: float) -> PlayerState:
 func do_attack() -> void:
 	player.animation_player.play( COMBO_ANIMATIONS[combo] )
 	player.attack_area.activate()
-	Audio.play_spatial_sound( AUDIO_ATTACK , player.global_position )
+	Audio.play_spatial_sound( AUDIO_ATTACK , player.global_position , false , true , 0.25 )
 	pass
 
 

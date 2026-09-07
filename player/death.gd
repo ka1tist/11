@@ -19,7 +19,7 @@ func enter() -> void:
 	sprite_2d.visible = true
 	sprite_2d_2.visible = false
 	player.animation_player.play( "death" )
-	Audio.play_spatial_sound( DEATH_01 , player.global_position )
+	Audio.play_spatial_sound( DEATH_01 , player.global_position , true )
 	Audio.play_music( null )
 	take_damage.damage_area.visible = false
 	await player.animation_player.animation_finished

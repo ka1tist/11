@@ -12,7 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="10_4ew43"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 [ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="14_6bkb3"]
-[ext_resource type="PackedScene" uid="uid://b3oo3pfb6w71r" path="res://enemies/slime/slime.tscn" id="14_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://cba6bgd17ctum" path="res://general/pickup/health_pickup.tscn" id="14_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://ochny605wqw0" path="res://general/pickup/coin_pickup.tscn" id="15_2uxjf"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
@@ -93,13 +94,14 @@ type = 0
 position = Vector2(32, 302)
 type = 1
 
-[node name="Slime" parent="." unique_id=1862335051 instance=ExtResource("14_x2wf1")]
-position = Vector2(-80, 260)
-
 [node name="操作" parent="." unique_id=960810658 instance=ExtResource("15_6bkb3")]
 position = Vector2(-16, 324)
 
 [node name="Slime2" parent="." unique_id=2105144600 instance=ExtResource("14_6bkb3")]
 position = Vector2(120, 208)
-health = 3.0
-face_left_on_start = false
+
+[node name="HealthPickup" parent="." unique_id=1624413914 instance=ExtResource("14_x2wf1")]
+position = Vector2(-74, 239)
+
+[node name="CoinPickup" parent="." unique_id=760444921 instance=ExtResource("15_2uxjf")]
+position = Vector2(-44, 228)

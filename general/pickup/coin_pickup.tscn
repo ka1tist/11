@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://ochny605wqw0"]
+
+[ext_resource type="Script" uid="uid://4sopopgcapab" path="res://general/pickup/coin_pickup.gd" id="1_e1njg"]
+[ext_resource type="Texture2D" uid="uid://b280twmwo667p" path="res://general/pickup/Coin - 32x32 - 9F.png" id="1_u0qan"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e1njg"]
+radius = 4.0
+
+[sub_resource type="Animation" id="Animation_dedm2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_u25al"]
+resource_name = "default"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kugx1"]
+_data = {
+&"RESET": SubResource("Animation_dedm2"),
+&"default": SubResource("Animation_u25al")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7o4sr"]
+radius = 4.0
+
+[node name="CoinPickup" type="CharacterBody2D" unique_id=760444921]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_e1njg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=540854244]
+shape = SubResource("CircleShape2D_e1njg")
+debug_color = Color(0, 0.6, 0.69803923, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1929681663]
+scale = Vector2(0.1875, 0.22222222)
+texture = ExtResource("1_u0qan")
+hframes = 23
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=311330505]
+libraries/ = SubResource("AnimationLibrary_kugx1")
+autoplay = &"default"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1845320884]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1396734068]
+shape = SubResource("CircleShape2D_7o4sr")
+debug_color = Color(0, 0.6, 0.69803923, 0)

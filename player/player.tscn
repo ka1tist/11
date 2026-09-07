@@ -458,8 +458,7 @@ vframes = 11
 script = ExtResource("12_s7qer")
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2047697532]
-visible = false
-position = Vector2(0, -11.999999)
+position = Vector2(4.2632754e-14, -10.999999)
 rotation = -3.1415925
 scale = Vector2(1.8799948, -1.88)
 texture = ExtResource("11_tqiix")

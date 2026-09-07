@@ -2,7 +2,8 @@ class_name PlayerStateFall extends PlayerState
 
 @onready var sprite_2d: Sprite2D = $"../../Sprite2D"
 @onready var sprite_2d_2: Sprite2D = $"../../Sprite2D2"
-@onready var land_audio: AudioStreamPlayer2D = %LandAudio
+
+const LAND = preload("uid://bkjtuekmdg035")
 
 
 @export var fal_gravity_mulitplier : float = 1.165
@@ -16,7 +17,6 @@ var coyote_timer : float = 0
 var buffer_timer : float = 0
 var fall_timer : float = 0
 var land_lock_timer : float = 0
-var land_audio_base_volume : float = 0.0
 
 #状态初始化时做什么
 func init() -> void:
@@ -33,7 +33,6 @@ func enter() -> void:
 
 	fall_timer = 0
 	land_lock_timer = 0
-	land_audio_base_volume = land_audio.volume_db
 	if player.jump_count == 0:
 		player.jump_count = 1
 	
@@ -53,7 +52,6 @@ func exit() -> void:
 	sprite_2d_2.visible = true
 	player.gravity_mulitplier = 1.0
 	buffer_timer = 0
-	land_audio.volume_db = land_audio_base_volume
 	land_lock_timer = 0
 	pass
 
@@ -103,13 +101,11 @@ func physics_process(_delta: float) -> PlayerState:
 		VisualEffects.land_dust( player.global_position )
 		#长下落落地：播放land动画、音频更大声，锁定结束后回到idle
 		if fall_timer > long_fall_time:
-			land_audio.volume_db = land_audio_base_volume + long_fall_land_volume
-			land_audio.play()
 			player.animation_player.play( "land" )
+			Audio.play_spatial_sound( LAND , player.global_position , long_fall_land_volume , true , 0.5 )
 			land_lock_timer = land_lock_time
 			player.velocity.x = 0
 			return next_state
-		land_audio.play()
 		#player.add_debug_indicator(  )
 		if buffer_timer > 0:
 			player.jump_count = 0
