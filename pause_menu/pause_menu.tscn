@@ -109,6 +109,7 @@ custom_minimum_size = Vector2(0, 36)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_bottom = 56.0
 grow_horizontal = 2
 color = Color(0.25272304, 0.25272304, 0.25272304, 1)
 
@@ -136,7 +137,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 36.0
+offset_top = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -145,7 +146,7 @@ anchors_preset = 0
 offset_left = 128.0
 offset_top = 16.0
 offset_right = 500.0
-offset_bottom = 324.0
+offset_bottom = 301.0
 
 [node name="MapNode" parent="Control/PauseScreen/Map" unique_id=179225958 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
@@ -253,10 +254,10 @@ text = "地图"
 [node name="SystemMenuButton" type="Button" parent="Control/PauseScreen" unique_id=2066587030]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 517.0
-offset_top = 276.0
-offset_right = 622.0
-offset_bottom = 306.0
+offset_left = 515.0
+offset_top = 255.0
+offset_right = 620.0
+offset_bottom = 285.0
 theme_override_fonts/font = SubResource("FontVariation_5hbt6")
 text = "系统设置"
 

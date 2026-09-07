@@ -34,6 +34,8 @@ func _physics_process( delta: float ) -> void:
 func _on_player_entered( n : Node2D ) -> void:
 	if n is Player:
 		area_2d.body_entered.disconnect( _on_player_entered )
+		n.coin += int( coin_amount )
 		Audio.play_spatial_sound( 金币 , global_position )
+		Messages.coin_collected.emit( n.coin )
 		queue_free()
 	pass

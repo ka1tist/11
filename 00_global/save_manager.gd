@@ -50,6 +50,7 @@ func create_new_game_save( slot : int ) -> void:
 		"double_jump" : false,
 		"ground_slam" : false,
 		"morph_roll" : false,
+		"coin" : 0,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,	
 	}
@@ -73,6 +74,7 @@ func save_game() ->void:
 		"double_jump" : player.double_jump,
 		"ground_slam" : player.ground_slam,
 		"morph_roll" : player.morph_roll,
+		"coin" : player.coin,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,	
 	}
@@ -114,6 +116,7 @@ func setup_player() -> void:
 	player.double_jump = save_data.get( "double_jump" , false )
 	player.ground_slam = save_data.get( "ground_slam" , false )
 	player.morph_roll = save_data.get( "morph_roll" , false )
+	player.coin = save_data.get( "coin" , 0 )
 	
 	player.global_position = Vector2( save_data.get( "x" , 0 ) , save_data.get( "y" , 0 ) )
 	pass
@@ -155,7 +158,7 @@ func load_configuration() -> void:
 	var err = config.load( CONFIG_FILE_PATH )
 	
 	if err != OK:
-		AudioServer.set_bus_volume_linear( 2 , 0.8 ) 
+		AudioServer.set_bus_volume_linear( 2 , 0.8 )
 		AudioServer.set_bus_volume_linear( 3 , 1.0 ) 
 		AudioServer.set_bus_volume_linear( 4 ,  1.0 )
 		save_configuration()

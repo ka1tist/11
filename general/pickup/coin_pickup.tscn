@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b280twmwo667p" path="res://general/pickup/Coin - 32x32 - 9F.png" id="1_u0qan"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e1njg"]
-radius = 4.0
+radius = 5.0
 
 [sub_resource type="Animation" id="Animation_dedm2"]
 length = 0.001
@@ -45,7 +45,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7o4sr"]
-radius = 4.0
+radius = 5.0
 
 [node name="CoinPickup" type="CharacterBody2D" unique_id=760444921]
 collision_layer = 0
@@ -57,7 +57,7 @@ shape = SubResource("CircleShape2D_e1njg")
 debug_color = Color(0, 0.6, 0.69803923, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1929681663]
-scale = Vector2(0.1875, 0.22222222)
+scale = Vector2(0.25, 0.2777778)
 texture = ExtResource("1_u0qan")
 hframes = 23
 

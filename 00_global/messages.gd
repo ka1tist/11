@@ -15,3 +15,6 @@ signal player_health_changed( hp : float , max_hp : float )
 
 @warning_ignore( "unused_signal" )
 signal back_to_title_screen()
+
+@warning_ignore( "unused_signal" )
+signal coin_collected( coin : int )

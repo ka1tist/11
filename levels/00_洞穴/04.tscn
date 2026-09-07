@@ -104,4 +104,25 @@ position = Vector2(120, 208)
 position = Vector2(-74, 239)
 
 [node name="CoinPickup" parent="." unique_id=760444921 instance=ExtResource("15_2uxjf")]
-position = Vector2(-44, 228)
+position = Vector2(-215, 244)
+
+[node name="CoinPickup2" parent="." unique_id=476511915 instance=ExtResource("15_2uxjf")]
+position = Vector2(-218, 199)
+
+[node name="CoinPickup3" parent="." unique_id=1149264234 instance=ExtResource("15_2uxjf")]
+position = Vector2(-227, 224)
+
+[node name="CoinPickup4" parent="." unique_id=1460950351 instance=ExtResource("15_2uxjf")]
+position = Vector2(-205, 224)
+
+[node name="CoinPickup5" parent="." unique_id=2066440701 instance=ExtResource("15_2uxjf")]
+position = Vector2(-246, 265)
+
+[node name="CoinPickup6" parent="." unique_id=2073697086 instance=ExtResource("15_2uxjf")]
+position = Vector2(-249, 220)
+
+[node name="CoinPickup7" parent="." unique_id=1900016443 instance=ExtResource("15_2uxjf")]
+position = Vector2(-258, 245)
+
+[node name="CoinPickup8" parent="." unique_id=1354559325 instance=ExtResource("15_2uxjf")]
+position = Vector2(-236, 245)

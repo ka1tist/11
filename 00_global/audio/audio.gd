@@ -43,6 +43,7 @@ func play_music( audio : AudioStream ) -> void:
 	var next_player : AudioStreamPlayer = get_music_player( next_track )
 	
 	next_player.stream = audio
+	next_player.volume_linear = 0.0
 	next_player.play()
 	
 	for t in music_tweens:
@@ -76,7 +77,7 @@ func fade_track_out( player : AudioStreamPlayer ) -> void:
 func fade_track_in ( player : AudioStreamPlayer ) -> void:
 	var tween : Tween = create_tween()
 	music_tweens.append( tween )
-	tween.tween_property( player , "volume_linear" , 1.0 , 1.0 )
+	tween.tween_property( player , "volume_linear" , 0.3 , 0.5 )
 	pass
 
 

@@ -9,9 +9,15 @@ extends CanvasLayer
 @onready var quit_button: Button = %QuitButton
 @onready var load_button: Button = %LoadButton
 
+@onready var coin_container: HBoxContainer = %CoinContainer
+@onready var coin_label: Label = %CoinLabel
+
+var coin_tween: Tween
+
 
 func _ready() -> void:
 	Messages.player_health_changed.connect( update_health_bar )
+	Messages.coin_collected.connect( _on_coin_collected )
 	game_over.visible = false
 	load_button.pressed.connect( _on_load_pressed )
 	quit_button.pressed.connect( _on_quit_pressed )
@@ -23,6 +29,42 @@ func update_health_bar( hp : float , max_hp : float ) -> void:
 	var value : float = ( hp / max_hp ) * 100
 	hp_bar.value = value
 	hp_margin_container.size.x = max_hp + 22
+	pass
+
+
+func _on_coin_collected( coin : int ) -> void:
+	coin_label.text = str( coin )
+	if coin_tween:
+		coin_tween.kill()
+	coin_container.modulate.a = 0
+	coin_container.visible = true
+	#淡入0.2s → 保持0.6s → 淡出0.2s，总计1秒
+	coin_tween = create_tween()
+	coin_tween.tween_property( coin_container , "modulate:a" , 1.0 , 0.2 )
+	coin_tween.tween_interval( 0.6 )
+	coin_tween.tween_property( coin_container , "modulate:a" , 0.0 , 0.2 )
+	coin_tween.finished.connect( func(): coin_container.visible = false )
+	pass
+
+
+#暂停菜单打开时永久显示金币计数
+func show_coin_permanent() -> void:
+	if coin_tween:
+		coin_tween.kill()
+	var player : Player = get_tree().get_first_node_in_group( "Player" )
+	if player:
+		coin_label.text = str( player.coin )
+	coin_container.modulate.a = 1.0
+	coin_container.visible = true
+	pass
+
+
+#暂停菜单关闭时恢复默认隐藏
+func hide_coin_display() -> void:
+	if coin_tween:
+		coin_tween.kill()
+	coin_container.modulate.a = 0.0
+	coin_container.visible = false
 	pass
 
 

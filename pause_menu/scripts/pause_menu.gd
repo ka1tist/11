@@ -26,6 +26,12 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group( "Player" ) as Player
 	if player:
 		player_position = player.global_position
+	PlayerHud.show_coin_permanent()
+	pass
+
+
+func _exit_tree() -> void:
+	PlayerHud.hide_coin_display()
 	pass
 
 
