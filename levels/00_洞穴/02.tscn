@@ -188,9 +188,6 @@ position = Vector2(248, -336)
 [node name="侧面火把2" parent="Props" unique_id=1937434152 instance=ExtResource("6_pq2rq")]
 position = Vector2(256, 112)
 
-[node name="钻石" parent="Props" unique_id=1805056374 instance=ExtResource("11_bebe2")]
-position = Vector2(601, -318)
-
 [node name="隐藏左" parent="Props" unique_id=1887491372 instance=ExtResource("11_uj8rf")]
 position = Vector2(640, 208)
 
@@ -205,6 +202,9 @@ position = Vector2(496, 288)
 
 [node name="地刺4" parent="Props" unique_id=925026510 instance=ExtResource("16_678va")]
 position = Vector2(544, 288)
+
+[node name="钻石" parent="Props" unique_id=1805056374 instance=ExtResource("11_bebe2")]
+position = Vector2(604, -319)
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1721174053]
 z_index = 2

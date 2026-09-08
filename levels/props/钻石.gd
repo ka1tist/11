@@ -41,8 +41,8 @@ func _on_player_interacted( player : Player ) -> void:
 	player.diamond += 1
 	Audio.play_spatial_sound( 宝石 , global_position )
 	Messages.diamond_collected.emit( player.diamond )
-	#立即写入存档，保证跨场景/重启后数据持久化
-	SaveManager.save_game()
+	# 保存钻石进度（保留存档点位置），确保死亡重生后钻石不丢失且回到存档点
+	SaveManager.save_progress()
 	queue_free()
 	pass
 

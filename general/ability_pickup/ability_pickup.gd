@@ -36,6 +36,8 @@ func _ready() -> void:
 func _on_destroyed() -> void:
 	SaveManager.persistent_data[ get_ability_name() ] = "acquired"
 	_reward_ability()
+	# 保存能力进度（保留存档点位置），确保死亡重生后能力不丢失
+	SaveManager.save_progress()
 	orb_anim.play( "destroy" )
 	await orb_anim.animation_finished
 	queue_free()

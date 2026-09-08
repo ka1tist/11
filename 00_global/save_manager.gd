@@ -83,6 +83,29 @@ func save_game() ->void:
 	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE ) 
 	save_file.store_line( JSON.stringify( save_data ) )
 	pass
+
+
+# 保存玩家进度（能力、金币、钻石、最大血量、持久化数据），但保留上一次存档点的场景与位置
+# 用于拾取物品/获得能力时自动保存，确保死亡重生后进度不丢失且回到存档点
+func save_progress() -> void:
+	var player : Player = get_tree().get_first_node_in_group( "Player" )
+	if player == null:
+		return
+	if save_data == null:
+		save_data = {}
+	save_data[ "hp" ] = player.max_hp
+	save_data[ "max_hp" ] = player.max_hp
+	save_data[ "dash" ] = player.dash
+	save_data[ "double_jump" ] = player.double_jump
+	save_data[ "ground_slam" ] = player.ground_slam
+	save_data[ "morph_roll" ] = player.morph_roll
+	save_data[ "coin" ] = player.coin
+	save_data[ "diamond" ] = player.diamond
+	save_data[ "persistent_data" ] = persistent_data
+	# 不更新 scene_path / x / y：保留上一次存档点的位置
+	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
+	save_file.store_line( JSON.stringify( save_data ) )
+	pass
 	
 	
 func load_game( slot : int ) -> void:

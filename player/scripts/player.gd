@@ -76,7 +76,10 @@ var gravity_mulitplier : float = 1.0
 func _ready() -> void:
 	#初始化状态
 	if get_tree().get_first_node_in_group("Player") != self:
+		#新场景自带的重复玩家：销毁后必须直接返回，否则继续执行 hp = max_hp
+		#会发出满血信号把持久玩家的血条 HUD 刷成满的
 		self.queue_free()
+		return
 	initialize_states()
 	self.call_deferred( "reparent",get_tree().root )
 	Messages.player_healed.connect( _on_player_healed )

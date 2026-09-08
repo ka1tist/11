@@ -1,3 +1,4 @@
+@icon( "res://general/icons/state.svg" )
 class_name PlayerStateCrouch extends PlayerState
 
 @onready var sprite_2d: Sprite2D = $"../../Sprite2D"

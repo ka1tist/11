@@ -8,6 +8,7 @@ signal  damage_taken
 @export var hp : float = 3
 @export var fixed_hit_count : bool = false
 
+
 #持久化：破坏后记录到SaveManager.persistent_data，切换地图/读档不再刷新，新游戏时重置
 @export var persistent : bool = false
 
@@ -25,6 +26,9 @@ signal  damage_taken
 @export var destroy_audio : AudioStream = preload("uid://i7p3xk1bocdd")
 
 
+var hit_count : int = 0
+
+
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
@@ -36,6 +40,7 @@ func _ready() -> void:
 	for c in get_children():
 		if c is DamageArea:
 			c.damage_taken.connect( _on_damage_taken )
+
 
 	#挂接镜头限制：注册延迟一帧执行，确保LevelBounds已就绪
 	if camera_limit_side != 0:
@@ -97,6 +102,7 @@ func _on_damage_taken( attack_area : AttackArea ) -> void:
 		dir.x *= -1
 		
 	if hp > 0:
+		hit_count += 1
 		damage_taken.emit()
 		Audio.play_spatial_sound( hit_audio , pos )
 		for p in hit_particles:

@@ -9,6 +9,9 @@ class_name PauseMenu extends CanvasLayer
 
 @onready var map_button: Button = %MapButton
 @onready var title_button: Button = %TitleButton
+@onready var open_map_button: Button = %OpenMapButton
+@onready var map: Control = $Control/PauseScreen/OpenMapButton/Map
+@onready var bag_button: Button = %BagButton
 
 @onready var music_slider: HSlider = %MusicSlider
 @onready var sfx_slider: HSlider = %SFXSlider
@@ -21,6 +24,9 @@ var player_position : Vector2
 func _ready() -> void:
 	show_pause_screen()
 	system_menu_button.pressed.connect( show_system_menu )
+	open_map_button.pressed.connect( _on_open_map_button_pressed )
+	#地图仅作展示，不拦截鼠标，避免展开后挡住地图按钮导致无法再次点击关闭
+	map.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	Audio.setup_button_audio( self )
 	setup_system_menu()
 	player = get_tree().get_first_node_in_group( "Player" ) as Player
@@ -47,8 +53,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			get_tree().paused = false
 			queue_free()
-		if event.is_action_pressed( "right" ) or event.is_action_pressed( "down" ):
-			system_menu_button.grab_focus()
+		if event.is_action_pressed( "left" ) or event.is_action_pressed( "up" ) or event.is_action_pressed( "right" ) or event.is_action_pressed( "down" ):
+			bag_button.grab_focus()
 	if system.visible == true:
 		#系统设置界面按ui_cancel返回暂停主界面
 		if event.is_action_pressed( "ui_cancel" ):
@@ -61,8 +67,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func show_pause_screen() -> void:
 	pause_screen.visible = true
 	system.visible = false
-	pass 
+	map.visible = false
+	pass
 
+
+#点击地图按钮切换地图显示/隐藏
+func _on_open_map_button_pressed() -> void:
+	map.visible = not map.visible
+	pass
 
 
 func show_system_menu() -> void:

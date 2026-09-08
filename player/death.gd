@@ -1,3 +1,4 @@
+@icon( "res://general/icons/state.svg" )
 class_name PlayerStateDeath extends PlayerState
 
 const DEATH_01 = preload("uid://dwh80hhj3giq7")

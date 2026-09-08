@@ -38,5 +38,7 @@ func _on_player_entered( n : Node2D ) -> void:
 		n.coin += int( coin_amount )
 		Audio.play_spatial_sound( 金币 , global_position )
 		Messages.coin_collected.emit( n.coin )
+		# 保存金币进度（保留存档点位置），确保死亡重生后金币不丢失
+		SaveManager.save_progress()
 		queue_free()
 	pass

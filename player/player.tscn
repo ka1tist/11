@@ -575,6 +575,7 @@ visible = false
 collision_layer = 0
 collision_mask = 96
 script = ExtResource("11_2ieo8")
+damege = 3.0
 instant_destroy_breakable = true
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 

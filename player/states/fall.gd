@@ -1,3 +1,4 @@
+@icon( "res://general/icons/state.svg" )
 class_name PlayerStateFall extends PlayerState
 
 @onready var sprite_2d: Sprite2D = $"../../Sprite2D"
