@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cetlc1xpatj7t"]
+
+[ext_resource type="Script" uid="uid://bgsabdlxuib6n" path="res://general/scripts/breakable.gd" id="1_5dnjh"]
+[ext_resource type="Texture2D" uid="uid://cp6ek8qo50w3" path="res://levels/props/Ores.png" id="2_5gfnq"]
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="2_l550a"]
+[ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="3_0e82c"]
+[ext_resource type="Resource" uid="uid://creig5a1kqg5y" path="res://00_global/visual_effects/hit_particle_settings/石头1.tres" id="3_0f2kx"]
+[ext_resource type="Script" uid="uid://b2pvpyq1nchiw" path="res://general/scripts/loot_dropper.gd" id="4_l550a"]
+[ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="5_0f2kx"]
+[ext_resource type="Resource" uid="uid://cxha53c0us7ke" path="res://00_global/visual_effects/hit_particle_settings/石头2.tres" id="5_xsw4m"]
+[ext_resource type="Resource" uid="uid://f6sod1xcmtea" path="res://00_global/visual_effects/hit_particle_settings/石头3.tres" id="6_0f2kx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjnvi"]
+atlas = ExtResource("2_5gfnq")
+region = Rect2(44, 96, 2, 2)
+
+[sub_resource type="Resource" id="Resource_xsw4m"]
+script = ExtResource("2_l550a")
+count = 12
+texture = SubResource("AtlasTexture_kjnvi")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0n5aq"]
+atlas = ExtResource("2_5gfnq")
+region = Rect2(31, 104, 2, 2)
+
+[sub_resource type="Resource" id="Resource_keea8"]
+script = ExtResource("2_l550a")
+count = 12
+texture = SubResource("AtlasTexture_0n5aq")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xsw4m"]
+size = Vector2(49, 40)
+
+[sub_resource type="Resource" id="Resource_7h0lg"]
+script = ExtResource("5_0f2kx")
+item = "uid://ochny605wqw0"
+minimum = 12
+maximum = 12
+drop_chance = 1.0
+metadata/_custom_type_script = "uid://ddesufbcgmmcs"
+
+[node name="石头" type="Node2D" unique_id=620941812]
+script = ExtResource("1_5dnjh")
+persistent = true
+hit_particles = Array[ExtResource("2_l550a")]([ExtResource("3_0f2kx"), ExtResource("5_xsw4m")])
+destroy_particles = Array[ExtResource("2_l550a")]([SubResource("Resource_xsw4m"), SubResource("Resource_keea8"), ExtResource("6_0f2kx")])
+metadata/_custom_type_script = "uid://bgsabdlxuib6n"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=722008005]
+position = Vector2(-26, -23)
+texture = ExtResource("2_5gfnq")
+centered = false
+region_enabled = true
+region_rect = Rect2(7, 89, 50, 39)
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=783351354]
+collision_layer = 96
+collision_mask = 0
+script = ExtResource("3_0e82c")
+metadata/_custom_type_script = "uid://c1unhfbuk57mo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1936977655]
+position = Vector2(-1.5, -3)
+shape = SubResource("RectangleShape2D_xsw4m")
+
+[node name="lootDropper" type="Marker2D" parent="." unique_id=1146765596]
+script = ExtResource("4_l550a")
+items = Array[ExtResource("5_0f2kx")]([SubResource("Resource_7h0lg")])
+metadata/_custom_type_script = "uid://b2pvpyq1nchiw"

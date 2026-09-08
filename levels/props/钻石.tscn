@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cwuvsugsmjpkh" path="res://levels/tilesets/sprites/钻石.png" id="1_8j52t"]
 [ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_gelct"]
+[ext_resource type="Script" uid="uid://bugp8irm5ditr" path="res://levels/props/钻石.gd" id="3_diamond"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gelct"]
 atlas = ExtResource("1_8j52t")
@@ -55,16 +56,29 @@ fill = 1
 fill_from = Vector2(0.49658704, 0.48634812)
 metadata/_snap_enabled = true
 
-[node name="钻石" type="AnimatedSprite2D" unique_id=1805056374]
+[sub_resource type="CircleShape2D" id="CircleShape2D_diamond"]
+radius = 8.0
+
+[node name="钻石" type="Area2D" unique_id=1805056374]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("3_diamond")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=376833995]
 sprite_frames = SubResource("SpriteFrames_7h0lg")
 autoplay = "default"
 frame_progress = 0.8160433
 offset = Vector2(8, -8)
 
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=433885473]
+[node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D" unique_id=433885473]
 position = Vector2(8, -8)
 energy = 2.0
 texture = SubResource("GradientTexture2D_i60n5")
 script = ExtResource("2_gelct")
 flicker_intensity = 0.0
 flicker_frenquency = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=336575284]
+position = Vector2(7, -8)
+shape = SubResource("CircleShape2D_diamond")
+debug_color = Color(0.246, 0.719, 0.85, 0)

@@ -51,6 +51,7 @@ func create_new_game_save( slot : int ) -> void:
 		"ground_slam" : false,
 		"morph_roll" : false,
 		"coin" : 0,
+		"diamond" : 0,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,	
 	}
@@ -75,6 +76,7 @@ func save_game() ->void:
 		"ground_slam" : player.ground_slam,
 		"morph_roll" : player.morph_roll,
 		"coin" : player.coin,
+		"diamond" : player.diamond,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,	
 	}
@@ -117,6 +119,7 @@ func setup_player() -> void:
 	player.ground_slam = save_data.get( "ground_slam" , false )
 	player.morph_roll = save_data.get( "morph_roll" , false )
 	player.coin = save_data.get( "coin" , 0 )
+	player.diamond = save_data.get( "diamond" , 0 )
 	
 	player.global_position = Vector2( save_data.get( "x" , 0 ) , save_data.get( "y" , 0 ) )
 	pass

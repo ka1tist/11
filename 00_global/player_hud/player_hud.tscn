@@ -2,8 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://dbqu1e25wxj3i" path="res://00_global/player_hud/health_bar_frame.png" id="1_hv14i"]
 [ext_resource type="Script" uid="uid://od3l7ij507n4" path="res://00_global/player_hud/player_hud.gd" id="1_vb1bs"]
-[ext_resource type="Resource" uid="uid://cx8fgt2eg8bkx" path="res://00_global/visual_effects/hit_particle_settings/史莱姆死亡1.tres" id="3_26715"]
 [ext_resource type="Texture2D" uid="uid://ceuha7b1jsei2" path="res://general/pickup/Coin - 12x12 - 4F.png" id="3_tdgrf"]
+[ext_resource type="Texture2D" uid="uid://cwuvsugsmjpkh" path="res://levels/tilesets/sprites/钻石.png" id="4_4jtec"]
+[ext_resource type="Resource" uid="uid://f6sod1xcmtea" path="res://00_global/visual_effects/hit_particle_settings/石头3.tres" id="4_tdgrf"]
 
 [sub_resource type="Gradient" id="Gradient_vb1bs"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -118,6 +119,33 @@ theme_override_font_sizes/font_size = 12
 text = "0"
 vertical_alignment = 1
 
+[node name="UpContainer" type="HBoxContainer" parent="Control" unique_id=533193492]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 90.0
+offset_top = 36.0
+offset_right = 153.0
+offset_bottom = 52.0
+theme_override_constants/separation = 6
+
+[node name="UpMarginContainer" type="MarginContainer" parent="Control/UpContainer" unique_id=777955658]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/UpContainer/UpMarginContainer" unique_id=1912998235]
+layout_mode = 2
+texture = ExtResource("4_4jtec")
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="UpLabel" type="Label" parent="Control/UpContainer" unique_id=1337360675]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.216, 0.647, 0.796, 1)
+theme_override_font_sizes/font_size = 12
+text = "0"
+vertical_alignment = 1
+
 [node name="Button" type="Button" parent="Control" unique_id=231736727]
 visible = false
 layout_mode = 0
@@ -128,7 +156,7 @@ offset_bottom = 38.0
 text = "测试
 "
 script = SubResource("GDScript_7h0lg")
-particle_settings = ExtResource("3_26715")
+particle_settings = ExtResource("4_tdgrf")
 
 [node name="GameOver" type="Control" parent="Control" unique_id=60678857]
 unique_name_in_owner = true

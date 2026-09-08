@@ -1,6 +1,7 @@
 class_name CoinPickup extends CharacterBody2D
 
-const 金币 = preload("uid://41602xkilaj5")
+const 金币 = preload("uid://dmf8f37dma7bb")
+
 
 
 

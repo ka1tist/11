@@ -18,3 +18,6 @@ signal back_to_title_screen()
 
 @warning_ignore( "unused_signal" )
 signal coin_collected( coin : int )
+
+@warning_ignore( "unused_signal" )
+signal diamond_collected( diamond : int )

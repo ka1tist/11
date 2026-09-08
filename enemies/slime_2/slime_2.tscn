@@ -16,8 +16,10 @@
 [ext_resource type="Script" uid="uid://44agcu5dc7rp" path="res://enemies/scripts/sensors/player_sensor.gd" id="13_3jlja"]
 [ext_resource type="Script" uid="uid://jodh8fuht3an" path="res://enemies/scripts/enemy_hit_particles.gd" id="14_uucha"]
 [ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="15_qpicr"]
-[ext_resource type="Resource" uid="uid://cx8fgt2eg8bkx" path="res://00_global/visual_effects/hit_particle_settings/史莱姆死亡1.tres" id="16_uucha"]
 [ext_resource type="Resource" uid="uid://b5ra4nlrkhgdr" path="res://00_global/visual_effects/hit_particle_settings/史莱姆死亡.tres" id="16_vpnvx"]
+[ext_resource type="Resource" uid="uid://f6sod1xcmtea" path="res://00_global/visual_effects/hit_particle_settings/石头3.tres" id="17_2mgqq"]
+[ext_resource type="Script" uid="uid://b2pvpyq1nchiw" path="res://general/scripts/loot_dropper.gd" id="19_7lkcl"]
+[ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="20_2mgqq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5napv"]
 radius = 9.0
@@ -100,6 +102,18 @@ _data = {
 &"stun": SubResource("Animation_bkm6f"),
 &"walk": SubResource("Animation_5ctnu")
 }
+
+[sub_resource type="Resource" id="Resource_2mgqq"]
+script = ExtResource("20_2mgqq")
+item = "uid://cba6bgd17ctum"
+metadata/_custom_type_script = "uid://ddesufbcgmmcs"
+
+[sub_resource type="Resource" id="Resource_jp5mc"]
+script = ExtResource("20_2mgqq")
+item = "uid://ochny605wqw0"
+maximum = 2
+drop_chance = 1.0
+metadata/_custom_type_script = "uid://ddesufbcgmmcs"
 
 [node name="Slime2" type="CharacterBody2D" unique_id=2105144600]
 collision_layer = 0
@@ -188,5 +202,11 @@ polygon = PackedVector2Array(0, 0, 256, -128, 256, 128)
 position = Vector2(0, -9)
 script = ExtResource("14_uucha")
 hit_particles = Array[ExtResource("15_qpicr")]([ExtResource("2_3jlja")])
-death_particles = Array[ExtResource("15_qpicr")]([ExtResource("16_uucha"), ExtResource("16_vpnvx")])
+death_particles = Array[ExtResource("15_qpicr")]([ExtResource("17_2mgqq"), ExtResource("16_vpnvx")])
 metadata/_custom_type_script = "uid://jodh8fuht3an"
+
+[node name="lootDropper" type="Marker2D" parent="." unique_id=1657040115]
+position = Vector2(0, -17)
+script = ExtResource("19_7lkcl")
+items = Array[ExtResource("20_2mgqq")]([SubResource("Resource_2mgqq"), SubResource("Resource_jp5mc")])
+metadata/_custom_type_script = "uid://b2pvpyq1nchiw"

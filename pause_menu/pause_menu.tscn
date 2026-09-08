@@ -154,18 +154,18 @@ layout_mode = 0
 offset_left = 84.0
 offset_top = 159.0
 offset_right = 162.0
-offset_bottom = 188.0
+offset_bottom = 187.0
 linked_scene = "uid://d31trrcaeoqp4"
 entrances_right = Array[float]([21.8])
 entrances_bottom = Array[float]([2.35])
-indicator_offset = Vector2(-8, -240)
+indicator_offset = Vector2(-232, -240)
 
 [node name="MapNode2" parent="Control/PauseScreen/Map" unique_id=760710721 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
 layout_mode = 0
-offset_left = 164.0
+offset_left = 163.0
 offset_top = 140.0
-offset_right = 207.0
+offset_right = 206.0
 offset_bottom = 187.0
 linked_scene = "uid://bmwnfmk7co6hw"
 entrances_left = Array[float]([41.4, 7.0])
@@ -179,41 +179,41 @@ offset_top = 134.0
 offset_right = 162.0
 offset_bottom = 152.0
 linked_scene = "uid://bjqpdbunwtlh0"
-entrances_top = Array[float]([13.0])
+entrances_top = Array[float]([30.0])
 entrances_right = Array[float]([13.0])
 entrances_left = Array[float]([13.0])
-indicator_offset = Vector2(0, 8)
+indicator_offset = Vector2(-112, 8)
 
 [node name="MapNode4" parent="Control/PauseScreen/Map" unique_id=571848955 instance=ExtResource("2_rd7dy")]
 layout_mode = 0
 offset_left = 84.0
-offset_top = 190.0
+offset_top = 188.0
 offset_right = 108.0
-offset_bottom = 202.0
+offset_bottom = 200.0
 linked_scene = "uid://dyiru1a34m4a5"
 entrances_top = Array[float]([2.0])
 indicator_offset = Vector2(96, 11)
 
 [node name="MapNode5" parent="Control/PauseScreen/Map" unique_id=34950281 instance=ExtResource("2_rd7dy")]
 layout_mode = 0
-offset_left = 84.0
+offset_left = 97.0
 offset_top = 134.0
-offset_right = 116.0
+offset_right = 123.0
 offset_bottom = 152.0
 linked_scene = "uid://3p4f65n1soqw"
-entrances_top = Array[float]([9.25])
+entrances_top = Array[float]([13.2])
 entrances_right = Array[float]([13.0])
 
 [node name="MapNode6" parent="Control/PauseScreen/Map" unique_id=608097032 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42745098, 0.5254902, 0.5372549, 1)
 layout_mode = 0
-offset_left = 89.0
-offset_top = 107.0
-offset_right = 144.0
-offset_bottom = 132.0
+offset_left = 105.0
+offset_top = 108.0
+offset_right = 162.0
+offset_bottom = 133.0
 linked_scene = "uid://b2ul4n86b0n5c"
-entrances_bottom = Array[float]([47.6, 4.4])
-indicator_offset = Vector2(-464, -136)
+entrances_bottom = Array[float]([49.2, 5.15])
+indicator_offset = Vector2(-496, -135)
 
 [node name="PlayerIndicator" type="Control" parent="Control/PauseScreen/Map" unique_id=1142013513]
 unique_name_in_owner = true

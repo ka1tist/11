@@ -12,13 +12,19 @@ extends CanvasLayer
 @onready var coin_container: HBoxContainer = %CoinContainer
 @onready var coin_label: Label = %CoinLabel
 
+@onready var up_container: HBoxContainer = %UpContainer
+@onready var up_label: Label = %UpLabel
+
 var coin_tween: Tween
+var up_tween: Tween
 
 
 func _ready() -> void:
 	Messages.player_health_changed.connect( update_health_bar )
 	Messages.coin_collected.connect( _on_coin_collected )
+	Messages.diamond_collected.connect( _on_diamond_collected )
 	game_over.visible = false
+	up_container.visible = false
 	load_button.pressed.connect( _on_load_pressed )
 	quit_button.pressed.connect( _on_quit_pressed )
 	pass
@@ -65,6 +71,42 @@ func hide_coin_display() -> void:
 		coin_tween.kill()
 	coin_container.modulate.a = 0.0
 	coin_container.visible = false
+	pass
+
+
+func _on_diamond_collected( diamond : int ) -> void:
+	up_label.text = str( diamond )
+	if up_tween:
+		up_tween.kill()
+	up_container.modulate.a = 0
+	up_container.visible = true
+	#淡入0.2s → 保持0.6s → 淡出0.2s，总计1秒（与CoinContainer动画一致）
+	up_tween = create_tween()
+	up_tween.tween_property( up_container , "modulate:a" , 1.0 , 0.2 )
+	up_tween.tween_interval( 0.6 )
+	up_tween.tween_property( up_container , "modulate:a" , 0.0 , 0.2 )
+	up_tween.finished.connect( func(): up_container.visible = false )
+	pass
+
+
+#暂停菜单打开时永久显示钻石计数
+func show_up_permanent() -> void:
+	if up_tween:
+		up_tween.kill()
+	var player : Player = get_tree().get_first_node_in_group( "Player" )
+	if player:
+		up_label.text = str( player.diamond )
+	up_container.modulate.a = 1.0
+	up_container.visible = true
+	pass
+
+
+#暂停菜单关闭时恢复默认隐藏
+func hide_up_display() -> void:
+	if up_tween:
+		up_tween.kill()
+	up_container.modulate.a = 0.0
+	up_container.visible = false
 	pass
 
 

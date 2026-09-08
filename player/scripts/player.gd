@@ -40,7 +40,7 @@ var max_hp : float = 20 :
 var dash : bool = false
 var dash_count : int = 0
 #地面dash内置CD：上次地面dash的时间戳（毫秒），防止在地面连续闪避
-const GROUND_DASH_COOLDOWN_MSEC : int = 1000
+const GROUND_DASH_COOLDOWN_MSEC : int = 800
 var last_ground_dash_msec : int = -1000
 #地面dash冷却是否进行中，用于在冷却结束时触发一次ready提示
 var _ground_dash_cooldown_active : bool = false
@@ -49,6 +49,7 @@ var jump_count : int = 0
 var ground_slam : bool = false
 var morph_roll : bool = false
 var coin : int = 0
+var diamond : int = 0
 #endregion
 
 #region /// export variables

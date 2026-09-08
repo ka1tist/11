@@ -27,11 +27,13 @@ func _ready() -> void:
 	if player:
 		player_position = player.global_position
 	PlayerHud.show_coin_permanent()
+	PlayerHud.show_up_permanent()
 	pass
 
 
 func _exit_tree() -> void:
 	PlayerHud.hide_coin_display()
+	PlayerHud.hide_up_display()
 	pass
 
 
