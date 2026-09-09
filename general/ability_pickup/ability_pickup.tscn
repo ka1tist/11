@@ -77,12 +77,31 @@ tracks/0/keys = {
 "values": [10, 11, 12, 13, 14]
 }
 
+[sub_resource type="Animation" id="Animation_wclb1"]
+resource_name = "wall_climb"
+length = 0.5
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AbilitySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [15, 16, 17, 18, 19]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wvp8x"]
 _data = {
 &"RESET": SubResource("Animation_1ggl3"),
 &"dash": SubResource("Animation_xxigd"),
 &"double_jump": SubResource("Animation_q7t65"),
-&"ground_slam": SubResource("Animation_dxffq")
+&"ground_slam": SubResource("Animation_dxffq"),
+&"wall_climb": SubResource("Animation_wclb1")
 }
 
 [sub_resource type="Animation" id="Animation_ugn6l"]
@@ -208,7 +227,7 @@ radius = 15.0
 [node name="AbilityPickup" type="Node2D" unique_id=899164570]
 z_index = 1
 script = ExtResource("1_xxigd")
-type = null
+type = 3
 
 [node name="AbilitySprite" type="Sprite2D" parent="." unique_id=281883151]
 unique_name_in_owner = true

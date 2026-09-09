@@ -50,14 +50,15 @@ func create_new_game_save( slot : int ) -> void:
 		"double_jump" : false,
 		"ground_slam" : false,
 		"morph_roll" : false,
+		"wall_climb" : false,
 		"coin" : 0,
 		"diamond" : 0,
 		"discovered_areas" : discovered_areas,
-		"persistent_data" : persistent_data,	
+		"persistent_data" : persistent_data,
 	}
-	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE ) 
+	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
 	save_file.store_line( JSON.stringify( save_data ) )
-	
+
 	save_file.close()
 	load_game( slot )
 	pass
@@ -75,12 +76,13 @@ func save_game() ->void:
 		"double_jump" : player.double_jump,
 		"ground_slam" : player.ground_slam,
 		"morph_roll" : player.morph_roll,
+		"wall_climb" : player.wall_climb,
 		"coin" : player.coin,
 		"diamond" : player.diamond,
 		"discovered_areas" : discovered_areas,
-		"persistent_data" : persistent_data,	
+		"persistent_data" : persistent_data,
 	}
-	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE ) 
+	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
 	save_file.store_line( JSON.stringify( save_data ) )
 	pass
 
@@ -99,6 +101,7 @@ func save_progress() -> void:
 	save_data[ "double_jump" ] = player.double_jump
 	save_data[ "ground_slam" ] = player.ground_slam
 	save_data[ "morph_roll" ] = player.morph_roll
+	save_data[ "wall_climb" ] = player.wall_climb
 	save_data[ "coin" ] = player.coin
 	save_data[ "diamond" ] = player.diamond
 	save_data[ "persistent_data" ] = persistent_data
@@ -141,6 +144,7 @@ func setup_player() -> void:
 	player.double_jump = save_data.get( "double_jump" , false )
 	player.ground_slam = save_data.get( "ground_slam" , false )
 	player.morph_roll = save_data.get( "morph_roll" , false )
+	player.wall_climb = save_data.get( "wall_climb" , false )
 	player.coin = save_data.get( "coin" , 0 )
 	player.diamond = save_data.get( "diamond" , 0 )
 	

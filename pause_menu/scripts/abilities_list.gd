@@ -4,6 +4,8 @@ extends Node
 @onready var ability_double_jump: TextureRect = %AbilityDoubleJump
 @onready var ability_dash: TextureRect = %AbilityDash
 @onready var ability_ground_slam: TextureRect = %AbilityGroundSlam
+@onready var ability_ground_climb: TextureRect = %AbilityGroundClimb
+
 
 
 func _ready() -> void:
@@ -11,4 +13,5 @@ func _ready() -> void:
 	ability_dash.visible = player.dash
 	ability_double_jump.visible = player.double_jump
 	ability_ground_slam.visible = player.ground_slam
+	ability_ground_climb.visible = player.wall_climb
 	pass

@@ -9,11 +9,15 @@ signal damage_taken
 @onready var sprite_2d_2: Sprite2D = $Sprite2D2
 @onready var sprite_2d_3: Sprite2D = $Sprite2D3
 @onready var sprite_2d_4: PlayerSprite = $Sprite2D4
+@onready var sprite_2d_5: PlayerSprite = $Sprite2D5
 @onready var collision_stand: CollisionShape2D = $CollisionStand
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
 @onready var da_stand: CollisionShape2D = %DAStand
 @onready var da_crouch: CollisionShape2D = %DACrouch
 @onready var one_way_platform_shape_cast: ShapeCast2D = $OneWayPlatformShapeCast
+#墙面检测射线（注意玩家根节点scale.x为-1，世界方向在运行时用碰撞点坐标判断，不依赖射线命名）
+@onready var wall_ray_a: RayCast2D = $WallRayA
+@onready var wall_ray_b: RayCast2D = $WallRayB
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var attack_area: AttackArea = %AttackArea
 @onready var damage_area: DamageArea = %DamageArea
@@ -23,6 +27,7 @@ signal damage_taken
 	sprite_2d_2.modulate ,
 	sprite_2d_3.modulate ,
 	sprite_2d_4.modulate ,
+	sprite_2d_5.modulate ,
 ]
 #endregion
 
@@ -48,6 +53,10 @@ var double_jump : bool = false
 var jump_count : int = 0
 var ground_slam : bool = false
 var morph_roll : bool = false
+var wall_climb : bool = false
+#蹬墙跳后的攀爬禁用计时（秒）：>0期间无法附着墙面，物理帧逐帧递减
+const WALL_CLIMB_JUMP_COOLDOWN : float = 0.2
+var wall_climb_cooldown : float = 0.0
 var coin : int = 0
 var diamond : int = 0
 #endregion
@@ -126,7 +135,7 @@ func _update_dash_ready() -> void:
 
 #ready闪光：用Tween短暂提亮当前可见的精灵后回到默认modulate，不干扰AnimationPlayer正在播放的状态动画
 func _play_dash_ready_flash() -> void:
-	var sprites : Array[Sprite2D] = [ sprite , sprite_2d_2 , sprite_2d_3 , sprite_2d_4 ]
+	var sprites : Array[Sprite2D] = [ sprite , sprite_2d_2 , sprite_2d_3 , sprite_2d_4 , sprite_2d_5 ]
 	for i in range( sprites.size() ):
 		var s : Sprite2D = sprites[ i ]
 		var orig : Color = _sprite_default_modulates[ i ]
@@ -141,8 +150,11 @@ func _play_dash_ready_flash() -> void:
 
 func _physics_process(_delta: float) -> void:
 	velocity.y += gravity * _delta * gravity_mulitplier
-	velocity.y = clampf( velocity.y, -1000.0, max_fall_velocity ) 
-	move_and_slide() 
+	velocity.y = clampf( velocity.y, -1000.0, max_fall_velocity )
+	#蹬墙跳攀爬禁用冷却逐帧递减（物理帧固定步长，精度约1/60秒）
+	if wall_climb_cooldown > 0.0:
+		wall_climb_cooldown = maxf( 0.0 , wall_climb_cooldown - _delta )
+	move_and_slide()
 	change_state( current_state.physics_process( _delta ) )
 
 	pass
@@ -246,3 +258,24 @@ func can_dash() -> bool:
 	if is_on_floor() and Time.get_ticks_msec() - last_ground_dash_msec < GROUND_DASH_COOLDOWN_MSEC:
 		return false
 	return true
+
+
+#世界坐标指定侧（+1右侧/-1左侧）是否贴有可攀爬墙面
+#射线碰撞点与玩家中心的世界x差判定方向，根节点scale.x为-1也不受影响
+func is_wall_on_side( world_side : int ) -> bool:
+	for ray in [ wall_ray_a , wall_ray_b ]:
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			var side_diff : float = ray.get_collision_point().x - global_position.x
+			if side_diff * world_side > 0.0:
+				return true
+	return false
+
+
+#跳跃/下落中是否应触发爬墙：能力已解锁、未落地、正按向墙面、且不在蹬墙跳禁用冷却内时
+#返回墙所在世界方向（+1右/-1左），否则0
+func get_wall_climb_side() -> int:
+	if wall_climb == false or wall_climb_cooldown > 0.0 or is_on_floor() or direction.x == 0.0:
+		return 0
+	var side : int = 1 if direction.x > 0.0 else -1
+	return side if is_wall_on_side( side ) else 0

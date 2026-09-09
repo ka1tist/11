@@ -22,8 +22,10 @@
 [ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="13_yllr7"]
 [ext_resource type="Texture2D" uid="uid://df87yg7avym83" path="res://general/sprites/itch hurt 2 sheet-Sheet.png" id="14_bjvpn"]
 [ext_resource type="AudioStream" uid="uid://oaqdnva1kruj" path="res://general/audio/hurt_01.wav" id="15_wodsf"]
+[ext_resource type="Texture2D" uid="uid://dhqbox8gmrs3q" path="res://general/sprites/wall slide-Sheet.png" id="17_knn7v"]
 [ext_resource type="AudioStream" uid="uid://cwhvso8ircol" path="res://general/audio/jump.wav" id="18_e7oew"]
 [ext_resource type="AudioStream" uid="uid://bkjtuekmdg035" path="res://general/audio/land.wav" id="19_c35mf"]
+[ext_resource type="Script" uid="uid://cpdb8jc206kx5" path="res://player/wall_climb.gd" id="20_wclb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uqgm8"]
 radius = 12.0
@@ -83,6 +85,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D5:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_ebec5"]
 resource_name = "attack"
@@ -133,6 +147,41 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+}
+
+[sub_resource type="Animation" id="Animation_knn7v"]
+resource_name = "climb"
+length = 0.23529412
+loop_mode = 1
+step = 0.06
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D5:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05882353, 0.11764706, 0.1764706),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_7pqkx"]
+resource_name = "climb_stay"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D5:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_rgyib"]
@@ -358,6 +407,8 @@ _data = {
 &"attack": SubResource("Animation_ebec5"),
 &"attack_2": SubResource("Animation_yllr7"),
 &"attack_3": SubResource("Animation_kb6p2"),
+&"climb": SubResource("Animation_knn7v"),
+&"climb_stay": SubResource("Animation_7pqkx"),
 &"crouch": SubResource("Animation_rgyib"),
 &"dash": SubResource("Animation_bjvpn"),
 &"death": SubResource("Animation_32hag"),
@@ -448,6 +499,12 @@ unique_name_in_owner = true
 script = ExtResource("11_g4c7l")
 velocity = 600.0
 
+[node name="WallClimb" type="Node" parent="States" unique_id=1760585017]
+unique_name_in_owner = true
+script = ExtResource("20_wclb")
+stay_time = 0.1
+slide_speed = 120.0
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
 position = Vector2(0, -13)
 scale = Vector2(1.88, 1.88)
@@ -458,6 +515,7 @@ vframes = 11
 script = ExtResource("12_s7qer")
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2047697532]
+visible = false
 position = Vector2(4.2632754e-14, -10.999999)
 rotation = -3.1415925
 scale = Vector2(1.8799948, -1.88)
@@ -481,6 +539,15 @@ rotation = -3.1415925
 scale = Vector2(1.8799948, -1.88)
 texture = ExtResource("14_bjvpn")
 hframes = 7
+script = ExtResource("12_s7qer")
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=2133992880]
+visible = false
+position = Vector2(2.000002, -32)
+rotation = -3.1415925
+scale = Vector2(1.8799948, -1.88)
+texture = ExtResource("17_knn7v")
+hframes = 4
 script = ExtResource("12_s7qer")
 
 [node name="CollisionStand" type="CollisionShape2D" parent="." unique_id=1156081630]
@@ -529,6 +596,16 @@ target_position = Vector2(0, 18)
 max_results = 4
 collision_mask = 192
 collide_with_areas = true
+
+[node name="WallRayA" type="RayCast2D" parent="." unique_id=1451438388]
+visible = false
+position = Vector2(0, -26)
+target_position = Vector2(15, 0)
+
+[node name="WallRayB" type="RayCast2D" parent="." unique_id=1451438389]
+visible = false
+position = Vector2(0, -26)
+target_position = Vector2(-15, 0)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=825696280]
 process_mode = 3

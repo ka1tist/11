@@ -74,6 +74,10 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("4_s1glv")
 region = Rect2(64, 63, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4s0c"]
+atlas = ExtResource("4_s1glv")
+region = Rect2(0, 94, 32, 32)
+
 [sub_resource type="FontVariation" id="FontVariation_ieygl"]
 spacing_glyph = 5
 
@@ -326,6 +330,8 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -1.0
+grow_horizontal = 0
+grow_vertical = 2
 color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="AbilityDash" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=1080999415]
@@ -340,6 +346,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 1.0
+grow_horizontal = 2
 color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="BorderBottom" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityDash" unique_id=505045247]
@@ -365,6 +372,8 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -1.0
+grow_horizontal = 0
+grow_vertical = 2
 color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="AbilityGroundSlam" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=444461796]
@@ -379,6 +388,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 1.0
+grow_horizontal = 2
 color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="BorderBottom" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityGroundSlam" unique_id=72086858]
@@ -404,6 +414,50 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -1.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.12156863, 0.41960785, 0.5803922, 1)
+
+[node name="AbilityGroundClimb" type="TextureRect" parent="Control/PauseScreen/AbilitiesList" unique_id=1530123332]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_b4s0c")
+stretch_mode = 3
+
+[node name="BorderTop" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityGroundClimb" unique_id=1082445392]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+color = Color(0.12156863, 0.41960785, 0.5803922, 1)
+
+[node name="BorderBottom" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityGroundClimb" unique_id=471125142]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+color = Color(0.12156863, 0.41960785, 0.5803922, 1)
+
+[node name="BorderLeft" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityGroundClimb" unique_id=1116363260]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 1.0
+color = Color(0.12156863, 0.41960785, 0.5803922, 1)
+
+[node name="BorderRight" type="ColorRect" parent="Control/PauseScreen/AbilitiesList/AbilityGroundClimb" unique_id=790682921]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+grow_horizontal = 0
+grow_vertical = 2
 color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]

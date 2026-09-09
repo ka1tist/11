@@ -7,11 +7,8 @@
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="4_kgcce"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="5_w1tcc"]
 [ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="6_w1tcc"]
-[ext_resource type="PackedScene" uid="uid://c81yo7875nu0m" path="res://levels/props/木箱.tscn" id="8_x7rvi"]
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
-[ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="10_4ew43"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
-[ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="14_6bkb3"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
@@ -59,58 +56,23 @@ position = Vector2(28, 333)
 [node name="SlamBreakable" parent="Props" unique_id=157671628 instance=ExtResource("3_1efua")]
 position = Vector2(-352, 351)
 
-[node name="SlamBreakable2" parent="Props" unique_id=69565250 instance=ExtResource("3_1efua")]
-position = Vector2(-64, 273)
-
 [node name="TextDummy" parent="Props" unique_id=779192118 instance=ExtResource("9_xy3px")]
 position = Vector2(-120, 338)
 
-[node name="SpikeDummy" parent="Props" unique_id=1455579154 instance=ExtResource("10_4ew43")]
-position = Vector2(-160, 338)
-
-[node name="Breakable" parent="Props" unique_id=254897557 instance=ExtResource("8_x7rvi")]
-position = Vector2(-403, 319)
-persistent = true
-
-[node name="Breakable2" parent="Props" unique_id=1186028067 instance=ExtResource("8_x7rvi")]
-position = Vector2(-403, 288)
-persistent = true
-
-[node name="Breakable3" parent="Props" unique_id=366846643 instance=ExtResource("8_x7rvi")]
-position = Vector2(-403, 256)
-persistent = true
+[node name="操作" parent="Props" unique_id=960810658 instance=ExtResource("15_6bkb3")]
+position = Vector2(-16, 324)
 
 [node name="AbilityPickup" parent="." unique_id=899164570 instance=ExtResource("13_vry50")]
-position = Vector2(128, 302)
+position = Vector2(20, 292)
 type = 2
 
 [node name="AbilityPickup2" parent="." unique_id=967049074 instance=ExtResource("13_vry50")]
-position = Vector2(80, 302)
+position = Vector2(-28, 292)
 type = 0
 
 [node name="AbilityPickup3" parent="." unique_id=94000343 instance=ExtResource("13_vry50")]
-position = Vector2(32, 302)
+position = Vector2(-76, 292)
 type = 1
 
-[node name="操作" parent="." unique_id=960810658 instance=ExtResource("15_6bkb3")]
-position = Vector2(-16, 324)
-
-[node name="Slime2" parent="." unique_id=2105144600 instance=ExtResource("14_6bkb3")]
-position = Vector2(332, 333)
-face_left_on_start = true
-
-[node name="Slime3" parent="." unique_id=1719019148 instance=ExtResource("14_6bkb3")]
-position = Vector2(409, 336)
-face_left_on_start = true
-
-[node name="Slime4" parent="." unique_id=1669040141 instance=ExtResource("14_6bkb3")]
-position = Vector2(498, 333)
-face_left_on_start = true
-
-[node name="Slime5" parent="." unique_id=1689847926 instance=ExtResource("14_6bkb3")]
-position = Vector2(235, 333)
-face_left_on_start = true
-
-[node name="Slime6" parent="." unique_id=79619249 instance=ExtResource("14_6bkb3")]
-position = Vector2(274, 333)
-face_left_on_start = true
+[node name="AbilityPickup4" parent="." unique_id=1758010841 instance=ExtResource("13_vry50")]
+position = Vector2(64, 292)

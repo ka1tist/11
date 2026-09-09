@@ -64,6 +64,9 @@ func physics_process(_delta: float) -> PlayerState:
 		return idle
 	elif player.velocity.y >= 0:
 		return fall
+	#上升中贴墙（已解锁爬墙能力且正按向墙面）：进入爬墙
+	if player.get_wall_climb_side() != 0:
+		return wall_climb
 	player.velocity.x = player.direction.x * player.move_speed
 	return next_state
 

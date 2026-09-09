@@ -29,7 +29,6 @@ shape = SubResource("RectangleShape2D_sign")
 debug_color = Color(0, 0.5950001, 0.7, 0)
 
 [node name="TextBox" type="PanelContainer" parent="." unique_id=2086977453]
-visible = false
 offset_left = -80.0
 offset_top = -96.0
 offset_right = 80.0
@@ -54,5 +53,6 @@ theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 10
 text = "操作说明：
 移动：↑↓←→
-攻击：x  跳跃：z  闪避：c"
+攻击：x  跳跃：z  闪避：c
+下落攻击：↓+x "
 vertical_alignment = 1

@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://23s3b02y6rqq"]
+
+[ext_resource type="Script" uid="uid://bnqjfdrcf12n1" path="res://levels/props/treasure.gd" id="1_kdspk"]
+[ext_resource type="Texture2D" uid="uid://derbhyng1vpvr" path="res://levels/tilesets/sprites/TX Chest Animation.png" id="2_qv115"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdspk"]
+atlas = ExtResource("2_qv115")
+region = Rect2(32, 192, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv115"]
+atlas = ExtResource("2_qv115")
+region = Rect2(96, 192, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srhma"]
+atlas = ExtResource("2_qv115")
+region = Rect2(160, 192, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhcnc"]
+atlas = ExtResource("2_qv115")
+region = Rect2(224, 192, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayp4u"]
+atlas = ExtResource("2_qv115")
+region = Rect2(288, 192, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i8n5y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdspk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv115")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srhma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhcnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayp4u")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hkdiw"]
+size = Vector2(32, 28)
+
+[node name="宝箱" type="Area2D" unique_id=1805056374]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_kdspk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=376833995]
+position = Vector2(-8, -24)
+sprite_frames = SubResource("SpriteFrames_i8n5y")
+offset = Vector2(8, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=336575284]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_hkdiw")
+debug_color = Color(0.246, 0.719, 0.85, 0)
