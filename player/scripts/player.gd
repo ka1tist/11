@@ -207,6 +207,9 @@ func change_state( new_state: PlayerState ) -> void:
 
 
 func update_direction() -> void:
+	#死亡状态下锁定朝向：不读取方向输入、不翻转精灵，只播放死亡动画
+	if current_state is PlayerStateDeath:
+		return
 	var prev_direction : Vector2 = direction
 	var x_axis = Input.get_axis("left","right")
 	var y_axis = Input.get_axis("up","down")

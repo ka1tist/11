@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
 [ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="10_1efua"]
 [ext_resource type="Resource" uid="uid://8qs6h6dqr7mt" path="res://pause_menu/bag/items/apple.tres" id="11_15s8f"]
+[ext_resource type="PackedScene" uid="uid://dn0vhjucvyhi6" path="res://levels/props/text_dummy/SpikeDummy.tscn" id="12_vry50"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
@@ -70,6 +71,9 @@ reward_item = ExtResource("11_15s8f")
 
 [node name="宝箱2" parent="Props" unique_id=1858867219 instance=ExtResource("10_1efua")]
 position = Vector2(265, 336)
+
+[node name="SpikeDummy" parent="Props" unique_id=778492163 instance=ExtResource("12_vry50")]
+position = Vector2(-156, 336)
 
 [node name="AbilityPickup" parent="." unique_id=899164570 instance=ExtResource("13_vry50")]
 position = Vector2(20, 292)

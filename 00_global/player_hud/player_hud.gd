@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 @onready var hp_margin_container: MarginContainer = %HPMarginContainer
-@onready var hp_bar: TextureProgressBar = %HPBar
+@onready var hp_container: HBoxContainer = %HPContainer
 
 @onready var game_over: Control = %GameOver
 
@@ -18,8 +18,21 @@ extends CanvasLayer
 var coin_tween: Tween
 var up_tween: Tween
 
+#血条格子参数：1 滴血 = 1 格
+const PIP_SIZE := Vector2( 16 , 10 )
+const PIP_GAP : int = 1
+const PIP_FILL_COLOR := Color( 0.83 , 0.24 , 0.21 )
+const PIP_FILL_BORDER := Color( 0.33 , 0.06 , 0.06 )
+const PIP_EMPTY_COLOR := Color( 0.10 , 0.09 , 0.11 )
+const PIP_EMPTY_BORDER := Color( 0.28 , 0.13 , 0.15 )
+
+var _pip_style_filled : StyleBoxFlat
+var _pip_style_empty : StyleBoxFlat
+
 
 func _ready() -> void:
+	_pip_style_filled = _make_pip_style( PIP_FILL_COLOR , PIP_FILL_BORDER )
+	_pip_style_empty = _make_pip_style( PIP_EMPTY_COLOR , PIP_EMPTY_BORDER )
 	Messages.player_health_changed.connect( update_health_bar )
 	Messages.coin_collected.connect( _on_coin_collected )
 	Messages.diamond_collected.connect( _on_diamond_collected )
@@ -27,14 +40,50 @@ func _ready() -> void:
 	up_container.visible = false
 	load_button.pressed.connect( _on_load_pressed )
 	quit_button.pressed.connect( _on_quit_pressed )
+	#玩家先于 HUD 生成时主动同步一次，避免初始血条为空
+	var player : Player = get_tree().get_first_node_in_group( "Player" )
+	if player:
+		update_health_bar( player.hp , player.max_hp )
 	pass
-	
-	
-	
+
+
+
+func _make_pip_style( bg_color : Color , border_color : Color ) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg_color
+	style.border_color = border_color
+	style.set_border_width_all( 1 )
+	#胶囊形：圆角半径 = 格子高度的一半（6/2）
+	style.set_corner_radius_all( int( PIP_SIZE.y ) / 2 )
+	return style
+
+
+
+#1 滴血 = 1 格：按 max_hp 构建格子，当前 hp 格填充红色，其余为空槽
 func update_health_bar( hp : float , max_hp : float ) -> void:
-	var value : float = ( hp / max_hp ) * 100
-	hp_bar.value = value
-	hp_margin_container.size.x = max_hp + 22
+	var total : int = clampi( int( round( max_hp ) ) , 0 , 999 )
+	#剩余不足 1 滴也保留最后一格显示（向上取整）
+	var current : int = clampi( int( ceil( hp ) ) , 0 , total )
+	if hp_container.get_child_count() != total:
+		_rebuild_pips( total )
+	#框体内宽 = 左边距19 + 每格(宽+间隔) - 末尾间隔 + 右边距3
+	hp_margin_container.size.x = 22 + total * ( int( PIP_SIZE.x ) + PIP_GAP ) - PIP_GAP
+	for i in total:
+		var pip : Panel = hp_container.get_child( i ) as Panel
+		pip.add_theme_stylebox_override( "panel" , _pip_style_filled if i < current else _pip_style_empty )
+	pass
+
+
+#max_hp 变化（如生命上限提升）时重建整排格子
+func _rebuild_pips( total : int ) -> void:
+	for child in hp_container.get_children():
+		child.free()
+	for i in total:
+		var pip := Panel.new()
+		pip.custom_minimum_size = PIP_SIZE
+		pip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		pip.add_theme_stylebox_override( "panel" , _pip_style_empty )
+		hp_container.add_child( pip )
 	pass
 
 

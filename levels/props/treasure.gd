@@ -4,7 +4,7 @@ const ANIM_OPEN := &"open"
 const 宝箱 = preload("uid://dwtugrm4uqdsl")
 
 #默认奖励：苹果（可在 Inspector 中替换为任意 ItemData 资源、修改数量）
-const DEFAULT_REWARD := preload( "res://pause_menu/bag/items/grapes.tres" )
+const DEFAULT_REWARD := preload(  "res://pause_menu/bag/items/grapes.tres" )
 
 #宝箱奖励（开箱后自动放入背包并持久化）
 @export var reward_item : ItemData = DEFAULT_REWARD
