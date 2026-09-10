@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://8qs6h6dqr7mt"]
+
+[ext_resource type="Script" uid="uid://5f4265fpclmf" path="res://pause_menu/bag/item_data.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://cjayq6ucwvopq" path="res://资源/tiles/apple_red_01.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"apple"
+item_name = "苹果"
+icon = ExtResource("2_icon")
+description = "一个红苹果，村子里可能会有人需要这个。"

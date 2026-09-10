@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://i6apmq82xbu1"]
+
+[ext_resource type="Texture2D" uid="uid://dk8x8xg7taf4m" path="res://资源/tiles/blackberry_01.png" id="1_b6wii"]
+[ext_resource type="Script" uid="uid://5f4265fpclmf" path="res://pause_menu/bag/item_data.gd" id="2_ihu0i"]
+
+[resource]
+script = ExtResource("2_ihu0i")
+id = &"grapes"
+item_name = "葡萄"
+icon = ExtResource("1_b6wii")
+description = "一串葡萄，村子里可能会有人需要这个。"

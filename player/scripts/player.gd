@@ -32,12 +32,12 @@ signal damage_taken
 #endregion
 
 #region /// on ready variables
-var hp : float = 20 : 
+var hp : float = 5 : 
 	set( value ) :
 		hp = clampf( value , 0 , max_hp )
 		Messages.player_health_changed.emit( hp , max_hp )
 
-var max_hp : float = 20 : 
+var max_hp : float = 5 : 
 	set( value ) :
 		max_hp = value
 		Messages.player_health_changed.emit( hp , max_hp )

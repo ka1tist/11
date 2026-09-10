@@ -12,6 +12,7 @@ class_name PauseMenu extends CanvasLayer
 @onready var open_map_button: Button = %OpenMapButton
 @onready var map: Control = $Control/PauseScreen/OpenMapButton/Map
 @onready var bag_button: Button = %BagButton
+@onready var bag: BagPanel = $Control/PauseScreen/BagButton/Bag
 
 @onready var music_slider: HSlider = %MusicSlider
 @onready var sfx_slider: HSlider = %SFXSlider
@@ -25,7 +26,10 @@ func _ready() -> void:
 	show_pause_screen()
 	system_menu_button.pressed.connect( show_system_menu )
 	open_map_button.pressed.connect( _on_open_map_button_pressed )
-	#地图仅作展示，不拦截鼠标，避免展开后挡住地图按钮导致无法再次点击关闭
+	bag_button.pressed.connect( _on_bag_button_pressed )
+	#背包内“退出”按钮是离开物品选择模式的唯一入口
+	bag.exit_requested.connect( _on_bag_exit_requested )
+	#地图仅作展示，不拦截鼠标；背包的点击拦截由其内部遮挡层负责
 	map.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	Audio.setup_button_audio( self )
 	setup_system_menu()
@@ -68,16 +72,38 @@ func show_pause_screen() -> void:
 	pause_screen.visible = true
 	system.visible = false
 	map.visible = false
+	bag.visible = false
 	pass
 
 
-#点击地图按钮切换地图显示/隐藏
+#点击地图按钮切换地图显示/隐藏（背包选择模式中忽略，必须先点背包内“退出”）
 func _on_open_map_button_pressed() -> void:
+	if bag.visible:
+		return
 	map.visible = not map.visible
 	pass
 
 
+#点击背包按钮：打开背包并进入物品选择模式；已打开时重复点击无效（只能用“退出”离开）
+func _on_bag_button_pressed() -> void:
+	if bag.visible:
+		return
+	map.visible = false
+	bag.visible = true
+	pass
+
+
+#背包内“退出”按钮：关闭背包、离开物品选择模式
+func _on_bag_exit_requested() -> void:
+	bag.visible = false
+	bag_button.grab_focus()
+	pass
+
+
 func show_system_menu() -> void:
+	#背包选择模式中禁止切到系统设置，必须先点背包内“退出”
+	if bag.visible:
+		return
 	pause_screen.visible = false
 	system.visible = true
 	map_button.grab_focus()

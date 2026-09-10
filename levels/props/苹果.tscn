@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bgdk46nebeoxl"]
+
+[ext_resource type="Texture2D" uid="uid://cjayq6ucwvopq" path="res://资源/tiles/apple_red_01.png" id="1_wmy6r"]
+
+[node name="苹果" type="Sprite2D" unique_id=639021902]
+texture = ExtResource("1_wmy6r")

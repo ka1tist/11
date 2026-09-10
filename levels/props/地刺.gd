@@ -4,7 +4,7 @@ extends Node2D
 ## 玩家在全黑期间被传送回"进入判定范围前"记录的安全位置
 ## （安全位置=站在地面上且未接触任何地刺判定范围时的玩家位置，每物理帧持续记录）
 
-@export var damage : float = 10.0
+@export var damage : float = 2.0
 ## 全黑保持时长（秒）
 @export var black_hold_duration : float = 0.5
 ## 黑屏淡入/淡出时长（秒）

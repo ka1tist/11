@@ -28,6 +28,7 @@ Messages="*uid://canpe3vjmohte"
 PlayerHud="*uid://7iukok5bsrlu"
 Audio="*uid://bdrf16clksca4"
 VisualEffects="*uid://dot6j6iwxlbbr"
+Inventory="*res://pause_menu/bag/inventory.gd"
 
 [display]
 

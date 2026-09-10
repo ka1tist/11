@@ -55,6 +55,7 @@ func create_new_game_save( slot : int ) -> void:
 		"diamond" : 0,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,
+		"inventory" : [],
 	}
 	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
 	save_file.store_line( JSON.stringify( save_data ) )
@@ -66,6 +67,8 @@ func create_new_game_save( slot : int ) -> void:
 	
 func save_game() ->void:
 	var player : Player = get_tree().get_first_node_in_group( "Player" )
+	if player == null:
+		return
 	save_data = {
 		"scene_path" : SceneManager.current_scene_uid,
 		"x" : player.global_position.x,
@@ -81,6 +84,7 @@ func save_game() ->void:
 		"diamond" : player.diamond,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,
+		"inventory" : Inventory.serialize(),
 	}
 	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
 	save_file.store_line( JSON.stringify( save_data ) )
@@ -105,6 +109,7 @@ func save_progress() -> void:
 	save_data[ "coin" ] = player.coin
 	save_data[ "diamond" ] = player.diamond
 	save_data[ "persistent_data" ] = persistent_data
+	save_data[ "inventory" ] = Inventory.serialize()
 	# 不更新 scene_path / x / y：保留上一次存档点的位置
 	var save_file = FileAccess.open( get_file_name( current_slot ) , FileAccess.WRITE )
 	save_file.store_line( JSON.stringify( save_data ) )
@@ -122,6 +127,8 @@ func load_game( slot : int ) -> void:
 	var loaded_persistent : Dictionary = save_data.get( "persistent_data" , {} )
 	for key in loaded_persistent:
 		persistent_data[ key ] = loaded_persistent[ key ]
+	#恢复背包（旧版本存档无此字段时回退默认物品）
+	Inventory.deserialize( save_data.get( "inventory" , [] ) )
 	discovered_areas = save_data.get( "discovered_areas" , [] )
 	var scene_path : String = save_data.get( "scene_path" , "uid://d31trrcaeoqp4" )
 	SceneManager.transition_scene( scene_path , "" , Vector2.ZERO , "up" )

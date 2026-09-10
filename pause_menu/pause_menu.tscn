@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d3yg75ywy76wv" path="res://pause_menu/map_node.tscn" id="2_rd7dy"]
 [ext_resource type="Script" uid="uid://bbne74ub21hfx" path="res://pause_menu/scripts/abilities_list.gd" id="3_b4s0c"]
 [ext_resource type="Texture2D" uid="uid://cvgif0t51o31n" path="res://player/spires/abilities.png" id="4_s1glv"]
+[ext_resource type="Script" uid="uid://d04vaexkuo0si" path="res://pause_menu/bag/bag.gd" id="5_bag"]
 
 [sub_resource type="FontVariation" id="FontVariation_7h0lg"]
 spacing_glyph = 8
@@ -156,6 +157,7 @@ theme_override_fonts/font = SubResource("FontVariation_5hbt6")
 text = "地图"
 
 [node name="Map" type="Control" parent="Control/PauseScreen/OpenMapButton" unique_id=1895856850]
+visible = false
 anchors_preset = 0
 offset_top = 30.0
 offset_right = 372.0
@@ -274,6 +276,14 @@ offset_right = 94.0
 offset_bottom = 42.0
 theme_override_fonts/font = SubResource("FontVariation_5hbt6")
 text = "背包"
+
+[node name="Bag" type="Control" parent="Control/PauseScreen/BagButton" unique_id=525050745]
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 35.0
+offset_right = 445.0
+offset_bottom = 292.0
+script = ExtResource("5_bag")
 
 [node name="SystemMenuButton" type="Button" parent="Control/PauseScreen" unique_id=2066587030]
 unique_name_in_owner = true
@@ -467,7 +477,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 36.0
+offset_top = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -555,9 +565,3 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.05
 value = 0.5
-
-[node name="Bag" type="Control" parent="Control" unique_id=2059654108]
-unique_name_in_owner = true
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
