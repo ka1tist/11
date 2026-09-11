@@ -57,6 +57,9 @@ var wall_climb : bool = false
 #蹬墙跳后的攀爬禁用计时（秒）：>0期间无法附着墙面，物理帧逐帧递减
 const WALL_CLIMB_JUMP_COOLDOWN : float = 0.2
 var wall_climb_cooldown : float = 0.0
+#按下攻击键后锁定sprite朝向的时长（秒）：期间移动方向变化也不翻转
+const ATTACK_FACING_LOCK_TIME : float = 0.1
+var attack_facing_lock_timer : float = 0.0
 var coin : int = 0
 var diamond : int = 0
 #endregion
@@ -107,11 +110,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		var pause_menu : PauseMenu = load( "res://pause_menu/pause_menu.tscn" ).instantiate()
 		add_child( pause_menu )
 		return
+	#按下攻击键：锁定sprite朝向0.1秒，攻击动作起始方向不被移动输入改变
+	if event.is_action_pressed( "attack" ):
+		attack_facing_lock_timer = ATTACK_FACING_LOCK_TIME
 	change_state( current_state.handle_input( event ) )
 	pass
 
 
 func _process(_delta: float) -> void:
+	#攻击朝向锁定逐帧递减，归零时按当前移动方向同步一次，恢复自动翻转
+	if attack_facing_lock_timer > 0.0:
+		attack_facing_lock_timer = maxf( 0.0 , attack_facing_lock_timer - _delta )
+		if attack_facing_lock_timer == 0.0:
+			_apply_facing()
 	update_direction()
 	_update_dash_ready()
 	change_state( current_state.process( _delta ) )
@@ -214,6 +225,10 @@ func update_direction() -> void:
 	var x_axis = Input.get_axis("left","right")
 	var y_axis = Input.get_axis("up","down")
 	direction = Vector2(x_axis,y_axis)
+	#攻击开始后0.1秒内：方向输入照常更新（移动不受影响），但不翻转sprite与攻击判定区，
+	#朝向保持攻击开始时的方向不变
+	if attack_facing_lock_timer > 0.0:
+		return
 	if prev_direction.x != direction.x:
 		attack_area.flip( direction.x )
 		if direction.x < 0:
@@ -224,6 +239,22 @@ func update_direction() -> void:
 			sprite.flip_h = false
 			sprite_2d_2.flip_h = false
 			sprite_2d_2.position.x = 0
+	pass
+
+
+#攻击朝向锁定结束时按当前移动方向立即同步一次sprite朝向，
+#避免锁定期间发生的方向变化因边沿触发已过而迟迟不翻转
+func _apply_facing() -> void:
+	if direction.x < 0:
+		attack_area.flip( direction.x )
+		sprite.flip_h = true
+		sprite_2d_2.flip_h = true
+		sprite_2d_2.position.x = 40
+	elif direction.x > 0:
+		attack_area.flip( direction.x )
+		sprite.flip_h = false
+		sprite_2d_2.flip_h = false
+		sprite_2d_2.position.x = 0
 	pass
 
 
