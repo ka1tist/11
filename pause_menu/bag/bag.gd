@@ -1,7 +1,7 @@
 class_name BagPanel extends Control
 ## 背包界面（挂在 PauseMenu 的 Bag 节点上）
 ## 显示范围严格限定在 Bag 节点矩形内。
-## 打开背包即进入“物品选择模式”：方向键在格子间移动选中框，底部固定栏显示物品描述；
+## 打开背包即进入“物品选择模式”：方向键或鼠标点击在格子间移动选中框，底部固定栏显示物品描述；
 ## 通过本界面内的“退出”按钮或 ui_cancel(Esc) 退出选择模式。
 ## 数据全部来自 Inventory 单例，监听 inventory_changed 自动刷新。
 
@@ -105,7 +105,8 @@ func _build_grid() -> void:
 func _make_slot() -> Panel:
 	var slot := Panel.new()
 	slot.custom_minimum_size = Vector2( SLOT_SIZE , SLOT_SIZE )
-	slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	#格子本身接收点击以支持鼠标选中（图标/数量/选中框仍 IGNORE，点击落到格子面板）
+	slot.mouse_filter = Control.MOUSE_FILTER_STOP
 	var style := StyleBoxFlat.new()
 	style.bg_color = SLOT_BG_COLOR
 	style.border_color = SLOT_BORDER_COLOR
@@ -162,6 +163,8 @@ func _make_slot() -> Panel:
 	frame.add_theme_stylebox_override( "panel" , frame_style )
 	frame.visible = false
 	slot.add_child( frame )
+	var slot_index : int = _slot_panels.size()
+	slot.gui_input.connect( func( ev : InputEvent ) -> void: _on_slot_gui_input( slot_index , ev ) )
 	_slot_panels.append( slot )
 	_select_frames.append( frame )
 	return slot
@@ -268,6 +271,16 @@ func _move_selection( event : InputEvent ) -> void:
 		row = mini( SLOT_ROWS - 1 , row + 1 )
 	_selected_index = row * SLOT_COLUMNS + col
 	_update_selection_view()
+	pass
+
+
+#鼠标点击格子：左键选中该格（空格也可选中，与键盘选中行为一致）
+func _on_slot_gui_input( index : int , event : InputEvent ) -> void:
+	if not _active:
+		return
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_selected_index = index
+		_update_selection_view()
 	pass
 
 

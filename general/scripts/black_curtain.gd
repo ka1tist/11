@@ -15,6 +15,8 @@ class_name BlackCurtain extends Node2D
 @export_range( 0.1 , 5.0 , 0.1 , "suffix:s" ) var reveal_duration : float = 0.8
 ##玩家离开后黑幕淡入（恢复黑暗）时长（秒）
 @export_range( 0.1 , 5.0 , 0.1 , "suffix:s" ) var darken_duration : float = 0.6
+##持久化：首次揭示后写入存档，切换地图/死亡重生/读档均保持已隐藏，新游戏时重置
+@export var persistent : bool = true
 
 #玩家本体碰撞层（player.tscn 根 CharacterBody2D collision_layer=16）
 const PLAYER_LAYER : int = 16
@@ -35,6 +37,12 @@ func _ready() -> void:
 		return
 	_build_polygon()
 	_build_area()
+	#读档恢复：若该黑幕已被揭示过，直接永久隐藏，不再按玩家位置判定、不播过渡
+	if persistent and SaveManager.persistent_data.has( _get_persistent_id() ):
+		_revealed = true
+		_polygon.modulate.a = 0.0
+		_polygon.visible = false
+		return
 	#初始状态等物理就绪后按玩家所在位置直接定格，避免场景加载/出生在区域内时误播淡入淡出
 	await get_tree().physics_frame
 	await get_tree().physics_frame
@@ -85,7 +93,7 @@ func _on_body_entered( body : Node2D ) -> void:
 	if body is Player:
 		if not _revealed:
 			Audio.play_spatial_sound( MORPH_OUT , global_position  )
-			_revealed = true
+			_mark_revealed()
 		_set_dark( false )
 	pass
 
@@ -108,10 +116,20 @@ func _snap_to_player() -> void:
 		dark = not _global_rect().has_point( player.global_position )
 		#出生就在区域内视为已揭示，离开后也不再恢复黑暗
 		if not dark:
-			_revealed = true
+			_mark_revealed()
 	_kill_tween()
 	_polygon.modulate.a = 1.0 if dark else 0.0
 	_polygon.visible = dark
+	pass
+
+
+#标记为已揭示并持久化：写入存档后切换地图/死亡重生/读档均保持隐藏
+#用 save_progress() 而非 save_game()，避免覆盖存档点位置（同钻石/宝箱约定）
+func _mark_revealed() -> void:
+	_revealed = true
+	if persistent:
+		SaveManager.persistent_data[ _get_persistent_id() ] = true
+		SaveManager.save_progress()
 	pass
 
 
@@ -177,3 +195,11 @@ func _on_height_changed( new_height : int ) -> void:
 	height = new_height
 	_refresh_size()
 	pass
+
+
+#生成当前黑幕在存档中的唯一ID：场景路径+节点路径，与 Breakable/Treasure/钻石 持久化键格式一致
+func _get_persistent_id() -> String:
+	var scene_root : Node = get_tree().current_scene
+	if scene_root:
+		return str( scene_root.scene_file_path ) + "|" + str( scene_root.get_path_to( self ) )
+	return str( get_path() )

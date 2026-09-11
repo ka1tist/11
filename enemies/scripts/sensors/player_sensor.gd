@@ -25,8 +25,8 @@ func _ready() -> void:
 		set_collision_mask_value( 5 , true )
 		if use_audio_sensor:
 			Audio.player_made_sound.connect( _on_player_sound )
-		player_entered.connect( _on_body_entered )
-		player_exited.connect( _on_body_exited )
+		body_entered.connect( _on_body_entered )
+		body_exited.connect( _on_body_exited )
 		enemy.direction_changed.connect( _on_direction_changed )
 	pass 
 

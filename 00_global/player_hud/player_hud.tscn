@@ -74,7 +74,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/separation = 1
+theme_override_constants/separation = 0
 
 [node name="CoinContainer" type="HBoxContainer" parent="Control" unique_id=1748810661]
 unique_name_in_owner = true

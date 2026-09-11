@@ -20,7 +20,7 @@ var up_tween: Tween
 
 #血条格子参数：1 滴血 = 1 格
 const PIP_SIZE := Vector2( 16 , 10 )
-const PIP_GAP : int = 1
+const PIP_GAP : int = 0
 const PIP_FILL_COLOR := Color( 0.83 , 0.24 , 0.21 )
 const PIP_FILL_BORDER := Color( 0.33 , 0.06 , 0.06 )
 const PIP_EMPTY_COLOR := Color( 0.10 , 0.09 , 0.11 )
@@ -54,7 +54,6 @@ func _make_pip_style( bg_color : Color , border_color : Color ) -> StyleBoxFlat:
 	style.border_color = border_color
 	style.set_border_width_all( 1 )
 	#胶囊形：圆角半径 = 格子高度的一半（6/2）
-	style.set_corner_radius_all( int( PIP_SIZE.y ) / 2 )
 	return style
 
 

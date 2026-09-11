@@ -53,12 +53,13 @@ func _wait_until_alpha( c , threshold : float , going_below : bool , max_frames 
 	return false
 
 
-func _make_curtain( pos : Vector2 , w : int , h : int ) -> Node2D:
+func _make_curtain( pos : Vector2 , w : int , h : int , persistent : bool = false ) -> Node2D:
 	var c = BlackCurtainScript.new()
 	c.width = w
 	c.height = h
 	c.reveal_duration = 0.3
 	c.darken_duration = 0.3
+	c.persistent = persistent
 	add_child( c )
 	c.global_position = pos
 	return c
@@ -140,4 +141,49 @@ func _run_tests() -> void:
 	await _wait( 0.4 )
 	check( _alpha( curtain2 ) <= 0.01 , "出生揭示后离开仍应透明，实际 %.3f" % _alpha( curtain2 ) )
 	check( curtain2._polygon.visible == false , "出生揭示后离开仍应隐藏" )
+
+	#---- 测试：持久化揭示状态（写入 persistent_data 并在重建时恢复） ----
+	#备份存档槽0，避免测试覆盖玩家真实存档
+	var save_path : String = SaveManager.get_file_name( 0 )
+	var backup : String = ""
+	if FileAccess.file_exists( save_path ):
+		var f := FileAccess.open( save_path , FileAccess.READ )
+		backup = f.get_line()
+		f.close()
+	#用固定节点名保证两次创建的黑幕 _get_persistent_id() 一致（同路径）
+	var persist_name := "PersistTestCurtain"
+	var cp = BlackCurtainScript.new()
+	cp.name = persist_name
+	cp.width = 100
+	cp.height = 100
+	cp.persistent = true
+	add_child( cp )
+	cp.global_position = Vector2( 200 , -100 )
+	await _wait_physics_frames( 4 )
+	var pid : String = cp._get_persistent_id()
+	#模拟玩家进入触发揭示：应写入 persistent_data
+	cp._mark_revealed()
+	check( SaveManager.persistent_data.has( pid ) , "揭示后应写入 persistent_data" )
+	check( cp._revealed == true , "揭示后 _revealed 应为 true" )
+	#销毁后重建同节点名黑幕：应直接从 persistent_data 恢复为已隐藏，不播过渡
+	cp.queue_free()
+	await get_tree().process_frame
+	var cp2 = BlackCurtainScript.new()
+	cp2.name = persist_name
+	cp2.width = 100
+	cp2.height = 100
+	cp2.persistent = true
+	add_child( cp2 )
+	cp2.global_position = Vector2( 200 , -100 )
+	await _wait_physics_frames( 4 )
+	check( cp2._revealed == true , "重建后应从 persistent_data 恢复为已揭示" )
+	check( cp2._polygon.visible == false , "重建后黑幕应直接隐藏" )
+	check( _alpha( cp2 ) <= 0.01 , "重建后黑幕应全透明，实际 %.3f" % _alpha( cp2 ) )
+	#清理测试写入的持久化记录
+	SaveManager.persistent_data.erase( pid )
+	#恢复存档槽0
+	var rf := FileAccess.open( save_path , FileAccess.WRITE )
+	if not backup.is_empty():
+		rf.store_line( backup )
+	rf.close()
 	pass
