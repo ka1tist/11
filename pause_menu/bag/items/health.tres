@@ -8,4 +8,4 @@ script = ExtResource("2_tjgod")
 id = &"health"
 item_name = "生命碎片"
 icon = ExtResource("1_e30eu")
-description = "集齐3个可以增加一格血上限"
+description = "集齐3个可以增加一格血上限。"

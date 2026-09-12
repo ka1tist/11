@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="18_3mp3m"]
 [ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="18_6ghqg"]
 [ext_resource type="PackedScene" uid="uid://tx37ae7n7ibj" path="res://enemies/skeleton/skeleton.tscn" id="20_kjnvi"]
+[ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="21_work7"]
 
 [sub_resource type="Gradient" id="Gradient_6ghqg"]
 colors = PackedColorArray(0.114, 0.1458, 0.15, 1, 0.0476, 0.058800004, 0.07, 0)
@@ -261,8 +262,41 @@ type = 2
 [node name="Slime2" parent="." unique_id=2105144600 instance=ExtResource("18_6ghqg")]
 position = Vector2(508, 0)
 
+[node name="PatrolLimit" type="Node2D" parent="Slime2" unique_id=550824783]
+position = Vector2(-34, 0)
+script = ExtResource("21_work7")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="Slime2" unique_id=230554578]
+position = Vector2(86, 0)
+script = ExtResource("21_work7")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
 [node name="Slime3" parent="." unique_id=1282908389 instance=ExtResource("18_6ghqg")]
 position = Vector2(784, -16)
 
+[node name="PatrolLimit" type="Node2D" parent="Slime3" unique_id=210542867]
+position = Vector2(-54, 0)
+script = ExtResource("21_work7")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="Slime3" unique_id=299614602]
+position = Vector2(66, 0)
+script = ExtResource("21_work7")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
 [node name="Skeleton" parent="." unique_id=1204967465 instance=ExtResource("20_kjnvi")]
 position = Vector2(976, 254)
+
+[node name="PatrolLimit" type="Node2D" parent="Skeleton" unique_id=879807737]
+position = Vector2(-118, 0)
+script = ExtResource("21_work7")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="Skeleton" unique_id=319338357]
+position = Vector2(130, 0)
+script = ExtResource("21_work7")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"

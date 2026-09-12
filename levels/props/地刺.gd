@@ -1,16 +1,21 @@
 extends Node2D
-## 地刺陷阱：玩家进入判定范围 → 扣除10点生命（走现有伤害系统）→ 全屏黑屏淡入 →
+## 地刺陷阱：
+## 玩家进入判定范围 → 扣除10点生命（走现有伤害系统）→ 全屏黑屏淡入 →
 ## 保持全黑0.5秒 → 黑幕淡出恢复正常显示；
 ## 玩家在全黑期间被传送回"进入判定范围前"记录的安全位置
 ## （安全位置=站在地面上且未接触任何地刺判定范围时的玩家位置，每物理帧持续记录）
+## 怪物进入判定范围 → 999伤害一击致命，走怪物现有死亡流程（死亡动画/粒子/掉落），无黑屏传送
 
 @export var damage : float = 2.0
+## 对怪物的伤害（≥任意怪物血量即一击致命）
+@export var enemy_damage : float = 999.0
 ## 全黑保持时长（秒）
 @export var black_hold_duration : float = 0.5
 ## 黑屏淡入/淡出时长（秒）
 @export var fade_duration : float = 0.1
 
 var hazard_area : HazardArea
+var enemy_hazard_area : HazardArea
 var safe_position : Vector2 = Vector2.ZERO
 var _has_safe_position : bool = false
 var _candidate_position : Vector2 = Vector2.ZERO
@@ -29,22 +34,34 @@ func _ready() -> void:
 
 
 #依据TileMapLayer已绘制的图块逐格生成判定形状，保证判定范围与地刺画面完全一致
+#两块判定区共享同一套形状：玩家区(mask 16)伤害+黑屏传送；怪物区(mask 32)一击致命
+#怪物区不连黑屏回调，怪物踩刺不会误触发玩家的传送流程
 func _build_hazard_area() -> void:
-	hazard_area = HazardArea.new()
-	hazard_area.name = "HazardArea"
-	hazard_area.collision_layer = 0
-	hazard_area.collision_mask = 16
-	hazard_area.damege = damage
-	add_child( hazard_area )
+	hazard_area = _create_hazard_area( "HazardArea" , 16 , damage )
+	enemy_hazard_area = _create_hazard_area( "EnemyHazardArea" , 32 , enemy_damage )
 	var tilemap : TileMapLayer = $Sprite2D/TileMapLayer
 	for cell in tilemap.get_used_cells():
-		var shape := CollisionShape2D.new()
 		var rect := RectangleShape2D.new()
 		rect.size = Vector2( tilemap.tile_set.tile_size )
+		var shape := CollisionShape2D.new()
 		shape.shape = rect
 		hazard_area.add_child( shape )
 		shape.global_position = tilemap.to_global( tilemap.map_to_local( cell ) )
+		var enemy_shape := CollisionShape2D.new()
+		enemy_shape.shape = rect
+		enemy_hazard_area.add_child( enemy_shape )
+		enemy_shape.global_position = shape.global_position
 	pass
+
+
+func _create_hazard_area( area_name : String , mask : int , area_damage : float ) -> HazardArea:
+	var area := HazardArea.new()
+	area.name = area_name
+	area.collision_layer = 0
+	area.collision_mask = mask
+	area.damege = area_damage
+	add_child( area )
+	return area
 
 
 #创建全屏黑幕：CanvasLayer不受相机与场景变换影响，layer=100覆盖包括HUD在内的一切

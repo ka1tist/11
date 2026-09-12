@@ -26,6 +26,7 @@
 [ext_resource type="AudioStream" uid="uid://cwhvso8ircol" path="res://general/audio/jump.wav" id="18_e7oew"]
 [ext_resource type="AudioStream" uid="uid://bkjtuekmdg035" path="res://general/audio/land.wav" id="19_c35mf"]
 [ext_resource type="Script" uid="uid://cpdb8jc206kx5" path="res://player/wall_climb.gd" id="20_wclb"]
+[ext_resource type="Script" uid="uid://ky8qacw65f3u" path="res://player/scripts/magnet_range_indicator.gd" id="21_mag"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uqgm8"]
 radius = 12.0
@@ -453,6 +454,7 @@ collision_layer = 16
 collision_mask = 3
 floor_snap_length = 2.0
 script = ExtResource("1_oul6g")
+loot_magnet_range = 50.0
 
 [node name="States" type="Node" parent="." unique_id=35607546]
 
@@ -696,3 +698,8 @@ stream = ExtResource("18_e7oew")
 [node name="LandAudio" type="AudioStreamPlayer2D" parent="AudioStreams" unique_id=325462075]
 unique_name_in_owner = true
 stream = ExtResource("19_c35mf")
+
+[node name="MagnetRangeIndicator" type="Node2D" parent="." unique_id=1540952517]
+position = Vector2(11.891465, -74.565346)
+script = ExtResource("21_mag")
+magnet_range = 50.0

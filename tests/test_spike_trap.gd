@@ -6,6 +6,7 @@ extends Node2D
 
 const SPIKE_SCENE := preload( "res://levels/props/地刺.tscn" )
 const PLAYER_SCENE := preload( "res://player/player.tscn" )
+const SLIME_SCENE := preload( "res://enemies/slime/slime.tscn" )
 
 var checks : int = 0
 var failures : Array[String] = []
@@ -60,17 +61,18 @@ func _run_tests() -> void:
 	await _wait_physics_frames( 30 )
 
 	#---- 测试1：进入前状态（满血 / 无黑屏 / 安全位置已记录）----
-	check( player.hp == 20 , "进入前玩家应为满血20，实际 %s" % player.hp )
+	check( player.hp == player.max_hp , "进入前玩家应为满血，实际 %s" % player.hp )
 	check( spike.get_overlay_alpha() == 0.0 , "进入前不应有黑屏" )
 	check( spike._has_safe_position , "进入前应已记录安全位置" )
 	check( spike.safe_position.distance_to( player.global_position ) < 1.0 ,
 		"安全位置应等于玩家当前站立位置" )
 
-	#---- 测试2：进入判定范围 → 立即扣除10点生命并进入受击状态 ----
+	#---- 测试2：进入判定范围 → 立即扣除伤害点生命并进入受击状态 ----
 	var safe_pos : Vector2 = spike.safe_position
 	player.global_position = Vector2( 0 , player.global_position.y )
 	await _wait_physics_frames( 3 )
-	check( player.hp == 10 , "进入判定范围后应扣除10点生命，实际 %s" % player.hp )
+	check( player.hp == player.max_hp - spike.damage ,
+		"进入判定范围后应扣除%s点生命，实际 %s" % [ spike.damage , player.hp ] )
 	check( player.current_state is PlayerStateTakeDamage , "应进入现有受击状态TakeDamage" )
 
 	#---- 测试3：黑屏淡入（进入后约0.2秒应达到全黑）----
@@ -90,4 +92,19 @@ func _run_tests() -> void:
 	check( spike.get_overlay_alpha() == 0.0 , "黑屏结束后应恢复正常显示" )
 	check( player.global_position.distance_to( safe_pos ) < 4.0 ,
 		"恢复显示后玩家应仍位于安全位置" )
+
+	#---- 测试7：怪物接触地刺 → 一击致命，且不触发玩家黑屏传送 ----
+	var enemy = SLIME_SCENE.instantiate()
+	add_child( enemy )
+	enemy.global_position = Vector2( -80 , -30 )  #先在远离地刺处落地
+	await _wait_physics_frames( 20 )
+	check( enemy.health == 3.0 ,
+		"接触地刺前怪物应存活（血量3），实际 %s" % enemy.health )
+	enemy.global_position = Vector2( 0 , enemy.global_position.y )  #传送到地刺上
+	await _wait_physics_frames( 5 )
+	check( enemy.health <= 0 ,
+		"怪物接触地刺应被一击致命（999伤害），实际血量 %s" % enemy.health )
+	check( spike.get_overlay_alpha() == 0.0 , "怪物踩地刺不应触发玩家黑屏" )
+	await get_tree().create_timer( 0.9 ).timeout
+	check( is_instance_valid( enemy ) == false , "怪物死后应播放死亡动画并移除" )
 	pass

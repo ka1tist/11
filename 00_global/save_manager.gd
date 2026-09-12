@@ -2,6 +2,7 @@ extends Node
 
 const CONFIG_FILE_PATH = "user://settings.cfg"
 const SLOTS : Array[ String ] = [ "save_01","save_02","save_03" ]
+const DIAMOND_ITEM := preload( "res://pause_menu/bag/items/diamond.tres" )
 
 var current_slot : int = 0 
 var save_data : Dictionary 
@@ -44,8 +45,8 @@ func create_new_game_save( slot : int ) -> void:
 		"scene_path" : new_game_scene,
 		"x" : 80,
 		"y" : 288,
-		"hp" : 20,
-		"max_hp" : 20,
+		"hp" : 5,
+		"max_hp" : 5,
 		"dash" : false,
 		"double_jump" : false,
 		"ground_slam" : false,
@@ -144,8 +145,8 @@ func setup_player() -> void:
 		player = get_tree().get_first_node_in_group( "Player" )
 		await get_tree().process_frame
 	
-	player.max_hp = save_data.get( "max_hp" , 20 )
-	player.hp = save_data.get( "hp" , 20 )
+	player.max_hp = save_data.get( "max_hp" , 5 )
+	player.hp = save_data.get( "hp" , 5 )
 	
 	player.dash = save_data.get( "dash" , false )
 	player.double_jump = save_data.get( "double_jump" , false )
@@ -154,7 +155,11 @@ func setup_player() -> void:
 	player.wall_climb = save_data.get( "wall_climb" , false )
 	player.coin = save_data.get( "coin" , 0 )
 	player.diamond = save_data.get( "diamond" , 0 )
-	
+	# 兼容旧存档：背包系统上线前已拾取的钻石补入背包（钻石只增不减，以计数为准单向同步）
+	var diamond_in_bag : int = Inventory.get_item_amount( &"diamond" )
+	if player.diamond > diamond_in_bag:
+		Inventory.add_item( DIAMOND_ITEM , player.diamond - diamond_in_bag )
+
 	player.global_position = Vector2( save_data.get( "x" , 0 ) , save_data.get( "y" , 0 ) )
 	pass
 

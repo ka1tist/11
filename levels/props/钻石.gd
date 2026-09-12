@@ -1,6 +1,7 @@
 class_name DiamondPickup extends Area2D
 
 const 宝石 = preload("uid://y38hr21ri3p1")
+const DIAMOND_ITEM := preload( "res://pause_menu/bag/items/diamond.tres" )
 
 
 
@@ -39,6 +40,7 @@ func _on_player_interacted( player : Player ) -> void:
 	#记录持久化状态：拾取后切换地图/读档不再刷新
 	SaveManager.persistent_data[ _get_persistent_id() ] = true
 	player.diamond += 1
+	Inventory.add_item( DIAMOND_ITEM , 1 )
 	Audio.play_spatial_sound( 宝石 , global_position )
 	Messages.diamond_collected.emit( player.diamond )
 	# 保存钻石进度（保留存档点位置），确保死亡重生后钻石不丢失且回到存档点
