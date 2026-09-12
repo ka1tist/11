@@ -59,8 +59,6 @@ const WALL_CLIMB_JUMP_COOLDOWN : float = 0.2
 var wall_climb_cooldown : float = 0.0
 #按下攻击键后锁定sprite朝向的时长（秒）：期间移动方向变化也不翻转
 const ATTACK_FACING_LOCK_TIME : float = 0.1
-#磁吸圆心偏移：以角色中心（胶囊中心）为吸取判定与追踪目标原点，与可视化圆心一致
-const LOOT_MAGNET_CENTER_OFFSET : Vector2 = Vector2( 0 , -26 )
 var attack_facing_lock_timer : float = 0.0
 var coin : int = 0
 var diamond : int = 0
@@ -69,8 +67,14 @@ var diamond : int = 0
 #region /// export variables
 @export var move_speed : float = 200
 @export var max_fall_velocity : float = 600
-## 小范围磁吸凋落物的吸取半径（像素），凋落物进入后飞向玩家，0=禁用
-@export var loot_magnet_range : float = 40.0
+## 小范围磁吸凋落物的吸取半径（像素），0=禁用磁吸；运行时改此值会同步到 MagnetRangeIndicator 的碰撞形状
+@export var loot_magnet_range : float = 40.0 :
+	set( value ):
+		var v := maxf( 0.0 , value )
+		if v == loot_magnet_range:
+			return
+		loot_magnet_range = v
+		_sync_magnet_range_to_indicator()
 #endregion
 
 #region /// state references
@@ -169,14 +173,7 @@ func _physics_process(_delta: float) -> void:
 	#蹬墙跳攀爬禁用冷却逐帧递减（物理帧固定步长，精度约1/60秒）
 	if wall_climb_cooldown > 0.0:
 		wall_climb_cooldown = maxf( 0.0 , wall_climb_cooldown - _delta )
-	#小范围磁吸凋落物：以角色中心为圆心，半径内的凋落物激活追踪飞向玩家，由其自身拾取判定完成收集
-	if loot_magnet_range > 0.0:
-		var range_sq : float = loot_magnet_range * loot_magnet_range
-		var magnet_center : Vector2 = global_position + LOOT_MAGNET_CENTER_OFFSET
-		for drop in get_tree().get_nodes_in_group( "loot_drop" ):
-			if drop is Node2D and drop.has_method( "attract" ):
-				if magnet_center.distance_squared_to( drop.global_position ) <= range_sq:
-					drop.attract()
+	#磁吸凋落物检测由子节点 MagnetRangeIndicator（Area2D）的 body_entered 信号负责，无需轮询
 	move_and_slide()
 	change_state( current_state.physics_process( _delta ) )
 
@@ -184,9 +181,23 @@ func _physics_process(_delta: float) -> void:
 
 
 
-#磁吸圆心的世界坐标（角色中心），凋落物追踪目标与编辑器可视化圆心共用
+#磁吸圆心的世界坐标：直接读子节点 MagnetRangeIndicator 的全局位置，
+#编辑器里拖动该节点即可改变磁吸圆心，凋落物追踪目标与判定圆心始终跟随
 func get_loot_magnet_center() -> Vector2:
-	return global_position + LOOT_MAGNET_CENTER_OFFSET
+	var ind := get_node_or_null( "MagnetRangeIndicator" )
+	if ind:
+		return ind.global_position
+	return global_position  #兜底：指示器未就绪时用玩家原点
+	pass
+
+#把 loot_magnet_range 同步到子节点 MagnetRangeIndicator 的碰撞形状（运行时改范围时调用）
+func _sync_magnet_range_to_indicator() -> void:
+	if is_inside_tree() == false:
+		return
+	var ind := get_node_or_null( "MagnetRangeIndicator" )
+	if ind:
+		ind.set( "magnet_range" , loot_magnet_range )
+	pass
 
 
 func initialize_states() -> void:

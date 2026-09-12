@@ -48,7 +48,7 @@ _data = {
 radius = 5.0
 
 [node name="CoinPickup" type="CharacterBody2D" unique_id=760444921]
-collision_layer = 0
+collision_layer = 256
 collision_mask = 3
 script = ExtResource("1_e1njg")
 

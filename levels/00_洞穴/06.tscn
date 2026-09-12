@@ -6,8 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://2lcnjfl1skh" path="res://levels/tilesets/sprites/background4b.png" id="4_0jcph"]
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="5_gd8g6"]
 [ext_resource type="PackedScene" uid="uid://dbkem0vqkor6v" path="res://levels/props/侧面火把.tscn" id="6_80kov"]
+[ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="7_bty88"]
 [ext_resource type="PackedScene" uid="uid://dmoyxn1xjr8jj" path="res://general/level_transition/level_transition.tscn" id="7_cqjor"]
 [ext_resource type="Script" uid="uid://bk5xhtoqj11k5" path="res://general/scripts/level_bounds.gd" id="8_0jcph"]
+[ext_resource type="Resource" uid="uid://iu2yvpdcft80" path="res://pause_menu/bag/items/health.tres" id="8_2lctt"]
 [ext_resource type="Material" uid="uid://bq0utih6663vc" path="res://materials_and_shaders/fog_fade_material.tres" id="9_gd8g6"]
 
 [sub_resource type="Gradient" id="Gradient_hq0xo"]
@@ -132,6 +134,10 @@ tile_set = ExtResource("5_gd8g6")
 [node name="Plant" parent="Props" unique_id=1003046948 instance=ExtResource("6_80kov")]
 position = Vector2(496, 120)
 flip_h = true
+
+[node name="宝箱" parent="Props" unique_id=1805056374 instance=ExtResource("7_bty88")]
+position = Vector2(492, 241)
+reward_item = ExtResource("8_2lctt")
 
 [node name="LevelTransition6" parent="." unique_id=394364620 instance=ExtResource("7_cqjor")]
 position = Vector2(96, 11)

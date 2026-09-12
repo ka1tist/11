@@ -2,6 +2,7 @@ class_name Treasure extends Area2D
 
 const ANIM_OPEN := &"open"
 const 宝箱 = preload("uid://dwtugrm4uqdsl")
+const 宝箱获取 = preload("uid://clfbgehryvth4")
 
 #默认奖励：苹果（可在 Inspector 中替换为任意 ItemData 资源、修改数量）
 const DEFAULT_REWARD := preload(  "res://pause_menu/bag/items/grapes.tres" )
@@ -79,6 +80,7 @@ func _on_player_interacted( _player : Player ) -> void:
 	#立即播放打开动画（非循环，播完停在最终帧）
 	animated_sprite.play( ANIM_OPEN )
 	Audio.play_spatial_sound( 宝箱 , global_position )
+	Audio.play_spatial_sound( 宝箱获取 , global_position )
 	#宝箱上方弹出奖励图标+数量（仅实际获得时）
 	if got_amount > 0:
 		_spawn_reward_popup( got_amount )
