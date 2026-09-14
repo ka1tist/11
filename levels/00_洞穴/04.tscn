@@ -11,8 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="10_1efua"]
 [ext_resource type="Resource" uid="uid://8qs6h6dqr7mt" path="res://pause_menu/bag/items/apple.tres" id="11_15s8f"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
-[ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="13_x2wf1"]
-[ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="14_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://b1787ahucde8k" path="res://enemies/nature's living dead/nature's living dead.tscn" id="13_x2wf1"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
@@ -53,7 +52,7 @@ reverb = 1
 metadata/_custom_type_script = "uid://bqm81bjcxucow"
 
 [node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("6_w1tcc")]
-position = Vector2(28, 333)
+position = Vector2(414, 339)
 
 [node name="Props" type="Node2D" parent="." unique_id=2120328920]
 
@@ -88,16 +87,5 @@ type = 1
 [node name="AbilityPickup4" parent="." unique_id=1758010841 instance=ExtResource("13_vry50")]
 position = Vector2(224, 186)
 
-[node name="Slime2" parent="." unique_id=2105144600 instance=ExtResource("13_x2wf1")]
-position = Vector2(-210, 333)
-
-[node name="PatrolLimit" type="Node2D" parent="Slime2" unique_id=1112285978]
-position = Vector2(-90, 0)
-script = ExtResource("14_x2wf1")
-metadata/_custom_type_script = "uid://eh2apeu40cfr"
-
-[node name="PatrolLimit2" type="Node2D" parent="Slime2" unique_id=872614945]
-position = Vector2(131, 0)
-script = ExtResource("14_x2wf1")
-side = 2
-metadata/_custom_type_script = "uid://eh2apeu40cfr"
+[node name="nature\'s living dead" parent="." unique_id=2105144600 instance=ExtResource("13_x2wf1")]
+position = Vector2(-58, 333)

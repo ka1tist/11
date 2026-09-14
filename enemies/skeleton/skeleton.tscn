@@ -24,13 +24,13 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5napv"]
 radius = 12.0
-height = 68.0
+height = 60.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ovel5"]
-size = Vector2(18, 61.125)
+size = Vector2(18, 59.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8bh25"]
-size = Vector2(35, 67.125)
+size = Vector2(33.5, 60.125)
 
 [sub_resource type="Animation" id="Animation_u2l51"]
 length = 0.001
@@ -283,7 +283,7 @@ drop_chance = 1.0
 metadata/_custom_type_script = "uid://ddesufbcgmmcs"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
-size = Vector2(95, 17)
+size = Vector2(82.5, 17)
 
 [node name="Skeleton" type="CharacterBody2D" unique_id=2105144600]
 collision_layer = 0
@@ -291,28 +291,30 @@ collision_mask = 3
 script = ExtResource("1_i56pt")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=90656784]
-position = Vector2(0, -37.000004)
-scale = Vector2(2.5, 2.3)
+position = Vector2(0, -32)
+scale = Vector2(2.174, 2)
 texture = ExtResource("2_4e564")
 hframes = 7
 vframes = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2122234306]
 visible = false
-position = Vector2(0, -34)
+position = Vector2(0, -30)
 shape = SubResource("CapsuleShape2D_5napv")
 
 [node name="HazardArea" type="Area2D" parent="." unique_id=1429730374]
+visible = false
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("3_u3heq")
 metadata/_custom_type_script = "uid://lfjis050qg13"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea" unique_id=685736185]
-position = Vector2(-1, -30.4375)
+position = Vector2(-1, -29.4375)
 shape = SubResource("RectangleShape2D_ovel5")
 
 [node name="DamageArea" type="Area2D" parent="." unique_id=1585168827]
+visible = false
 position = Vector2(0, -20)
 collision_layer = 32
 collision_mask = 0
@@ -321,7 +323,7 @@ audio = ExtResource("5_es8qe")
 metadata/_custom_type_script = "uid://c1unhfbuk57mo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1179666529]
-position = Vector2(-3, -13.4375)
+position = Vector2(-2.25, -9.9375)
 shape = SubResource("RectangleShape2D_8bh25")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=649258804]
@@ -345,6 +347,7 @@ metadata/_custom_type_script = "uid://ujgwm2qqts0l"
 [node name="ESDeath" type="Node" parent="EnemyStateMachine" unique_id=320876031]
 unique_name_in_owner = true
 script = ExtResource("9_wuffs")
+knockback_strength = 0.0
 death_audio = ExtResource("10_mew8a")
 metadata/_custom_type_script = "uid://n63kw7iywqh2"
 
@@ -375,7 +378,8 @@ script = ExtResource("12_vut3x")
 metadata/_custom_type_script = "uid://r5kfmis11iq1"
 
 [node name="PlayerSensor" type="Area2D" parent="." unique_id=217501437]
-position = Vector2(0, -50)
+visible = false
+position = Vector2(0, -51)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("13_ogmb0")
@@ -384,11 +388,10 @@ min_audio_sense = 0.6
 metadata/_custom_type_script = "uid://44agcu5dc7rp"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerSensor" unique_id=1370531204]
-position = Vector2(0, -9)
 polygon = PackedVector2Array(0, 0, 240, -128, 240, 128)
 
 [node name="EnemtHitParticles" type="Marker2D" parent="." unique_id=969164397]
-position = Vector2(0, -44)
+position = Vector2(0, -34)
 script = ExtResource("14_whbd4")
 hit_particles = Array[ExtResource("15_mhdlf")]([SubResource("Resource_p4nc8")])
 death_particles = Array[ExtResource("15_mhdlf")]([SubResource("Resource_mew8a"), SubResource("Resource_583g5"), SubResource("Resource_5xsdm")])
@@ -401,12 +404,14 @@ items = Array[ExtResource("20_66141")]([SubResource("Resource_2mgqq"), SubResour
 metadata/_custom_type_script = "uid://b2pvpyq1nchiw"
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1852941574]
+visible = false
+position = Vector2(48, -41)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("19_mew8a")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=875794057]
-position = Vector2(47.5, -48)
+position = Vector2(-6.25, 0)
 shape = SubResource("RectangleShape2D_7h0lg")
 debug_color = Color(0.70196074, 0.04972987, 0, 0.41960785)
