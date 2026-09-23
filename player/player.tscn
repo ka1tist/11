@@ -442,13 +442,13 @@ metadata/_snap_enabled = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bkm6f"]
 radius = 27.0
-height = 82.00009
+height = 76.000084
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_knn7v"]
 size = Vector2(67.00008, 78)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_magnet"]
-radius = 50.0
+radius = 40.0
 
 [node name="Player" type="CharacterBody2D" unique_id=365008897 groups=["Player"]]
 z_index = 1
@@ -457,7 +457,6 @@ collision_layer = 16
 collision_mask = 3
 floor_snap_length = 2.0
 script = ExtResource("1_oul6g")
-loot_magnet_range = 50.0
 
 [node name="States" type="Node" parent="." unique_id=35607546]
 
@@ -512,7 +511,7 @@ slide_speed = 120.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
 position = Vector2(0, -13)
-scale = Vector2(1.88, 1.88)
+scale = Vector2(1.75, 1.88)
 texture = ExtResource("7_boad6")
 offset = Vector2(0, -24)
 hframes = 12
@@ -523,7 +522,7 @@ script = ExtResource("12_s7qer")
 visible = false
 position = Vector2(4.2632754e-14, -10.999999)
 rotation = -3.1415925
-scale = Vector2(1.8799948, -1.88)
+scale = Vector2(1.75, -1.88)
 texture = ExtResource("11_tqiix")
 offset = Vector2(11, -13)
 hframes = 18
@@ -532,7 +531,7 @@ hframes = 18
 visible = false
 position = Vector2(4.0000043, -33)
 rotation = -3.1415925
-scale = Vector2(1.8799948, -1.88)
+scale = Vector2(1.75, -1.88)
 texture = ExtResource("12_65viv")
 hframes = 5
 frame = 2
@@ -541,7 +540,7 @@ frame = 2
 visible = false
 position = Vector2(-21, -37)
 rotation = -3.1415925
-scale = Vector2(1.8799948, -1.88)
+scale = Vector2(1.75, -1.88)
 texture = ExtResource("14_bjvpn")
 hframes = 7
 script = ExtResource("12_s7qer")
@@ -550,7 +549,7 @@ script = ExtResource("12_s7qer")
 visible = false
 position = Vector2(2.000002, -32)
 rotation = -3.1415925
-scale = Vector2(1.8799948, -1.88)
+scale = Vector2(1.75, -1.88)
 texture = ExtResource("17_knn7v")
 hframes = 4
 script = ExtResource("12_s7qer")
@@ -636,15 +635,13 @@ frame = 15
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=2079898119]
 unique_name_in_owner = true
-visible = false
-position = Vector2(0, -32)
+position = Vector2(-13.000014, -31)
 collision_layer = 0
 collision_mask = 96
 script = ExtResource("11_2ieo8")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=42164731]
-position = Vector2(-11.000011, 1)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_bkm6f")
 debug_color = Color(0.70196074, 0, 0, 0.41960785)
@@ -707,7 +704,6 @@ scale = Vector2(-1.0000011, 1)
 collision_layer = 0
 collision_mask = 256
 script = ExtResource("21_mag")
-magnet_range = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetRangeIndicator" unique_id=1195180877]
 shape = SubResource("CircleShape2D_magnet")

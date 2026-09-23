@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c3rajtene17hd"]
+
+[ext_resource type="Texture2D" uid="uid://dmus3ftr1ng4o" path="res://general/sprites/magnet.png" id="1_4a66p"]
+[ext_resource type="Script" uid="uid://5f4265fpclmf" path="res://pause_menu/bag/item_data.gd" id="2_a7ojn"]
+
+[resource]
+script = ExtResource("2_a7ojn")
+id = &"magnet"
+item_name = "磁铁"
+icon = ExtResource("1_4a66p")
+description = "一个磁铁，获得此物品后可以增大掉落物拾取范围。"

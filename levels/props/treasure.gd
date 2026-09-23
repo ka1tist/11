@@ -75,6 +75,9 @@ func _on_player_interacted( _player : Player ) -> void:
 	var got_amount : int = 0
 	if reward_item != null and reward_amount > 0:
 		got_amount = Inventory.add_item( reward_item , reward_amount )
+	#磁铁道具：实际入包后增大玩家磁吸范围（需在 save_progress 前设置，使升级一并落盘）
+	if got_amount > 0 and reward_item != null and reward_item.id == &"magnet":
+		_player.loot_magnet_range = Player.LOOT_MAGNET_RANGE_WITH_MAGNET
 	#立即保存进度（背包与开箱状态一并落盘，保留存档点位置）
 	SaveManager.save_progress()
 	#立即播放打开动画（非循环，播完停在最终帧）

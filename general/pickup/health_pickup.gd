@@ -41,7 +41,15 @@ func _physics_process( delta: float ) -> void:
 
 #玩家吸取范围内调用（幂等），激活后追踪直到自身拾取判定收集
 func attract() -> void:
+	if _attracted:
+		return
 	_attracted = true
+	#吸附后无视平台：禁用根物理碰撞形状，move_and_collide 不再与平台碰撞，直接穿过飞向玩家。
+	#attract 在 body_entered 物理信号回调链中同步调用，直接改碰撞属性会触发物理 locked 报错，
+	#必须 set_deferred 延迟设置属性名；拾取用的 Area2D 是独立节点，不受此影响仍能正常检测玩家
+	var shape := get_node_or_null( "CollisionShape2D" ) as CollisionShape2D
+	if shape:
+		shape.set_deferred( "disabled" , true )
 	pass
 
 

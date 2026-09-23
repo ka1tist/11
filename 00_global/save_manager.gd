@@ -54,6 +54,7 @@ func create_new_game_save( slot : int ) -> void:
 		"wall_climb" : false,
 		"coin" : 0,
 		"diamond" : 0,
+		"loot_magnet_range" : Player.LOOT_MAGNET_RANGE_DEFAULT,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,
 		"inventory" : [],
@@ -83,6 +84,7 @@ func save_game() ->void:
 		"wall_climb" : player.wall_climb,
 		"coin" : player.coin,
 		"diamond" : player.diamond,
+		"loot_magnet_range" : player.loot_magnet_range,
 		"discovered_areas" : discovered_areas,
 		"persistent_data" : persistent_data,
 		"inventory" : Inventory.serialize(),
@@ -109,6 +111,7 @@ func save_progress() -> void:
 	save_data[ "wall_climb" ] = player.wall_climb
 	save_data[ "coin" ] = player.coin
 	save_data[ "diamond" ] = player.diamond
+	save_data[ "loot_magnet_range" ] = player.loot_magnet_range
 	save_data[ "persistent_data" ] = persistent_data
 	save_data[ "inventory" ] = Inventory.serialize()
 	# 不更新 scene_path / x / y：保留上一次存档点的位置
@@ -155,6 +158,8 @@ func setup_player() -> void:
 	player.wall_climb = save_data.get( "wall_climb" , false )
 	player.coin = save_data.get( "coin" , 0 )
 	player.diamond = save_data.get( "diamond" , 0 )
+	# 兼容旧存档：磁铁道具上线前无此字段时回退默认磁吸范围
+	player.loot_magnet_range = save_data.get( "loot_magnet_range" , Player.LOOT_MAGNET_RANGE_DEFAULT )
 	# 兼容旧存档：背包系统上线前已拾取的钻石补入背包（钻石只增不减，以计数为准单向同步）
 	var diamond_in_bag : int = Inventory.get_item_amount( &"diamond" )
 	if player.diamond > diamond_in_bag:

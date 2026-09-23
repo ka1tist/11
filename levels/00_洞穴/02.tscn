@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="13_41f62"]
 [ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="14_4snpe"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="14_uj8rf"]
+[ext_resource type="Resource" uid="uid://i6apmq82xbu1" path="res://pause_menu/bag/items/grapes.tres" id="15_3pv12"]
 [ext_resource type="PackedScene" uid="uid://qm42vs2m1127" path="res://levels/props/地刺.tscn" id="16_678va"]
 [ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="17_4v8r4"]
 [ext_resource type="Script" uid="uid://ob6fp42drgxw" path="res://general/scripts/black_curtain.gd" id="19_yppgo"]
@@ -221,6 +222,7 @@ type = 1
 
 [node name="宝箱" parent="Props" unique_id=94975966 instance=ExtResource("14_4snpe")]
 position = Vector2(798, 259)
+reward_item = ExtResource("15_3pv12")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1721174053]
 z_index = 2

@@ -8,4 +8,4 @@ script = ExtResource("1_item")
 id = &"apple"
 item_name = "苹果"
 icon = ExtResource("2_icon")
-description = "一个红苹果，村子里可能会有人需要这个。"
+description = "一个苹果，村子里可能会有人需要这个。"

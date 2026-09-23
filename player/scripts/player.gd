@@ -69,8 +69,12 @@ var _is_dead : bool = false
 #region /// export variables
 @export var move_speed : float = 200
 @export var max_fall_velocity : float = 600
+## 默认磁吸半径（像素）
+const LOOT_MAGNET_RANGE_DEFAULT : float = 40.0
+## 获得磁铁道具后的磁吸半径（像素）
+const LOOT_MAGNET_RANGE_WITH_MAGNET : float = 80.0
 ## 小范围磁吸凋落物的吸取半径（像素），0=禁用磁吸；运行时改此值会同步到 MagnetRangeIndicator 的碰撞形状
-@export var loot_magnet_range : float = 40.0 :
+@export var loot_magnet_range : float = LOOT_MAGNET_RANGE_DEFAULT :
 	set( value ):
 		var v := maxf( 0.0 , value )
 		if v == loot_magnet_range:

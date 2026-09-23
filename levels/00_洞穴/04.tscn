@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://dplo3nrgjt825" path="res://levels/props/text_dummy/TextDummy.tscn" id="9_xy3px"]
 [ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="10_1efua"]
 [ext_resource type="Resource" uid="uid://8qs6h6dqr7mt" path="res://pause_menu/bag/items/apple.tres" id="11_15s8f"]
+[ext_resource type="Resource" uid="uid://c3rajtene17hd" path="res://pause_menu/bag/items/magnet.tres" id="12_x2wf1"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
-[ext_resource type="PackedScene" uid="uid://b1787ahucde8k" path="res://enemies/nature's living dead/nature's living dead.tscn" id="13_x2wf1"]
-[ext_resource type="PackedScene" uid="uid://tx37ae7n7ibj" path="res://enemies/skeleton/skeleton.tscn" id="14_x2wf1"]
-[ext_resource type="PackedScene" uid="uid://clqy51ok0wmsf" path="res://enemies/ghost/ghost.tscn" id="15_2uxjf"]
+[ext_resource type="PackedScene" uid="uid://deugb5ktpkd1r" path="res://levels/npc/npc_1.tscn" id="13_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://ochny605wqw0" path="res://general/pickup/coin_pickup.tscn" id="15_2uxjf"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
@@ -72,28 +72,28 @@ position = Vector2(84, 93)
 reward_item = ExtResource("11_15s8f")
 
 [node name="宝箱2" parent="Props" unique_id=1858867219 instance=ExtResource("10_1efua")]
-position = Vector2(187, 93)
+position = Vector2(349, 335)
+reward_item = ExtResource("12_x2wf1")
 
 [node name="AbilityPickup" parent="." unique_id=899164570 instance=ExtResource("13_vry50")]
-position = Vector2(180, 186)
+position = Vector2(73, 313)
 type = 2
 
 [node name="AbilityPickup2" parent="." unique_id=967049074 instance=ExtResource("13_vry50")]
-position = Vector2(132, 186)
+position = Vector2(25, 313)
 type = 0
 
 [node name="AbilityPickup3" parent="." unique_id=94000343 instance=ExtResource("13_vry50")]
-position = Vector2(84, 186)
+position = Vector2(-23, 313)
 type = 1
 
 [node name="AbilityPickup4" parent="." unique_id=1758010841 instance=ExtResource("13_vry50")]
-position = Vector2(224, 186)
+position = Vector2(117, 313)
 
-[node name="nature\'s living dead" parent="." unique_id=2105144600 instance=ExtResource("13_x2wf1")]
-position = Vector2(-58, 333)
+[node name="npc_1" parent="." unique_id=1197330069 instance=ExtResource("13_x2wf1")]
+position = Vector2(187, 337)
+dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺！"])
+dialog_box_offset_y = -90.0
 
-[node name="Skeleton" parent="." unique_id=1038174881 instance=ExtResource("14_x2wf1")]
-position = Vector2(-158, 327)
-
-[node name="ghost" parent="." unique_id=1712819016 instance=ExtResource("15_2uxjf")]
-position = Vector2(-84, 193)
+[node name="CoinPickup" parent="." unique_id=760444921 instance=ExtResource("15_2uxjf")]
+position = Vector2(164, 202)
