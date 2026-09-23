@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://b3oo3pfb6w71r"]
 
 [ext_resource type="Script" uid="uid://c6j3gc0o0lx4u" path="res://enemies/slime/slime.gd" id="1_sv735"]
-[ext_resource type="AudioStream" uid="uid://v7oeimf75nis" path="res://enemies/slime/slime_death.wav" id="2_2ui2u"]
+[ext_resource type="AudioStream" uid="uid://v7oeimf75nis" path="res://general/audio/slime_death.wav" id="2_2ui2u"]
 [ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime/slime.png" id="2_u2l51"]
 [ext_resource type="Script" uid="uid://lfjis050qg13" path="res://general/scripts/hazard_area.gd" id="3_2ui2u"]
 [ext_resource type="Resource" uid="uid://emn3dpnofbmu" path="res://00_global/visual_effects/hit_particle_settings/史莱姆.tres" id="3_5ctnu"]
 [ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="4_bkm6f"]
-[ext_resource type="AudioStream" uid="uid://b025xng7cklb8" path="res://enemies/slime/slime_hit.wav" id="5_5ctnu"]
+[ext_resource type="AudioStream" uid="uid://b025xng7cklb8" path="res://general/audio/slime_hit.wav" id="5_5ctnu"]
 [ext_resource type="Script" uid="uid://dfawy8jpipodx" path="res://enemies/scripts/edge_detector.gd" id="7_bkm6f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i8n5y"]

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b025xng7cklb8"
-path="res://.godot/imported/slime_hit.wav-38229b7b01f72bbc8cbd1727b9153308.sample"
+path="res://.godot/imported/slime_hit.wav-53d46ac68d237cf866b2077a3c5c35ff.sample"
 
 [deps]
 
-source_file="res://enemies/slime/slime_hit.wav"
-dest_files=["res://.godot/imported/slime_hit.wav-38229b7b01f72bbc8cbd1727b9153308.sample"]
+source_file="res://general/audio/slime_hit.wav"
+dest_files=["res://.godot/imported/slime_hit.wav-53d46ac68d237cf866b2077a3c5c35ff.sample"]
 
 [params]
 

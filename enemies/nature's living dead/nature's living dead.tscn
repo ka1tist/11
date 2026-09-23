@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://dqlbnskyypv31" path="res://enemies/scripts/states/es_walk.gd" id="7_i7vnu"]
 [ext_resource type="Script" uid="uid://ujgwm2qqts0l" path="res://enemies/scripts/states/es_stun.gd" id="8_dsifu"]
 [ext_resource type="Script" uid="uid://n63kw7iywqh2" path="res://enemies/scripts/states/es_death.gd" id="9_8qcrf"]
-[ext_resource type="AudioStream" uid="uid://v7oeimf75nis" path="res://enemies/slime/slime_death.wav" id="10_gm1d1"]
+[ext_resource type="AudioStream" uid="uid://v7oeimf75nis" path="res://general/audio/slime_death.wav" id="10_gm1d1"]
 [ext_resource type="Script" uid="uid://5rr2tv0tn32l" path="res://enemies/scripts/states/es_ranged_attack.gd" id="11b_rng"]
 [ext_resource type="Script" uid="uid://dcj6nh4l0xn6m" path="res://enemies/scripts/states/es_chase.gd" id="13_crwar"]
 [ext_resource type="Script" uid="uid://cm8s0s51md4f4" path="res://enemies/scripts/states/es_focus.gd" id="13_gm1d1"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://b2pvpyq1nchiw" path="res://general/scripts/loot_dropper.gd" id="19_p7awh"]
 [ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="20_l4qlu"]
 [ext_resource type="Script" uid="uid://bg12sd4evf6j7" path="res://general/scripts/attack_area.gd" id="21_u88wv"]
+[ext_resource type="Script" uid="uid://cnb0nq5yvwu2s" path="res://general/scripts/damage_modulate.gd" id="22_h48gd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5napv"]
 radius = 12.0
@@ -471,8 +472,13 @@ position = Vector2(22, -24)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("21_u88wv")
+damege = 2.0
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=875794057]
 shape = SubResource("RectangleShape2D_7h0lg")
 debug_color = Color(0.70196074, 0.04972987, 0, 0.41960785)
+
+[node name="DaqmageModulate" type="Node" parent="." unique_id=964826291]
+script = ExtResource("22_h48gd")
+metadata/_custom_type_script = "uid://cnb0nq5yvwu2s"

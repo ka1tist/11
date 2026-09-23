@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://bg12sd4evf6j7" path="res://general/scripts/attack_area.gd" id="19_mew8a"]
 [ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="20_66141"]
 [ext_resource type="Curve" uid="uid://clowr63e55fyb" path="res://enemies/skeleton/attack_move_curve.tres" id="21_curve"]
+[ext_resource type="Script" uid="uid://cnb0nq5yvwu2s" path="res://general/scripts/damage_modulate.gd" id="22_583g5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5napv"]
 radius = 12.0
@@ -415,3 +416,7 @@ metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 position = Vector2(-6.25, 0)
 shape = SubResource("RectangleShape2D_7h0lg")
 debug_color = Color(0.70196074, 0.04972987, 0, 0.41960785)
+
+[node name="DaqmageModulate" type="Node" parent="." unique_id=88496122]
+script = ExtResource("22_583g5")
+metadata/_custom_type_script = "uid://cnb0nq5yvwu2s"

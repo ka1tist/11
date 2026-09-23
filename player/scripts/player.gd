@@ -62,6 +62,8 @@ const ATTACK_FACING_LOCK_TIME : float = 0.1
 var attack_facing_lock_timer : float = 0.0
 var coin : int = 0
 var diamond : int = 0
+#玩家是否已死亡：死亡通知只广播一次，防止重复受伤/重复进入死亡状态时多次发射
+var _is_dead : bool = false
 #endregion
 
 #region /// export variables
@@ -309,6 +311,18 @@ func _on_damage_taken( a : AttackArea ) -> void:
 		return
 	hp -= a.damege
 	damage_taken.emit()
+	#hp归零的当帧立即广播，不必等受击动画播完进入death状态，敌人瞬间冻结
+	if hp <= 0 :
+		notify_death()
+	pass
+
+
+#广播玩家死亡：全局只生效一次。敌人/子弹等收到 Messages.player_died 后立即冻结
+func notify_death() -> void:
+	if _is_dead:
+		return
+	_is_dead = true
+	Messages.player_died.emit()
 	pass
 
 

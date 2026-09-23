@@ -29,6 +29,7 @@ PlayerHud="*uid://7iukok5bsrlu"
 Audio="*uid://bdrf16clksca4"
 VisualEffects="*uid://dot6j6iwxlbbr"
 Inventory="*res://pause_menu/bag/inventory.gd"
+WorldEnvironmentGlobal="*uid://bsjadeoxi6pj0"
 
 [display]
 
@@ -144,4 +145,5 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+viewport/hdr_2d=true
 2d/snap/snap_2d_transforms_to_pixel=true

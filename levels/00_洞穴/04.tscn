@@ -12,6 +12,8 @@
 [ext_resource type="Resource" uid="uid://8qs6h6dqr7mt" path="res://pause_menu/bag/items/apple.tres" id="11_15s8f"]
 [ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_vry50"]
 [ext_resource type="PackedScene" uid="uid://b1787ahucde8k" path="res://enemies/nature's living dead/nature's living dead.tscn" id="13_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://tx37ae7n7ibj" path="res://enemies/skeleton/skeleton.tscn" id="14_x2wf1"]
+[ext_resource type="PackedScene" uid="uid://clqy51ok0wmsf" path="res://enemies/ghost/ghost.tscn" id="15_2uxjf"]
 [ext_resource type="PackedScene" uid="uid://c116gmstkmj5f" path="res://levels/props/操作.tscn" id="15_6bkb3"]
 
 [node name="04" type="Node2D" unique_id=49539005]
@@ -89,3 +91,9 @@ position = Vector2(224, 186)
 
 [node name="nature\'s living dead" parent="." unique_id=2105144600 instance=ExtResource("13_x2wf1")]
 position = Vector2(-58, 333)
+
+[node name="Skeleton" parent="." unique_id=1038174881 instance=ExtResource("14_x2wf1")]
+position = Vector2(-158, 327)
+
+[node name="ghost" parent="." unique_id=1712819016 instance=ExtResource("15_2uxjf")]
+position = Vector2(-84, 193)

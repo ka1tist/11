@@ -16,6 +16,8 @@ func init() -> void:
 	
 #当我们进入这个状态时会发生什么
 func enter() -> void:
+	#兜底：正常路径在hp归零时已广播；若有直接切换到death状态的路径也保证冻结生效
+	player.notify_death()
 	#动画
 	sprite_2d.visible = true
 	sprite_2d_2.visible = false

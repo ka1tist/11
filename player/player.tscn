@@ -621,9 +621,7 @@ script = ExtResource("8_8t03j")
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]
 position = Vector2(0, -32)
 color = Color(0.91037446, 0.6085643, 0.32586607, 1)
-energy = 0.5
 texture = SubResource("GradientTexture2D_7h0lg")
-texture_scale = 2.0
 
 [node name="InputHints" type="Node2D" parent="." unique_id=107579952]
 position = Vector2(0, -68)

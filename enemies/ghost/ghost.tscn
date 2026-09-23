@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://jodh8fuht3an" path="res://enemies/scripts/enemy_hit_particles.gd" id="16_yykp0"]
 [ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="17_71nr3"]
 [ext_resource type="Script" uid="uid://b2pvpyq1nchiw" path="res://general/scripts/loot_dropper.gd" id="18_bljbp"]
+[ext_resource type="Script" uid="uid://cnb0nq5yvwu2s" path="res://general/scripts/damage_modulate.gd" id="19_3kqxl"]
 [ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="19_6kdvy"]
 [ext_resource type="Script" uid="uid://bg12sd4evf6j7" path="res://general/scripts/attack_area.gd" id="20_kg77k"]
 [ext_resource type="Script" uid="uid://cmerwjbm48r8" path="res://enemies/scripts/decision_engines/decision_engine_basic_flying.gd" id="21_fuvm8"]
@@ -382,3 +383,7 @@ attack_state = NodePath("../EnemyStateMachine/ESFlyAttack")
 stun_state = NodePath("../EnemyStateMachine/ESStun")
 death_state = NodePath("../EnemyStateMachine/ESDeath")
 metadata/_custom_type_script = "uid://cmerwjbm48r8"
+
+[node name="DaqmageModulate" type="Node" parent="." unique_id=969868115]
+script = ExtResource("19_3kqxl")
+metadata/_custom_type_script = "uid://cnb0nq5yvwu2s"

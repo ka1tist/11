@@ -36,7 +36,9 @@ func _ready() -> void:
 	var ap := get_node_or_null( "AnimationPlayer" ) as AnimationPlayer
 	if ap and ap.has_animation( "bullet" ):
 		ap.play( "bullet" )
-	pass
+	#玩家死亡后已射出的子弹也原地冻结，不再命中玩家或破坏物
+	Messages.player_died.connect( _on_player_died )
+pass
 
 
 func _physics_process( delta : float ) -> void:
@@ -45,7 +47,19 @@ func _physics_process( delta : float ) -> void:
 	_alive_time += delta
 	if _alive_time >= lifetime:
 		queue_free()
-	pass
+pass
+
+
+#玩家死亡：停在原位、关闭碰撞检测与动画，作为死亡瞬间画面的一部分
+func _on_player_died() -> void:
+	#死亡信号可能正从本子弹的body_entered物理回调中派发，此时Area2D处于locked，
+	#monitoring必须延迟到物理帧结束后设置，否则引擎报错"Function blocked during in/out signal"
+	set_deferred( "monitoring" , false )
+	set_physics_process( false )
+	var ap := get_node_or_null( "AnimationPlayer" ) as AnimationPlayer
+	if ap:
+		ap.pause()
+pass
 
 
 func _on_hit( body : Node2D ) -> void:

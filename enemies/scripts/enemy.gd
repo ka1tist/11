@@ -24,6 +24,9 @@ var state_machine : EnemyStateMachine
 var decision_engine : DecisionEngine
 var blackboard : Blackboard
 
+#玩家死亡后冻结：true时停止一切物理/AI更新，仅保持死亡瞬间的画面
+var frozen : bool = false
+
 
 
 func _ready() -> void:
@@ -37,6 +40,8 @@ func _ready() -> void:
 func setup() -> void:
 	blackboard = Blackboard.new()
 	blackboard.health = health
+	#玩家死亡广播：场景中每个存活敌人各自接收并立即冻结
+	Messages.player_died.connect( freeze )
 	
 	for c in get_children():
 		if c is AnimationPlayer and not animation:
@@ -64,12 +69,39 @@ func setup() -> void:
 
 
 func _physics_process( delta: float ) -> void:
+	if frozen:
+		return
 	blackboard.update_distance_to_target( global_position )
 	state_machine.change_state( decision_engine.decide() )
 	if affected_by_gravity:
 		velocity += get_gravity() * delta
 	state_machine.physics_update( delta )
 	move_and_slide()
+	pass
+
+
+#玩家死亡时调用：冻结移动/攻击/AI/动画，并关闭所有对玩家产生伤害的判定区。
+#死亡后场景会随读档/回标题重建，本方法无需恢复
+func freeze() -> void:
+	if frozen:
+		return
+	frozen = true
+	#停止物理帧：决策引擎、状态机（寻路/追击/攻击行为）、重力与move_and_slide全部停摆
+	set_physics_process( false )
+	velocity = Vector2.ZERO
+	#暂停在当前动画帧（不能用stop()：Godot4的stop()会重置回第0帧）
+	if animation:
+		animation.pause()
+	#关闭近战攻击判定区与接触伤害区（HazardArea也是AttackArea子类），
+	#冻结后不再对玩家或其他对象产生任何伤害交互。
+	#必须延迟设置属性：致命一击可能正来自该判定区的body_entered回调，
+	#信号派发期间Area2D处于locked，直接改monitoring会被引擎阻止。
+	#注意只能用属性名set_deferred：对GDScript自定义方法名（带默认参数的
+	#set_activate）走消息队列调用在Godot4中不会生效
+	for c in find_children( "*" ):
+		if c is AttackArea:
+			c.set_deferred( "monitoring" , false )
+			c.set_deferred( "visible" , false )
 	pass
 
 

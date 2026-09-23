@@ -1,5 +1,4 @@
-class_name ESRangedAttack
-extends ESAttack
+class_name ESRangedAttack extends ESAttack
 
 
 
