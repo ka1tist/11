@@ -5,7 +5,7 @@ class_name NPC1 extends NPC
 @export var dialog_lines : Array[String] = []
 
 #交互检测区尺寸（宽×高，像素）
-@export var detect_size : Vector2 = Vector2( 60 , 48 )
+@export var detect_size : Vector2 = Vector2( 60 , 70 )
 #对话框在 NPC 头顶的垂直偏移（像素，负值=向上），底部指针应靠近 NPC 头顶
 @export var dialog_box_offset_y : float = -140.0
 #文本在对话框贴图内的边距（左/右、上/下），避开木质边框与角落叶子装饰
@@ -55,6 +55,8 @@ func _setup_interaction_area() -> void:
 	var rect := RectangleShape2D.new()
 	rect.size = detect_size
 	shape.shape = rect
+	#矩形以原点为中心，上移半个高度使检测区底部对齐 NPC 根节点 y=0（脚底位置）
+	shape.position.y = -detect_size.y * 0.5
 	_interaction_area.add_child( shape )
 	_interaction_area.body_entered.connect( _on_body_entered )
 	_interaction_area.body_exited.connect( _on_body_exited )

@@ -440,9 +440,8 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bkm6f"]
-radius = 27.0
-height = 76.000084
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rptt4"]
+size = Vector2(57, 48.000053)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_knn7v"]
 size = Vector2(67.00008, 78)
@@ -511,7 +510,7 @@ slide_speed = 120.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=188275147]
 position = Vector2(0, -13)
-scale = Vector2(1.75, 1.88)
+scale = Vector2(1.7, 1.9)
 texture = ExtResource("7_boad6")
 offset = Vector2(0, -24)
 hframes = 12
@@ -522,7 +521,7 @@ script = ExtResource("12_s7qer")
 visible = false
 position = Vector2(4.2632754e-14, -10.999999)
 rotation = -3.1415925
-scale = Vector2(1.75, -1.88)
+scale = Vector2(1.7, -1.9)
 texture = ExtResource("11_tqiix")
 offset = Vector2(11, -13)
 hframes = 18
@@ -531,7 +530,7 @@ hframes = 18
 visible = false
 position = Vector2(4.0000043, -33)
 rotation = -3.1415925
-scale = Vector2(1.75, -1.88)
+scale = Vector2(1.7, -1.9)
 texture = ExtResource("12_65viv")
 hframes = 5
 frame = 2
@@ -540,7 +539,7 @@ frame = 2
 visible = false
 position = Vector2(-21, -37)
 rotation = -3.1415925
-scale = Vector2(1.75, -1.88)
+scale = Vector2(1.7, -1.9)
 texture = ExtResource("14_bjvpn")
 hframes = 7
 script = ExtResource("12_s7qer")
@@ -549,7 +548,7 @@ script = ExtResource("12_s7qer")
 visible = false
 position = Vector2(2.000002, -32)
 rotation = -3.1415925
-scale = Vector2(1.75, -1.88)
+scale = Vector2(1.7, -1.9)
 texture = ExtResource("17_knn7v")
 hframes = 4
 script = ExtResource("12_s7qer")
@@ -635,15 +634,16 @@ frame = 15
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=2079898119]
 unique_name_in_owner = true
-position = Vector2(-13.000014, -31)
+position = Vector2(0, -31)
 collision_layer = 0
 collision_mask = 96
 script = ExtResource("11_2ieo8")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=42164731]
+position = Vector2(-25.000027, -1)
 rotation = -1.5707964
-shape = SubResource("CapsuleShape2D_bkm6f")
+shape = SubResource("RectangleShape2D_rptt4")
 debug_color = Color(0.70196074, 0, 0, 0.41960785)
 
 [node name="GroundSlamAttackArea" type="Area2D" parent="." unique_id=1304086685]
