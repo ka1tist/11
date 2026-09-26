@@ -34,9 +34,11 @@ func _ready() -> void:
 	super._ready()
 	_setup_interaction_area()
 	_setup_dialog_box()
-	#场景加载时若玩家已在交互范围内（如出生点附近），一物理帧后直接显示交互提示
+	#场景加载时若玩家已在交互范围内（如出生点附近），一物理帧后直接显示交互提示。
+	#注意：await 期间容器（如房屋）可能已通过 set_interaction_enabled 关闭检测区，
+	#此时不能调用 get_overlapping_bodies()，否则会触发引擎报错
 	await get_tree().physics_frame
-	if is_instance_valid( _interaction_area ):
+	if is_instance_valid( _interaction_area ) and _interaction_area.monitoring:
 		for body in _interaction_area.get_overlapping_bodies():
 			if body is Player:
 				_on_body_entered( body )
@@ -183,7 +185,8 @@ func _end_dialog() -> void:
 	_is_talking = false
 	_hide_dialog_box()
 	stop_talking()
-	if is_instance_valid( _interaction_area ):
+	#检测区有效且处于监测中时才查询重叠体；被容器（如房屋）禁用时直接清空提示
+	if is_instance_valid( _interaction_area ) and _interaction_area.monitoring:
 		var player_in_range : bool = false
 		for body in _interaction_area.get_overlapping_bodies():
 			if body is Player:
@@ -193,6 +196,8 @@ func _end_dialog() -> void:
 			Messages.input_hint_changed.emit( "interact" )
 		else:
 			Messages.input_hint_changed.emit( "" )
+	else:
+		Messages.input_hint_changed.emit( "" )
 	pass
 
 
@@ -237,4 +242,20 @@ func _hide_dialog_box() -> void:
 	_tween = create_tween()
 	_tween.tween_property( _dialog_box , "modulate:a" , 0.0 , DIALOG_FADE_TIME )
 	_tween.tween_callback( func() -> void: _dialog_box.visible = false )
+	pass
+
+
+## 启用 / 禁用交互能力（供房屋等容器在随状态显隐 NPC 时调用）。
+## 禁用时关闭检测区并断开交互信号，若正在对话则立即结束，
+## 避免玩家在屋外与“看不见的 NPC”对话或触发其提示
+func set_interaction_enabled( enabled : bool ) -> void:
+	if is_instance_valid( _interaction_area ):
+		_interaction_area.monitoring = enabled
+		_interaction_area.monitorable = enabled
+	if not enabled:
+		if Messages.player_interacted.is_connected( _on_player_interacted ):
+			Messages.player_interacted.disconnect( _on_player_interacted )
+		Messages.input_hint_changed.emit( "" )
+		if _is_talking:
+			_end_dialog()
 	pass

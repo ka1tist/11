@@ -173,9 +173,19 @@ _data = {
 &"walk": SubResource("Animation_7duek")
 }
 
-[node name="npc_1" type="Node2D" unique_id=1197330069]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(22, 46)
+
+[node name="npc_1" type="CharacterBody2D" unique_id=1197330069]
+collision_layer = 0
+collision_mask = 3
+floor_snap_length = 2.0
 script = ExtResource("5_npc1")
 dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺", "祝你好运！"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_body")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1004040015]
 position = Vector2(0, -45)

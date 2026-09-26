@@ -340,6 +340,7 @@ script = ExtResource("8_xbukv")
 metadata/_custom_type_script = "uid://ujgwm2qqts0l"
 
 [node name="PlayerSensor" type="Area2D" parent="." unique_id=217501437]
+visible = false
 position = Vector2(1, -5)
 collision_layer = 0
 collision_mask = 16

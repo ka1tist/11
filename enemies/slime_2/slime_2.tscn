@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dhsxl1wsq24e2" path="res://enemies/scripts/enemy.gd" id="1_7q48c"]
 [ext_resource type="Resource" uid="uid://emn3dpnofbmu" path="res://00_global/visual_effects/hit_particle_settings/史莱姆.tres" id="2_3jlja"]
-[ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime/slime.png" id="2_mafwj"]
+[ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime_2/slime.png" id="2_mafwj"]
 [ext_resource type="Script" uid="uid://lfjis050qg13" path="res://general/scripts/hazard_area.gd" id="3_iyqwc"]
 [ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="4_53kym"]
 [ext_resource type="AudioStream" uid="uid://b025xng7cklb8" path="res://general/audio/slime_hit.wav" id="5_482dd"]
@@ -271,6 +271,7 @@ script = ExtResource("12_ovel5")
 metadata/_custom_type_script = "uid://r5kfmis11iq1"
 
 [node name="PlayerSensor" type="Area2D" parent="." unique_id=217501437]
+visible = false
 script = ExtResource("13_3jlja")
 use_audio_sensor = false
 min_audio_sense = 0.4

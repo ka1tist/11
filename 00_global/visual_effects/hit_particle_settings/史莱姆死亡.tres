@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="HitParticleSettings" format=3 uid="uid://b5ra4nlrkhgdr"]
 
 [ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="1_0q2sp"]
-[ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime/slime.png" id="2_e8l1b"]
+[ext_resource type="Texture2D" uid="uid://bvskqtpv6cces" path="res://enemies/slime_2/slime.png" id="2_e8l1b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ayg3k"]
 atlas = ExtResource("2_e8l1b")

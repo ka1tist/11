@@ -59,6 +59,7 @@ turbulence_enabled = true
 turbulence_influence_max = 0.2
 
 [node name="06" type="Node2D" unique_id=1435871772]
+position = Vector2(0, -11)
 
 [node name="BGParallaxLayers" type="Node2D" parent="." unique_id=1956838273]
 

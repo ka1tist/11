@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvskqtpv6cces"
-path="res://.godot/imported/slime.png-61a012fcb437414c3cf946a313ec58c3.ctex"
+uid="uid://cxwjbywaho0c5"
+path="res://.godot/imported/Floor Tiles2.png-d5cf4099a6ee34ba8ed4274746eea10f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemies/slime/slime.png"
-dest_files=["res://.godot/imported/slime.png-61a012fcb437414c3cf946a313ec58c3.ctex"]
+source_file="res://levels/tilesets/sprites/Floor Tiles2.png"
+dest_files=["res://.godot/imported/Floor Tiles2.png-d5cf4099a6ee34ba8ed4274746eea10f.ctex"]
 
 [params]
 

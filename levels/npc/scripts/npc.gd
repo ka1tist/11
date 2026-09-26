@@ -1,12 +1,17 @@
-class_name NPC extends Node2D
+class_name NPC
+extends CharacterBody2D
 
 
 #NPC 状态：IDLE 静止 / WALKING 移动 / TALKING 对话中（移动冻结，由子类管理）
-#对话状态优先级最高：TALKING 时 _process 直接返回，跳过一切移动与 AI 决策
+#对话状态优先级最高：TALKING 时水平速度为 0，跳过移动 AI 决策
 enum State { IDLE , WALKING , TALKING }
 
 #移动速度（像素/秒），在 Inspector 中按实例调整
 @export var move_speed : float = 40.0
+#重力加速度（像素/秒²），与玩家保持一致；设为 0 可关闭重力（用于飞行 / 固定站位 NPC）
+@export var gravity : float = 980.0
+#最大下落速度，防止长时间坠落时速度无限增长
+@export var max_fall_velocity : float = 1000.0
 #随机静止/移动的持续时间范围（秒），AI 在两者间随机切换
 @export var idle_duration_min : float = 1.5
 @export var idle_duration_max : float = 3.5
@@ -31,6 +36,7 @@ func _ready() -> void:
 	pass
 
 
+#每帧只做 AI 状态计时；实际位移统一在 _physics_process 通过 velocity + move_and_slide 完成
 func _process( delta : float ) -> void:
 	#对话状态优先：冻结一切移动逻辑，保持当前姿势不动
 	if _state == State.TALKING:
@@ -40,6 +46,46 @@ func _process( delta : float ) -> void:
 			_update_idle( delta )
 		State.WALKING:
 			_update_walking( delta )
+	pass
+
+
+#物理帧：水平速度由 AI 状态驱动，垂直方向施加重力，再交给引擎碰撞解算。
+#碰撞掩码 = 物理层 1+2（在场景中配置），因此 NPC 会被 TileSet 地面 / 墙体阻挡，
+#自身 collision_layer = 0，不会与玩家或敌人互相推挤
+func _physics_process( delta : float ) -> void:
+	#NPC 不可见时（如藏在房屋内景中）不进行物理移动：
+	#此时室内碰撞层也处于关闭状态，坠落只会让位置无限偏离
+	if not visible:
+		velocity = Vector2.ZERO
+		return
+	#水平移动速度
+	if _state == State.WALKING:
+		velocity.x = _move_dir * move_speed
+	else:
+		velocity.x = 0.0
+	#重力
+	if gravity > 0.0:
+		velocity.y = minf( velocity.y + gravity * delta , max_fall_velocity )
+	else:
+		velocity.y = 0.0
+	move_and_slide()
+	#到达巡逻边界：钳制位置并反向，同步翻转朝向
+	if _state == State.WALKING:
+		if global_position.x <= _left_limit:
+			global_position.x = _left_limit
+			_reverse_dir( 1.0 )
+		elif global_position.x >= _right_limit:
+			global_position.x = _right_limit
+			_reverse_dir( -1.0 )
+	pass
+
+
+#翻转移动方向并同步精灵朝向
+func _reverse_dir( new_dir : float ) -> void:
+	if _move_dir == new_dir:
+		return
+	_move_dir = new_dir
+	_flip_sprite( _move_dir )
 	pass
 
 
@@ -80,16 +126,7 @@ func _update_idle( delta : float ) -> void:
 
 func _update_walking( delta : float ) -> void:
 	_timer += delta
-	global_position.x += _move_dir * move_speed * delta
-	#到达巡逻边界：钳制位置并反向，同步翻转朝向
-	if global_position.x <= _left_limit:
-		global_position.x = _left_limit
-		_move_dir = 1.0
-		_flip_sprite( _move_dir )
-	elif global_position.x >= _right_limit:
-		global_position.x = _right_limit
-		_move_dir = -1.0
-		_flip_sprite( _move_dir )
+	#位移由 _physics_process 中的 velocity / move_and_slide 负责，这里只做状态计时
 	if _timer >= _state_duration:
 		_start_idle()
 	pass
@@ -135,6 +172,7 @@ func _play_animation( anim_name : String ) -> void:
 func start_talking() -> void:
 	_state = State.TALKING
 	_move_dir = 0.0
+	velocity.x = 0.0
 	_play_animation( "idle" )
 	pass
 

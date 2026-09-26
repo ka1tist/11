@@ -2,6 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_5mu8h"]
 [ext_resource type="Script" uid="uid://dt5c0iunn5bt5" path="res://levels/props/地刺.gd" id="2_dici"]
+[ext_resource type="Script" uid="uid://lfjis050qg13" path="res://general/scripts/hazard_area.gd" id="3_hazard"]
 
 [node name="地刺" type="Node2D" unique_id=2144615846]
 script = ExtResource("2_dici")
@@ -11,3 +12,27 @@ script = ExtResource("2_dici")
 [node name="TileMapLayer" type="TileMapLayer" parent="Sprite2D" unique_id=2136818250]
 tile_map_data = PackedByteArray("AAD///7/AwAbACUAAAD/////AwAbACYAAAAAAP7/AwADACUAAAAAAP//AwADACYAAAABAP7/AwALACcAAAABAP//AwALACgAAAA=")
 tile_set = ExtResource("1_5mu8h")
+
+[node name="HazardArea" type="Area2D" parent="." unique_id=884217563]
+visible = false
+position = Vector2(8, 0)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("3_hazard")
+damege = 2.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HazardArea" unique_id=1979783966]
+position = Vector2(-23, 0)
+polygon = PackedVector2Array(45, 0, 0, 0, 0, -20, 15, -30, 30, -20, 40, -25)
+
+[node name="EnemyHazardArea" type="Area2D" parent="." unique_id=367291480]
+visible = false
+position = Vector2(8, 0)
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("3_hazard")
+damege = 999.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnemyHazardArea" unique_id=2073640380]
+position = Vector2(-23, 0)
+polygon = PackedVector2Array(45, 0, 0, 0, 0, -20, 15, -30, 30, -20, 40, -25)
