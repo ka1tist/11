@@ -3,7 +3,7 @@
 class_name LevelBounds extends Node2D
 
 
-@export_range(240,2048,16,"suffix:px") var width : int = 240 : set = _on_width_changed
+@export_range(240,4096,16,"suffix:px") var width : int = 240 : set = _on_width_changed
 @export_range(135,2048,16,"suffix:px") var height : int = 135 : set = _on_height_changed
 
 #基础边界矩形：隐藏墙被破坏后，镜头限制恢复到这里
