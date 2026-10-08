@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://c6pwe73o10m38"]
+
+[ext_resource type="Texture2D" uid="uid://bkhkac4kmhnrt" path="res://levels/tilesets/sprites/Pixel Art Furnace and Sawmill.png" id="1_b4piv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axc14"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuop2"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv76k"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qukn"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xg01y"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wafuo"]
+atlas = ExtResource("1_b4piv")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7h0lg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axc14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuop2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pv76k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qukn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xg01y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wafuo")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="锯木机" type="AnimatedSprite2D" unique_id=961514358]
+sprite_frames = SubResource("SpriteFrames_7h0lg")
+autoplay = "default"
+frame_progress = 0.45308873

@@ -3,7 +3,7 @@ extends Area2D
 
 # 开门音效：交互后 TileMapLayer 可见（回到屋外）时播放
 const DOOR_OPEN_AUDIO := preload("uid://deotw4t0rcr5v")
-# 关门音效：交互后 TileMapLayer2 / 3 可见（进入屋内）时播放
+# 关门音效：交互后 TileMapLayer2 / 3 / 4 可见（进入屋内）时播放
 const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 
 ## 房屋进出交互脚本
@@ -12,12 +12,14 @@ const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 ##
 ## 屋外（默认未交互）：
 ##   TileMapLayer           可见，物理碰撞关闭（门口区域可自由通行）
-##   TileMapLayer2 / 3      隐藏，物理碰撞关闭
+##   TileMapLayer2 / 3 / 4  隐藏，物理碰撞关闭
 ##   LightOccluder2D        可见（外观遮挡阳光投射阴影）
+##   SavePoint              隐藏，交互检测关闭（存档点属于室内）
 ## 屋内（首次交互后）：
 ##   TileMapLayer           隐藏，物理碰撞关闭
-##   TileMapLayer2 / 3      可见，物理碰撞开启（室内墙体碰撞生效）
+##   TileMapLayer2 / 3 / 4  可见，物理碰撞开启（室内墙体碰撞生效）
 ##   LightOccluder2D        隐藏（不再遮挡室内灯光）
+##   SavePoint              显示，交互检测开启
 ##   室内 NPC               显示，交互检测开启
 ## 再次交互恢复屋外状态，如此往复。放在房子节点下的 NPC 会自动纳入显隐管理。
 ##
@@ -49,6 +51,8 @@ const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 @onready var _interior_layer_2: TileMapLayer = $Sprite2D/TileMapLayer2
 # 室内图层 2（家具 / 装饰等）
 @onready var _interior_layer_3: TileMapLayer = $Sprite2D/TileMapLayer3
+# 室内图层 3（装饰等）
+@onready var _interior_layer_4: TileMapLayer = $Sprite2D/TileMapLayer4
 # 房屋整体区域：监测玩家是否还在房屋范围内，离开后延迟自动切回屋外
 @onready var _house_area: Area2D = $HouseArea
 
@@ -56,6 +60,8 @@ const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 var _interior_npcs: Array[NPC] = []
 ## 房屋外观的光照遮挡体列表：可见性跟随外观图层（屋外投射阴影，屋内不遮挡）
 var _exterior_occluders: Array[LightOccluder2D] = []
+## 室内存档点列表：可见性跟随内景图层（屋内显示，屋外隐藏）
+var _interior_save_points: Array[SavePoint] = []
 
 ## false = 屋外（默认未交互状态）；true = 屋内
 var _is_inside: bool = false
@@ -77,12 +83,14 @@ var _transition_anim: Tween = null
 
 
 func _ready() -> void:
-	# 收集房子下的所有 NPC（如 InteriorNPC）和外观光照遮挡体，随房屋状态一起显隐
+	# 收集房子下的所有 NPC（如 InteriorNPC）、外观光照遮挡体和存档点，随房屋状态一起显隐
 	for node in find_children("*"):
 		if node is NPC:
 			_interior_npcs.append(node)
 		elif node is LightOccluder2D:
 			_exterior_occluders.append(node)
+		elif node is SavePoint:
+			_interior_save_points.append(node)
 	# 进入场景时强制应用一次默认状态，保证运行时状态确定，不依赖编辑器里的图层配置
 	_apply_state()
 	# 门口交互区检测：沿用项目里开关 / 宝箱的交互范式
@@ -132,10 +140,14 @@ func _play_transition() -> void:
 	_show_for_fade(_exterior_layer)
 	_show_for_fade(_interior_layer_2)
 	_show_for_fade(_interior_layer_3)
+	_show_for_fade(_interior_layer_4)
 	# 淡变期间冻结 NPC 物理：内景碰撞在中点才切换，前半程没有地面，不冻结会原地坠落
 	for npc in _interior_npcs:
 		_show_for_fade(npc)
 		npc.set_physics_process(false)
+	# 存档点随内景图层一起淡变（静态节点，无物理需要冻结）
+	for save_point in _interior_save_points:
+		_show_for_fade(save_point)
 	var duration := maxf(transition_duration, 0.001)
 	var exterior_target := 0.0 if _is_inside else 1.0
 	var interior_target := 1.0 if _is_inside else 0.0
@@ -144,8 +156,11 @@ func _play_transition() -> void:
 	_tween_alpha(anim, _exterior_layer, exterior_target, duration)
 	_tween_alpha(anim, _interior_layer_2, interior_target, duration)
 	_tween_alpha(anim, _interior_layer_3, interior_target, duration)
+	_tween_alpha(anim, _interior_layer_4, interior_target, duration)
 	for npc in _interior_npcs:
 		_tween_alpha(anim, npc, interior_target, duration)
+	for save_point in _interior_save_points:
+		_tween_alpha(anim, save_point, interior_target, duration)
 	_transition_anim = anim
 	# 顺序 tween 负责“中点切逻辑状态 + 结束整理可见性”，时长与动画严格对齐
 	_transition_tween = create_tween()
@@ -174,6 +189,7 @@ func _apply_midpoint_state() -> void:
 	# 室内图层碰撞仅在屋内开启：屋外开启会让看不见的墙体阻挡玩家
 	_interior_layer_2.collision_enabled = _is_inside
 	_interior_layer_3.collision_enabled = _is_inside
+	_interior_layer_4.collision_enabled = _is_inside
 	# 外观光照遮挡体：屋外遮挡阳光投影，屋内隐藏避免挡住室内灯光
 	for occluder in _exterior_occluders:
 		occluder.visible = not _is_inside
@@ -181,6 +197,9 @@ func _apply_midpoint_state() -> void:
 	for npc in _interior_npcs:
 		if npc is NPC1:
 			(npc as NPC1).set_interaction_enabled(_is_inside)
+	# 存档点交互检测同样跟随中点：屋外不再对隐形的存档点提示“可交互”或触发存档
+	for save_point in _interior_save_points:
+		save_point.set_interaction_enabled(_is_inside)
 
 
 ## 过渡正常结束：按最终状态整理可见性（先隐藏再把 alpha 复位为 1，复位发生在
@@ -191,13 +210,18 @@ func _finish_transition() -> void:
 	_exterior_layer.visible = not _is_inside
 	_interior_layer_2.visible = _is_inside
 	_interior_layer_3.visible = _is_inside
+	_interior_layer_4.visible = _is_inside
 	_exterior_layer.modulate.a = 1.0
 	_interior_layer_2.modulate.a = 1.0
 	_interior_layer_3.modulate.a = 1.0
+	_interior_layer_4.modulate.a = 1.0
 	for npc in _interior_npcs:
 		npc.visible = _is_inside
 		npc.modulate.a = 1.0
 		npc.set_physics_process(true)
+	for save_point in _interior_save_points:
+		save_point.visible = _is_inside
+		save_point.modulate.a = 1.0
 	# 终态再确认一次碰撞 / 遮挡体 / 交互，覆盖“恰好在中点前被打断”等边界时序
 	_apply_midpoint_state()
 
@@ -211,7 +235,7 @@ func _kill_transition() -> void:
 
 
 ## 瞬时状态应用（transition_duration=0）：根据 _is_inside 一次性设置
-## 三个图层的可见性 / 透明度 / 物理碰撞，以及遮挡体与 NPC
+## 三个图层的可见性 / 透明度 / 物理碰撞，以及遮挡体、存档点与 NPC
 func _apply_state() -> void:
 	# 外观图层：屋外可见、屋内隐藏；任何状态下都关闭其 TileSet 物理层碰撞，
 	# 这样玩家在屋外能走进门口区域，进屋后也不会被隐藏的外墙卡住
@@ -219,14 +243,17 @@ func _apply_state() -> void:
 	_exterior_layer.modulate.a = 1.0
 	_exterior_layer.collision_enabled = false
 
-	# 室内两个图层：仅在屋内可见，可见时才开启 TileSet 物理层碰撞；
+	# 室内三个图层：仅在屋内可见，可见时才开启 TileSet 物理层碰撞；
 	# 隐藏时必须一并关闭碰撞，否则看不见的墙体会在屋外阻挡玩家
 	_interior_layer_2.visible = _is_inside
 	_interior_layer_3.visible = _is_inside
+	_interior_layer_4.visible = _is_inside
 	_interior_layer_2.modulate.a = 1.0
 	_interior_layer_3.modulate.a = 1.0
+	_interior_layer_4.modulate.a = 1.0
 	_interior_layer_2.collision_enabled = _is_inside
 	_interior_layer_3.collision_enabled = _is_inside
+	_interior_layer_4.collision_enabled = _is_inside
 
 	# 外观光照遮挡体与外观图层同步：屋外遮挡阳光投下房屋阴影，进屋后隐藏，
 	# 避免室内灯光被看不见的外墙 / 屋顶挡住
@@ -241,6 +268,13 @@ func _apply_state() -> void:
 		npc.set_physics_process(true)
 		if npc is NPC1:
 			(npc as NPC1).set_interaction_enabled(_is_inside)
+
+	# 室内存档点随房屋状态显隐；隐藏时一并关闭交互检测，
+	# 否则屋外能走进房屋轮廓内碰到隐形的存档点并触发存档
+	for save_point in _interior_save_points:
+		save_point.visible = _is_inside
+		save_point.modulate.a = 1.0
+		save_point.set_interaction_enabled(_is_inside)
 
 
 # ---------- Area2D 区域检测 ----------

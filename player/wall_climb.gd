@@ -42,8 +42,10 @@ func enter() -> void:
 	#停顿时不受重力、静止贴在墙上
 	player.gravity_mulitplier = 0.0
 	player.velocity = Vector2.ZERO
-	#重置跳跃计数：蹬墙跳算作一次新跳跃，蹬离后仍可再跳一次（需已解锁二段跳）
-	player.jump_count = 0
+	#重置跳跃计数：蹬墙跳算作一次新跳跃，蹬离后仍可再跳一次。
+	#仅已解锁二段跳时才重置：未解锁时不刷新计数，蹬墙跳不会白送一次空中跳跃
+	if player.double_jump:
+		player.jump_count = 0
 	#抓住墙面刷新空中冲刺：蹬墙跳/脱离墙面后可再次冲刺（与落地重置一致）
 	player.dash_count = 0
 	pass
@@ -61,6 +63,10 @@ func exit() -> void:
 func handle_input( event : InputEvent ) -> PlayerState:
 	#蹬墙跳：向远离墙的方向跳出，并启动0.3秒攀爬禁用，期间无法重新附着墙面
 	if event.is_action_pressed( "jump" ):
+		#蹬墙跳需要二段跳：未解锁时按跳不生效，避免爬墙变成绕过二段跳禁令的第二次空中跳跃；
+		#此时仍可按远离墙的方向键脱离墙面，或自然下滑离开
+		if not player.double_jump:
+			return null
 		player.wall_climb_cooldown = player.WALL_CLIMB_JUMP_COOLDOWN
 		player.velocity.x = -wall_dir * player.move_speed
 		return jump

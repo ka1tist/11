@@ -37,14 +37,20 @@ func enter() -> void:
 	if player.jump_count == 0:
 		player.jump_count = 1
 	
+	# 土狼时间只给“确实刚从地面走下来”的情况。previous_state 是刚离开的那个状态，
+	# 跳跃/下落中途经攻击等中间状态再回到 fall 时，它会被中间状态顶掉，
+	# 用“非 jump/run/dash 就给土狼时间”的黑名单写法会漏判，空中白送一次跳跃。
+	# 因此改为白名单：站在地面时地面消失（idle）或助跑走下落差（run）才给——
+	# run 只能从 idle 进入，而 idle 会把 jump_count 清零，两种情况玩家都还没用过跳跃；
+	# 新增状态默认落到 else，不会再出现空中误发土狼时间。
 	var prev : PlayerState = player.previous_state
-	if prev == jump or prev == run or prev == dash:
-		coyote_timer = 0
-	elif player.previous_state == crouch:
-		coyote_timer = 0
-		player.jump_count = 1
-	else:
+	if prev == idle or prev == run:
 		coyote_timer = coyote_time
+	else:
+		coyote_timer = 0
+		if prev == crouch:
+			#蹲着走下落差：消耗掉地面跳
+			player.jump_count = 1
 	pass
 	
 #当我们退出这个状态会发生什么
@@ -70,6 +76,8 @@ func handle_input( _event : InputEvent ) -> PlayerState:
 		return attack
 	if _event.is_action_pressed("jump"):
 		if coyote_timer > 0:
+			#土狼跳：宽限期内补的是"本段滞空的第一跳"（jump_count 归零 → do_jump 走地面跳分支），
+			#coyote_timer 只在刚从地面走落时才 > 0，空中不会有宽限期
 			player.jump_count = 0
 			return jump 
 		elif player.jump_count <= 1 and player.double_jump:

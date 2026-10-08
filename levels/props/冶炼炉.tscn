@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://dxteuasxdcg16"]
+
+[ext_resource type="Texture2D" uid="uid://bkhkac4kmhnrt" path="res://levels/tilesets/sprites/Pixel Art Furnace and Sawmill.png" id="1_y63lm"]
+[ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_iejmu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y63lm"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iejmu"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajc55"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_issc8"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix3ky"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2oss"]
+atlas = ExtResource("1_y63lm")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7h0lg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y63lm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iejmu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ajc55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_issc8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix3ky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2oss")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_eduya"]
+offsets = PackedFloat32Array(0.12583892, 0.28355706, 0.44798657, 1)
+colors = PackedColorArray(1, 1, 0.019607844, 0.61960787, 1, 0.6431373, 0.03137255, 0.44705883, 1, 0.34901962, 0, 0.43137255, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bwtma"]
+gradient = SubResource("Gradient_eduya")
+width = 256
+height = 256
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.49658704, 0.48634812)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ets4p"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_7wa3g"]
+offsets = PackedFloat32Array(0, 0.23662551, 0.54526746, 1)
+colors = PackedColorArray(1, 1, 0.03529412, 1, 1, 0.7411765, 0.007843138, 1, 1, 0.45490196, 0.02745098, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eduya"]
+gradient = SubResource("Gradient_7wa3g")
+use_hdr = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ji43y"]
+particle_flag_disable_z = true
+direction = Vector3(1, -8, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 400.0
+gravity = Vector3(0, 98, 0)
+color_ramp = SubResource("GradientTexture1D_eduya")
+turbulence_enabled = true
+turbulence_influence_max = 0.3
+turbulence_initial_displacement_min = -19.999998
+turbulence_initial_displacement_max = 20.000002
+
+[node name="冶炼炉" type="AnimatedSprite2D" unique_id=7027243]
+sprite_frames = SubResource("SpriteFrames_7h0lg")
+autoplay = "default"
+frame_progress = 0.02603317
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=2053176799]
+position = Vector2(0, 12)
+energy = 0.5
+texture = SubResource("GradientTexture2D_bwtma")
+script = ExtResource("2_iejmu")
+flicker_intensity = 0.2
+flicker_frenquency = 0.1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=717861957]
+material = SubResource("CanvasItemMaterial_ets4p")
+position = Vector2(0, 11)
+amount = 5
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ji43y")
