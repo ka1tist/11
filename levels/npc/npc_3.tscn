@@ -1,0 +1,267 @@
+[gd_scene format=3 uid="uid://dvxst87870rxt"]
+
+[ext_resource type="Script" uid="uid://jo6eu1xfw4tb" path="res://levels/npc/scripts/npc_1.gd" id="1_y8cse"]
+[ext_resource type="Texture2D" uid="uid://coxihpdb4atfg" path="res://levels/npc/sprites/Female Skin2.png" id="2_5m1qw"]
+[ext_resource type="Texture2D" uid="uid://bni0hefoofvv6" path="res://levels/npc/sprites/Purple Corset v2.png" id="3_un80n"]
+[ext_resource type="Texture2D" uid="uid://bgkslxbak8i8" path="res://levels/npc/sprites/Skirt.png" id="4_105dy"]
+[ext_resource type="Texture2D" uid="uid://dm8n6mduxhote" path="res://levels/npc/sprites/Female Hair5.png" id="5_l1t1r"]
+[ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="6_6bnym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(22, 46)
+
+[sub_resource type="Animation" id="Animation_wx7fb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/clothes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/pants:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/hair:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/boots:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_iq2ne"]
+resource_name = "idle"
+length = 0.71428573
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/clothes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/pants:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/hair:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/boots:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857146, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_7duek"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/clothes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/hair:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/pants:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/boots:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fceui"]
+_data = {
+&"RESET": SubResource("Animation_wx7fb"),
+&"idle": SubResource("Animation_iq2ne"),
+&"walk": SubResource("Animation_7duek")
+}
+
+[node name="npc_3" type="CharacterBody2D" unique_id=1197330069]
+scale = Vector2(1.2, 1.2)
+collision_layer = 0
+collision_mask = 3
+floor_snap_length = 2.0
+script = ExtResource("1_y8cse")
+dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺", "祝你好运！"])
+dialog_box_offset_y = -100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=116625680]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1004040015]
+position = Vector2(0, -45)
+scale = Vector2(-1.5, 1.4)
+texture = ExtResource("2_5m1qw")
+hframes = 10
+vframes = 7
+
+[node name="clothes" type="Sprite2D" parent="Sprite2D" unique_id=1792502527]
+position = Vector2(7.441032e-09, -0.5)
+texture = ExtResource("3_un80n")
+hframes = 10
+vframes = 7
+
+[node name="pants" type="Sprite2D" parent="Sprite2D" unique_id=637480098]
+texture = ExtResource("4_105dy")
+hframes = 10
+vframes = 7
+
+[node name="hair" type="Sprite2D" parent="Sprite2D" unique_id=813816592]
+texture = ExtResource("5_l1t1r")
+hframes = 10
+vframes = 7
+
+[node name="boots" type="Sprite2D" parent="Sprite2D" unique_id=1318151839]
+hframes = 10
+vframes = 7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1757147192]
+libraries/ = SubResource("AnimationLibrary_fceui")
+
+[node name="PatrolLimit" type="Node2D" parent="." unique_id=1000000001]
+position = Vector2(-32, 0)
+script = ExtResource("6_6bnym")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="." unique_id=1000000002]
+position = Vector2(36, 0)
+script = ExtResource("6_6bnym")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"

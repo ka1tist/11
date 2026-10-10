@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_qfips"]
 [ext_resource type="Script" uid="uid://bfp57l00qgc4a" path="res://levels/props/房子.gd" id="2_house"]
-[ext_resource type="PackedScene" uid="uid://deugb5ktpkd1r" path="res://levels/npc/npc_1.tscn" id="3_npc"]
+[ext_resource type="PackedScene" uid="uid://dvxst87870rxt" path="res://levels/npc/npc_3.tscn" id="3_05ygm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
 size = Vector2(31.5, 46)
@@ -43,10 +43,6 @@ position = Vector2(-127, -46)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_ieygl")
 
-[node name="InteriorNPC" parent="." unique_id=1832363196 instance=ExtResource("3_npc")]
-position = Vector2(-27, -2)
-dialog_lines = Array[String](["欢迎来我家！", "有什么需要的可以找我买"])
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=759619203]
 occluder = SubResource("OccluderPolygon2D_7h0lg")
 
@@ -57,3 +53,6 @@ collision_mask = 16
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HouseArea" unique_id=1193266749]
 polygon = PackedVector2Array(-160, 0, -160, -384, 160, -384, 160, 0)
+
+[node name="npc_3" parent="." unique_id=1197330069 instance=ExtResource("3_05ygm")]
+dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺"])
