@@ -48,10 +48,12 @@ animations = [{
 }]
 
 [sub_resource type="Gradient" id="Gradient_3ujte"]
+offsets = PackedFloat32Array(0, 0.5665681)
 colors = PackedColorArray(0.24650003, 0.7192417, 0.85, 0.654902, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_i60n5"]
 gradient = SubResource("Gradient_3ujte")
+use_hdr = true
 fill = 1
 fill_from = Vector2(0.49658704, 0.48634812)
 metadata/_snap_enabled = true

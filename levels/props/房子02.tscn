@@ -39,6 +39,11 @@ position = Vector2(0, -0.5)
 tile_map_data = PackedByteArray("AAD9////BQAQAAEAAAD+////BQARAAEAAAA=")
 tile_set = ExtResource("2_f3krf")
 
+[node name="TileMapLayer5" type="TileMapLayer" parent="Sprite2D" unique_id=1515546413]
+position = Vector2(0, -0.5)
+tile_map_data = PackedByteArray("AAD6//n/CAABAAUAAAD7//j/CAACAAQAAAD8//f/CAADAAMAAAD9//b/CAAEAAIAAAD+//X/CAAFAAEAAAD///T/CAAGAAAAAAAAAPT/CAAHAAAAAAABAPX/CAAIAAEAAAACAPb/CAAJAAIAAAADAPf/CAAKAAMAAAAEAPj/CAALAAQAAAAFAPn/CAAMAAUAAAA=")
+tile_set = ExtResource("2_f3krf")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1412684219]
 position = Vector2(-127, -46)
 scale = Vector2(2, 2)

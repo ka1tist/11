@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvxst87870rxt"]
 
-[ext_resource type="Script" uid="uid://jo6eu1xfw4tb" path="res://levels/npc/scripts/npc_1.gd" id="1_y8cse"]
+[ext_resource type="Script" path="res://levels/npc/scripts/npc_3.gd" id="1_y8cse"]
 [ext_resource type="Texture2D" uid="uid://coxihpdb4atfg" path="res://levels/npc/sprites/Female Skin2.png" id="2_5m1qw"]
 [ext_resource type="Texture2D" uid="uid://bni0hefoofvv6" path="res://levels/npc/sprites/Purple Corset v2.png" id="3_un80n"]
 [ext_resource type="Texture2D" uid="uid://bgkslxbak8i8" path="res://levels/npc/sprites/Skirt.png" id="4_105dy"]

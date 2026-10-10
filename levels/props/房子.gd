@@ -21,6 +21,7 @@ const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 ##   LightOccluder2D        隐藏（不再遮挡室内灯光）
 ##   SavePoint              显示，交互检测开启
 ##   室内 NPC               显示，交互检测开启
+##   TileMapLayer5          碰撞常驻：始终开启物理碰撞，不随开关门变化（非视觉图层，不参与淡变）
 ## 再次交互恢复屋外状态，如此往复。放在房子节点下的 NPC 会自动纳入显隐管理。
 ##
 ## 离开自动回屋外（HouseArea 房屋整体区域）：
@@ -53,6 +54,9 @@ const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
 @onready var _interior_layer_3: TileMapLayer = $Sprite2D/TileMapLayer3
 # 室内图层 3（装饰等）
 @onready var _interior_layer_4: TileMapLayer = $Sprite2D/TileMapLayer4
+# 碰撞常驻图层（房子02 的 TileMapLayer5，楼梯 / 台阶等）：物理碰撞始终开启，
+# 不参与开关门的碰撞切换。房子01 等没有该节点的场景取到 null，自动跳过
+@onready var _constant_collision_layer: TileMapLayer = get_node_or_null( "Sprite2D/TileMapLayer5" ) as TileMapLayer
 # 房屋整体区域：监测玩家是否还在房屋范围内，离开后延迟自动切回屋外
 @onready var _house_area: Area2D = $HouseArea
 
@@ -190,6 +194,9 @@ func _apply_midpoint_state() -> void:
 	_interior_layer_2.collision_enabled = _is_inside
 	_interior_layer_3.collision_enabled = _is_inside
 	_interior_layer_4.collision_enabled = _is_inside
+	# 碰撞常驻图层：无论开门 / 关门都保持碰撞开启，不随房屋状态变化
+	if _constant_collision_layer != null:
+		_constant_collision_layer.collision_enabled = true
 	# 外观光照遮挡体：屋外遮挡阳光投影，屋内隐藏避免挡住室内灯光
 	for occluder in _exterior_occluders:
 		occluder.visible = not _is_inside
@@ -254,6 +261,9 @@ func _apply_state() -> void:
 	_interior_layer_2.collision_enabled = _is_inside
 	_interior_layer_3.collision_enabled = _is_inside
 	_interior_layer_4.collision_enabled = _is_inside
+	# 碰撞常驻图层：无论开门 / 关门都保持碰撞开启，不随房屋状态变化
+	if _constant_collision_layer != null:
+		_constant_collision_layer.collision_enabled = true
 
 	# 外观光照遮挡体与外观图层同步：屋外遮挡阳光投下房屋阴影，进屋后隐藏，
 	# 避免室内灯光被看不见的外墙 / 屋顶挡住

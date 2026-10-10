@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dey5h10un1u3x"]
+
+[ext_resource type="Texture2D" uid="uid://dgtwjk6kaq2j1" path="res://资源/tiles/crystal_01.png" id="1_gvdgj"]
+[ext_resource type="Script" uid="uid://5f4265fpclmf" path="res://pause_menu/bag/item_data.gd" id="2_iepkr"]
+
+[resource]
+script = ExtResource("2_iepkr")
+id = &"crystal"
+item_name = "水晶"
+icon = ExtResource("1_gvdgj")
+description = "钻石合成的水晶，获得时可以提升1点攻击力。"
+metadata/_custom_type_script = "uid://5f4265fpclmf"

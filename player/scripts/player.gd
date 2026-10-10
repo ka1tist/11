@@ -62,6 +62,11 @@ const ATTACK_FACING_LOCK_TIME : float = 0.1
 var attack_facing_lock_timer : float = 0.0
 var coin : int = 0
 var diamond : int = 0
+#强化系统的攻击力加成（存入存档的字段）：实际伤害 = 基础伤害 + 此加成
+var attack_power_bonus : float = 0.0
+#首次设置加成时记录的基础伤害，用于读档时按基准重算，避免反复读档叠加
+var _base_attack_damage : float = 0.0
+var _attack_base_captured : bool = false
 #玩家是否已死亡：死亡通知只广播一次，防止重复受伤/重复进入死亡状态时多次发射
 var _is_dead : bool = false
 #endregion
@@ -307,6 +312,23 @@ func add_debug_indicator( color : Color = Color.RED ) -> void:
 
 func _on_player_healed( amount : float ) -> void:
 	hp += amount
+	pass
+
+
+## 强化系统：提升攻击力。主攻击判定的伤害值就是攻击力，直接累加即可
+func add_attack_power( amount : float = 1.0 ) -> void:
+	set_attack_power_bonus( attack_power_bonus + amount )
+	pass
+
+
+## 设置攻击力加成（存档字段）：以基础伤害为基准重算，读档时反复调用也不会叠加
+func set_attack_power_bonus( bonus : float ) -> void:
+	if not _attack_base_captured:
+		#只在首次设置时记录基础伤害，之后的加成全部以它为基准
+		_attack_base_captured = true
+		_base_attack_damage = attack_area.damege
+	attack_power_bonus = bonus
+	attack_area.damege = _base_attack_damage + attack_power_bonus
 	pass
 
 
