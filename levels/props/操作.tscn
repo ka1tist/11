@@ -54,5 +54,5 @@ theme_override_font_sizes/font_size = 10
 text = "操作说明：
 移动：↑↓←→
 攻击：x  跳跃：z  闪避：c
-下落攻击：↓+x "
+下落攻击：↓+x 恢复：a"
 vertical_alignment = 1

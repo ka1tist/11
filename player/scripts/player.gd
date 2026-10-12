@@ -2,6 +2,8 @@ class_name Player extends CharacterBody2D
 
 const DEBUG_JUMP_INDICATOR = preload("uid://c20ut5uhd7s7g")
 const MORPH = preload("uid://bw4a85fy11igm")
+#使用血瓶的音效（与回血道具 health_up.wav 同一音效）
+const POTION_USE_AUDIO = preload("uid://dlcqh5gb7b8dw")
 signal damage_taken
 
 #region /// on ready variables
@@ -62,6 +64,14 @@ const ATTACK_FACING_LOCK_TIME : float = 0.1
 var attack_facing_lock_timer : float = 0.0
 var coin : int = 0
 var diamond : int = 0
+#血瓶上限与单次使用回血量
+const POTION_MAX : int = 3
+const POTION_HEAL_AMOUNT : float = 2.0
+#血瓶持有数量（存档字段）：初始补满，setter 钳制到 [0, POTION_MAX]，并广播给 HUD 实时刷新显示
+var potion : int = POTION_MAX :
+	set( value ):
+		potion = clampi( value , 0 , POTION_MAX )
+		Messages.potion_changed.emit( potion )
 #强化系统的攻击力加成（存入存档的字段）：实际伤害 = 基础伤害 + 此加成
 var attack_power_bonus : float = 0.0
 #首次设置加成时记录的基础伤害，用于读档时按基准重算，避免反复读档叠加
@@ -132,6 +142,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	#按下攻击键：锁定sprite朝向0.1秒，攻击动作起始方向不被移动输入改变
 	if event.is_action_pressed( "attack" ):
 		attack_facing_lock_timer = ATTACK_FACING_LOCK_TIME
+	#按下血瓶快捷键：数量足够且未满血时消耗 1 瓶并回复 2 点生命（边界判断见 use_potion）
+	if event.is_action_pressed( "health" ):
+		use_potion()
 	change_state( current_state.handle_input( event ) )
 	pass
 
@@ -312,6 +325,19 @@ func add_debug_indicator( color : Color = Color.RED ) -> void:
 
 func _on_player_healed( amount : float ) -> void:
 	hp += amount
+	pass
+
+
+#使用血瓶：没有血瓶或已满血时直接返回（不消耗道具、不回血）；
+#否则消耗 1 瓶并回复固定生命值（hp setter 会把结果钳制到不超过 max_hp）
+func use_potion() -> void:
+	if potion <= 0:
+		return
+	if hp >= max_hp:
+		return
+	potion -= 1
+	Messages.player_healed.emit( POTION_HEAL_AMOUNT )
+	Audio.play_spatial_sound( POTION_USE_AUDIO , global_position )
 	pass
 
 

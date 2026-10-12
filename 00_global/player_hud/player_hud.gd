@@ -15,6 +15,9 @@ extends CanvasLayer
 @onready var up_container: HBoxContainer = %UpContainer
 @onready var up_label: Label = %UpLabel
 
+@onready var potion_container: HBoxContainer = %PotionContainer
+@onready var potion_label: Label = %PotionLabel
+
 var coin_tween: Tween
 var up_tween: Tween
 
@@ -25,6 +28,9 @@ const PIP_FILL_COLOR := Color( 0.83 , 0.24 , 0.21 )
 const PIP_FILL_BORDER := Color( 0.33 , 0.06 , 0.06 )
 const PIP_EMPTY_COLOR := Color( 0.10 , 0.09 , 0.11 )
 const PIP_EMPTY_BORDER := Color( 0.28 , 0.13 , 0.15 )
+#血条左端 x（与 HPMarginContainer 的 offset_left 一致）与血瓶模块间距
+const HP_BAR_LEFT : float = 24.0
+const POTION_GAP : float = 6.0
 
 var _pip_style_filled : StyleBoxFlat
 var _pip_style_empty : StyleBoxFlat
@@ -36,6 +42,7 @@ func _ready() -> void:
 	Messages.player_health_changed.connect( update_health_bar )
 	Messages.coin_collected.connect( _on_coin_collected )
 	Messages.diamond_collected.connect( _on_diamond_collected )
+	Messages.potion_changed.connect( _on_potion_changed )
 	game_over.visible = false
 	up_container.visible = false
 	load_button.pressed.connect( _on_load_pressed )
@@ -44,6 +51,7 @@ func _ready() -> void:
 	var player : Player = get_tree().get_first_node_in_group( "Player" )
 	if player:
 		update_health_bar( player.hp , player.max_hp )
+		_on_potion_changed( player.potion )
 	pass
 
 
@@ -67,6 +75,8 @@ func update_health_bar( hp : float , max_hp : float ) -> void:
 		_rebuild_pips( total )
 	#框体内宽 = 左边距19 + 每格(宽+间隔) - 末尾间隔 + 右边距3
 	hp_margin_container.size.x = 22 + total * ( int( PIP_SIZE.x ) + PIP_GAP ) - PIP_GAP
+	#血瓶模块紧贴血条右侧：血条宽度随 max_hp 变化，这里按血条实际宽度重新定位
+	potion_container.position.x = HP_BAR_LEFT + hp_margin_container.size.x + POTION_GAP
 	for i in total:
 		var pip : Panel = hp_container.get_child( i ) as Panel
 		pip.add_theme_stylebox_override( "panel" , _pip_style_filled if i < current else _pip_style_empty )
@@ -134,6 +144,12 @@ func _on_diamond_collected( diamond : int ) -> void:
 	up_tween.tween_interval( 0.6 )
 	up_tween.tween_property( up_container , "modulate:a" , 0.0 , 0.2 )
 	up_tween.finished.connect( func(): up_container.visible = false )
+	pass
+
+
+#血瓶数量变化时实时刷新计数显示（数据唯一来源是 Player.potion，避免显示与数据不同步）
+func _on_potion_changed( count : int ) -> void:
+	potion_label.text = str( count )
 	pass
 
 

@@ -22,6 +22,9 @@
 [ext_resource type="PackedScene" uid="uid://b25n8t5p2muqh" path="res://levels/props/右水面.tscn" id="14_2cxq1"]
 [ext_resource type="PackedScene" uid="uid://2mllrl6p03it" path="res://levels/npc/npc_2.tscn" id="15_2cxq1"]
 [ext_resource type="PackedScene" uid="uid://1l4m6d3khflp" path="res://levels/props/钻石.tscn" id="16_e5hmq"]
+[ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="18_aer0p"]
+[ext_resource type="PackedScene" uid="uid://dt0p3n1o5dqol" path="res://levels/npc/npc_4.tscn" id="19_g7a6y"]
+[ext_resource type="Script" uid="uid://jo6eu1xfw4tb" path="res://levels/npc/scripts/npc_1.gd" id="20_1cfis"]
 [ext_resource type="PackedScene" uid="uid://cvlsf5ts5srph" path="res://levels/props/房子02.tscn" id="23_eeby2"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_tco3u"]
@@ -271,7 +274,7 @@ tile_set = ExtResource("2_xtpjv")
 position = Vector2(48, -8)
 
 [node name="npc_1" parent="Props" unique_id=1625428518 instance=ExtResource("13_fy4ii")]
-position = Vector2(950, 345)
+position = Vector2(1092, 344)
 dialog_lines = Array[String](["你好，旅行者！", "这是一个小村庄，你可以随便转转", "祝你好运！"])
 
 [node name="煮锅" parent="Props" unique_id=687056835 instance=ExtResource("7_fsliq")]
@@ -323,6 +326,30 @@ dialog_lines = Array[String](["只要你有钻石", "我就可以帮你强化武
 
 [node name="钻石" parent="Props" unique_id=1805056374 instance=ExtResource("16_e5hmq")]
 position = Vector2(2733, -169)
+
+[node name="钻石2" parent="Props" unique_id=660138457 instance=ExtResource("16_e5hmq")]
+position = Vector2(576, 334)
+
+[node name="钻石3" parent="Props" unique_id=891825193 instance=ExtResource("16_e5hmq")]
+position = Vector2(598, 334)
+
+[node name="钻石4" parent="Props" unique_id=377765794 instance=ExtResource("16_e5hmq")]
+position = Vector2(622, 334)
+
+[node name="钻石5" parent="Props" unique_id=157236237 instance=ExtResource("16_e5hmq")]
+position = Vector2(647, 334)
+
+[node name="AbilityPickup" parent="Props" unique_id=899164570 instance=ExtResource("18_aer0p")]
+position = Vector2(531, 319)
+type = 1
+
+[node name="npc_4" parent="Props" unique_id=325362489 instance=ExtResource("19_g7a6y")]
+position = Vector2(902, 345)
+script = ExtResource("20_1cfis")
+
+[node name="npc_5" parent="Props" unique_id=939545599 instance=ExtResource("19_g7a6y")]
+position = Vector2(3445, 280)
+script = ExtResource("20_1cfis")
 
 [node name="LightOccluder" type="Node2D" parent="." unique_id=1515569031]
 

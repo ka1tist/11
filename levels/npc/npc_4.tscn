@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://dt0p3n1o5dqol"]
+
+[ext_resource type="Script" uid="uid://b5shv4puf4hat" path="res://levels/npc/scripts/npc_4.gd" id="1_fdrgb"]
+[ext_resource type="Texture2D" uid="uid://bwgjmfrt5l8a6" path="res://levels/npc/sprites/GandalfHardcore Archer blue sheet.png" id="2_v44ta"]
+[ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="6_5l5c6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(37.666664, 46)
+
+[sub_resource type="Animation" id="Animation_wx7fb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_iq2ne"]
+resource_name = "idle"
+length = 0.71428573
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_7duek"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [22, 23, 24, 25, 26, 27, 28, 29]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fceui"]
+_data = {
+&"RESET": SubResource("Animation_wx7fb"),
+&"idle": SubResource("Animation_iq2ne"),
+&"walk": SubResource("Animation_7duek")
+}
+
+[node name="npc_4" type="CharacterBody2D" unique_id=1197330069]
+scale = Vector2(1.2, 1.2)
+collision_layer = 0
+collision_mask = 3
+floor_snap_length = 2.0
+script = ExtResource("1_fdrgb")
+dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺", "祝你好运！"])
+dialog_box_offset_y = -100.0
+move_speed = 60.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=116625680]
+position = Vector2(7.833333, -23)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1004040015]
+position = Vector2(6.666667, -45)
+scale = Vector2(-1.35, 1.4)
+texture = ExtResource("2_v44ta")
+hframes = 11
+vframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1757147192]
+libraries/ = SubResource("AnimationLibrary_fceui")
+
+[node name="PatrolLimit" type="Node2D" parent="." unique_id=1000000001]
+position = Vector2(-53.333332, 0)
+script = ExtResource("6_5l5c6")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="." unique_id=1000000002]
+position = Vector2(66.666664, 0)
+script = ExtResource("6_5l5c6")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"

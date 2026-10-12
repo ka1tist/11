@@ -197,7 +197,6 @@ position = Vector2(81, 289)
 [node name="Props" type="Node2D" parent="." unique_id=374830893]
 
 [node name="操作" parent="Props" unique_id=960810658 instance=ExtResource("7_labnj")]
-visible = false
 position = Vector2(81, 276)
 
 [node name="插地火把" parent="Props" unique_id=109864954 instance=ExtResource("10_wcxka")]

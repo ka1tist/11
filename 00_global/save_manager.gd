@@ -54,6 +54,7 @@ func create_new_game_save( slot : int ) -> void:
 		"wall_climb" : false,
 		"coin" : 0,
 		"diamond" : 0,
+		"potion" : Player.POTION_MAX,
 		"attack_power_bonus" : 0.0,
 		"loot_magnet_range" : Player.LOOT_MAGNET_RANGE_DEFAULT,
 		"discovered_areas" : discovered_areas,
@@ -85,6 +86,7 @@ func save_game() ->void:
 		"wall_climb" : player.wall_climb,
 		"coin" : player.coin,
 		"diamond" : player.diamond,
+		"potion" : player.potion,
 		"attack_power_bonus" : player.attack_power_bonus,
 		"loot_magnet_range" : player.loot_magnet_range,
 		"discovered_areas" : discovered_areas,
@@ -113,6 +115,7 @@ func save_progress() -> void:
 	save_data[ "wall_climb" ] = player.wall_climb
 	save_data[ "coin" ] = player.coin
 	save_data[ "diamond" ] = player.diamond
+	save_data[ "potion" ] = player.potion
 	save_data[ "attack_power_bonus" ] = player.attack_power_bonus
 	save_data[ "loot_magnet_range" ] = player.loot_magnet_range
 	save_data[ "persistent_data" ] = persistent_data
@@ -161,6 +164,8 @@ func setup_player() -> void:
 	player.wall_climb = save_data.get( "wall_climb" , false )
 	player.coin = save_data.get( "coin" , 0 )
 	player.diamond = save_data.get( "diamond" , 0 )
+	# 兼容旧存档：血瓶系统上线前无此字段时，按初始值补满（初始即为上限）
+	player.potion = save_data.get( "potion" , Player.POTION_MAX )
 	# 兼容旧存档：强化系统上线前无此字段时回退 0 加成
 	player.set_attack_power_bonus( save_data.get( "attack_power_bonus" , 0.0 ) )
 	# 兼容旧存档：磁铁道具上线前无此字段时回退默认磁吸范围

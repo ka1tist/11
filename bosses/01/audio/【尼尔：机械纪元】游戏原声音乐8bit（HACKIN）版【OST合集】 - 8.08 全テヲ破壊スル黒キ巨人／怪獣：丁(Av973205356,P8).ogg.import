@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dw7bst3wgq6hv"
+path="res://.godot/imported/【尼尔：机械纪元】游戏原声音乐8bit（HACKIN）版【OST合集】 - 8.08 全テヲ破壊スル黒キ巨人／怪獣：丁(Av973205356,P8).ogg-e7978e3f4649692d381c6cb0918c4a1b.oggvorbisstr"
+
+[deps]
+
+source_file="res://bosses/01/audio/【尼尔：机械纪元】游戏原声音乐8bit（HACKIN）版【OST合集】 - 8.08 全テヲ破壊スル黒キ巨人／怪獣：丁(Av973205356,P8).ogg"
+dest_files=["res://.godot/imported/【尼尔：机械纪元】游戏原声音乐8bit（HACKIN）版【OST合集】 - 8.08 全テヲ破壊スル黒キ巨人／怪獣：丁(Av973205356,P8).ogg-e7978e3f4649692d381c6cb0918c4a1b.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

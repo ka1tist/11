@@ -27,7 +27,9 @@ func _on_player_exited( _n : Node2D ) -> void:
 	pass
 
 
-func _on_player_interacted( _player : Player ) -> void:
+func _on_player_interacted( player : Player ) -> void:
+	#使用存档点：血瓶补满到上限（血瓶唯一的补充来源），再回满生命并写档
+	player.potion = Player.POTION_MAX
 	Messages.player_healed.emit( 999 )
 	SaveManager.save_game()
 	animation_player.play( "game_saved" )

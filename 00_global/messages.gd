@@ -25,3 +25,7 @@ signal coin_collected( coin : int )
 
 @warning_ignore( "unused_signal" )
 signal diamond_collected( diamond : int )
+
+#血瓶数量变化：HUD 据此实时刷新计数显示
+@warning_ignore( "unused_signal" )
+signal potion_changed( count : int )

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ceuha7b1jsei2" path="res://general/pickup/Coin - 12x12 - 4F.png" id="3_tdgrf"]
 [ext_resource type="Texture2D" uid="uid://cwuvsugsmjpkh" path="res://levels/tilesets/sprites/钻石.png" id="4_4jtec"]
 [ext_resource type="Resource" uid="uid://f6sod1xcmtea" path="res://00_global/visual_effects/hit_particle_settings/石头3.tres" id="4_tdgrf"]
+[ext_resource type="Texture2D" path="res://general/sprites/potion_red_01.png" id="5_potion"]
 
 [sub_resource type="GDScript" id="GDScript_7h0lg"]
 script/source = "extends Button
@@ -126,6 +127,30 @@ region_rect = Rect2(0, 0, 16, 16)
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.216, 0.647, 0.796, 1)
+theme_override_font_sizes/font_size = 12
+text = "0"
+vertical_alignment = 1
+
+[node name="PotionContainer" type="HBoxContainer" parent="Control" unique_id=1337360676]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 132.0
+offset_top = 10.0
+offset_right = 180.0
+offset_bottom = 26.0
+theme_override_constants/separation = 4
+
+[node name="PotionIcon" type="TextureRect" parent="Control/PotionContainer" unique_id=1337360677]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("5_potion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PotionLabel" type="Label" parent="Control/PotionContainer" unique_id=1337360678]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.87, 0.24, 0.24, 1)
 theme_override_font_sizes/font_size = 12
 text = "0"
 vertical_alignment = 1

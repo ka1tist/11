@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dld7eaeynsh0b" path="res://general/save_point/save_point.tscn" id="11_icpgw"]
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="12_2hjdc"]
 [ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="12_icpgw"]
-[ext_resource type="AudioStream" uid="uid://dnhcfi2b5ufa5" path="res://music/village.ogg" id="13_fo7d6"]
+[ext_resource type="AudioStream" uid="uid://rkb7t5hjfru0" path="res://music/save.ogg" id="13_fo7d6"]
 [ext_resource type="PackedScene" uid="uid://bl8010s24810b" path="res://general/door_and_switch/door.tscn" id="14_s164p"]
 [ext_resource type="PackedScene" uid="uid://ck0xg1ovcrend" path="res://general/door_and_switch/switch.tscn" id="15_fo7d6"]
 
