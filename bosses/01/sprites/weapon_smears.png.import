@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://53dgyj0oraa3"
-path="res://.godot/imported/nega_pink_box.png-62a428b11b3e14ccb2208ffa42405b1e.ctex"
+uid="uid://cuudbtvk01u5u"
+path="res://.godot/imported/weapon_smears.png-9660096eacb383eb82c2ac44481e1ce9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bosses/01/audio/nega_pink_box.png"
-dest_files=["res://.godot/imported/nega_pink_box.png-62a428b11b3e14ccb2208ffa42405b1e.ctex"]
+source_file="res://bosses/01/sprites/weapon_smears.png"
+dest_files=["res://.godot/imported/weapon_smears.png-9660096eacb383eb82c2ac44481e1ce9.ctex"]
 
 [params]
 

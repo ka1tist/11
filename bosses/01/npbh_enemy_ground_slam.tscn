@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://cj4ogeknfhk0p"]
+
+[ext_resource type="Texture2D" uid="uid://c37r74b4we3kd" path="res://bosses/01/sprites/pink_box_effects.png" id="1_sgf70"]
+[ext_resource type="Script" uid="uid://lfjis050qg13" path="res://general/scripts/hazard_area.gd" id="2_ne1q4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
+size = Vector2(94, 68)
+
+[sub_resource type="Animation" id="Animation_8632e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_etlnb"]
+resource_name = "default"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p26jk"]
+_data = {
+&"RESET": SubResource("Animation_8632e"),
+&"default": SubResource("Animation_etlnb")
+}
+
+[node name="NpbhEnemyGroundSlam" type="Node2D" unique_id=1663804187]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=78691433]
+position = Vector2(0, -64)
+texture = ExtResource("1_sgf70")
+hframes = 5
+vframes = 3
+
+[node name="HazardArea" type="Area2D" parent="." unique_id=214647555]
+position = Vector2(4, 0)
+script = ExtResource("2_ne1q4")
+damege = 2.0
+metadata/_custom_type_script = "uid://lfjis050qg13"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea" unique_id=732719149]
+position = Vector2(-4, -35)
+shape = SubResource("RectangleShape2D_7h0lg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=113793198]
+libraries/ = SubResource("AnimationLibrary_p26jk")

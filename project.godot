@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=120
 config/icon="uid://dx8df05481usg"
 
+[audio]
+
+buses/default_bus_layout="uid://7bkdoae8mtya"
+
 [autoload]
 
 SceneManager="*uid://r62e8vgoyb0x"
@@ -24,6 +28,7 @@ Messages="*uid://canpe3vjmohte"
 PlayerHud="*uid://7iukok5bsrlu"
 Audio="*uid://bdrf16clksca4"
 VisualEffects="*uid://dot6j6iwxlbbr"
+BossHud="*res://00_global/boss_hud/boss_hud.gd"
 Inventory="*res://pause_menu/bag/inventory.gd"
 WorldEnvironmentGlobal="*uid://bsjadeoxi6pj0"
 
