@@ -1,6 +1,7 @@
 class_name BSSkillCharge extends BossState
 
-## 三阶段组合技第二步：悬停蓄力 SKILL_CHARGE_TIME 秒，散发能量粒子（与二阶段蓄力同款）并逐步增强震屏。
+## 三阶段组合技第二步：悬停蓄力 SKILL_CHARGE_TIME 秒，自身颜色明暗循环，
+## 散发能量粒子（与二阶段蓄力同款）并逐步增强震屏。
 ## 蓄力音效 charge.wav 实测仅 0.798 秒，靠按素材长度重播填满整个蓄力过程，进入下落（bs_slam）时才停止。
 
 const CHARGE_AUDIO = preload( "res://bosses/01/audio/charge.wav" )
@@ -15,6 +16,8 @@ var _audio_time : float = 0.0
 func enter() -> void:
 	boss.velocity = Vector2.ZERO
 	boss.play_animation( "skill_02" )
+	#蓄力表现：自身颜色开始明暗循环
+	boss.start_charge_flash()
 	#直接传资源本体：导入 wav 的采样数据在 .godot/imported/*.sample 里，duplicate() 的副本取不到数据会静音
 	boss.play_hold_audio( CHARGE_AUDIO )
 	timer = 0.0
@@ -29,6 +32,8 @@ func re_enter() -> void:
 
 
 func exit() -> void:
+	#蓄力结束：颜色恢复
+	boss.stop_charge_flash()
 	pass
 
 

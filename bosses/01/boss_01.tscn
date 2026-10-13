@@ -21,6 +21,8 @@
 [ext_resource type="Script" uid="uid://b1amy6l0xbnra" path="res://bosses/scripts/states/bs_slam.gd" id="17_bsslam"]
 [ext_resource type="Script" uid="uid://ceoljq11moari" path="res://bosses/scripts/states/bs_transition.gd" id="18_bstransition"]
 [ext_resource type="Script" uid="uid://76ab3567driv" path="res://bosses/scripts/states/bs_death.gd" id="19_bsdeath"]
+[ext_resource type="Script" uid="uid://ce1dkoioenyex" path="res://bosses/scripts/states/bs_hurt.gd" id="20_bshurt"]
+[ext_resource type="Script" uid="uid://p1igjhxidan3" path="res://bosses/scripts/states/bs_pb_skill.gd" id="21_bspbskill"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(38, 90)
@@ -350,10 +352,10 @@ _data = {
 size = Vector2(26, 61)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
-size = Vector2(80, 30)
+size = Vector2(86, 22)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
-size = Vector2(62, 116)
+size = Vector2(52, 92.5)
 
 [node name="Boss01" type="CharacterBody2D" unique_id=1072211599]
 collision_layer = 0
@@ -370,7 +372,8 @@ vframes = 7
 [node name="Sprite2D" type="Sprite2D" parent="Sprite" unique_id=1663460493]
 visible = false
 modulate = Color(1, 0.015686275, 0.34117648, 0.53333336)
-position = Vector2(33.333336, 19.333332)
+position = Vector2(34.666668, 18.66667)
+scale = Vector2(0.78125006, 0.7083334)
 texture = ExtResource("2_vd0h7")
 hframes = 8
 
@@ -401,7 +404,7 @@ script = ExtResource("3_evsoo")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1622341424]
-position = Vector2(40, -40)
+position = Vector2(43, -36)
 shape = SubResource("RectangleShape2D_ieygl")
 
 [node name="DamageArea" type="Area2D" parent="." unique_id=1622341425]
@@ -413,7 +416,7 @@ audio = ExtResource("7_2i4cd")
 metadata/_custom_type_script = "uid://c1unhfbuk57mo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1622341426]
-position = Vector2(0, -56)
+position = Vector2(-3, -46)
 shape = SubResource("RectangleShape2D_hurt")
 
 [node name="BossStateMachine" type="Node" parent="." unique_id=2037473987]
@@ -466,6 +469,14 @@ script = ExtResource("18_bstransition")
 [node name="BSDeath" type="Node" parent="BossStateMachine" unique_id=2118232805]
 unique_name_in_owner = true
 script = ExtResource("19_bsdeath")
+
+[node name="BSHurt" type="Node" parent="BossStateMachine" unique_id=1743908216]
+unique_name_in_owner = true
+script = ExtResource("20_bshurt")
+
+[node name="BSPbSkill" type="Node" parent="BossStateMachine" unique_id=1450227681]
+unique_name_in_owner = true
+script = ExtResource("21_bspbskill")
 
 [node name="BossDecisionEngine" type="Node" parent="." unique_id=839873910]
 script = ExtResource("7_bde")

@@ -1,7 +1,8 @@
 class_name BSLeap extends BossState
 
-## 三阶段组合技第一步：skill_01 跃至屏幕正上方中心点（开始即进入 10 秒组合技冷却）。
+## 三阶段组合技第一步：skill_01 跃至屏幕正上方中心点。
 ## 位移由本状态持有的 Tween 驱动，期间铺残影；退出时销毁补间。
+## 组合技冷却不在这里起算，而是等最后一步下砸落地后才重新计时（见 bs_slam.gd）。
 
 var timer : float = 0.0
 var _afterimage_time : float = 0.0
@@ -9,8 +10,6 @@ var _tween : Tween
 
 
 func enter() -> void:
-	#技能组合开始即进入 10 秒内置冷却
-	boss.blackboard.skill_next_use_msec = Time.get_ticks_msec() + Boss.SKILL_COOLDOWN_MSEC
 	boss.velocity = Vector2.ZERO
 	boss.face_towards_target()
 	boss.play_animation( "skill_01" )

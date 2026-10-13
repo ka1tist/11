@@ -460,7 +460,7 @@ func _on_health_changed( hp : float , max_hp : float ) -> void:
 	pass
 
 
-func _on_phase_changed( phase : int , phase_name : String ) -> void:
+func _on_phase_changed( phase : int , _phase_name : String ) -> void:
 	var tint := Color( 1.0 , 0.85 , 0.5 )
 	if phase >= 3:
 		tint = Color( 1.0 , 0.42 , 0.36 )
@@ -473,7 +473,6 @@ func _on_phase_changed( phase : int , phase_name : String ) -> void:
 	_glow_color_tween = create_tween()
 	_glow_color_tween.tween_property( _glow , "color" , Color( tint.r , tint.g , tint.b , 0.9 ) , 0.18 )
 	_glow_color_tween.tween_property( _glow , "color" , COLOR_GLOW , 0.35 )
-	show_banner( phase_name if phase_name != "" else ( "第%s阶段" % _cn_number( phase ) ) , tint )
 	flash( Color( 1 , 1 , 1 , 1 ) , 0.55 , 0.4 )
 	pass
 
@@ -488,7 +487,7 @@ func _on_defeated() -> void:
 
 
 #组合技冷却状态：未解锁 → 冷却回充（含剩余秒数）→ 就绪（辉光脉动 + 弹一下）
-func _on_skill_cooldown( ratio : float , ready : bool , unlocked : bool ) -> void:
+func _on_skill_cooldown( ratio : float , is_ready : bool , unlocked : bool ) -> void:
 	if _skill_icon == null:
 		return
 	#战斗期间保持显示（hide_bar / reset_hud 负责收起）
@@ -500,25 +499,25 @@ func _on_skill_cooldown( ratio : float , ready : bool , unlocked : bool ) -> voi
 	_skill_fill.position.y = 2.0 + inner * ( 1.0 - r )
 	var accent : Color = COLOR_SKILL_LOCKED
 	if unlocked:
-		accent = COLOR_SKILL_READY if ready else COLOR_SKILL_COOLING
+		accent = COLOR_SKILL_READY if is_ready else COLOR_SKILL_COOLING
 	_skill_fill.color = accent
 	_skill_style.border_color = accent
 	_skill_glyph.modulate.a = 1.0 if unlocked else 0.45
 
 	#冷却中显示剩余秒数
-	var cooling : bool = unlocked and not ready
+	var cooling : bool = unlocked and not is_ready
 	_skill_time.visible = cooling
 	if cooling:
 		_skill_time.text = "%d" % int( ceil( ( 1.0 - r ) * float( SKILL_COOLDOWN_MSEC ) * 0.001 ) )
 
 	#就绪瞬间弹一下；就绪期间辉光持续脉动，其余状态停止脉动
-	if ready and not _skill_ready:
+	if is_ready and not _skill_ready:
 		_play_skill_ready_pop( accent )
-	if ready:
+	if is_ready:
 		_start_skill_pulse()
 	else:
 		_stop_skill_pulse()
-	_skill_ready = ready
+	_skill_ready = is_ready
 	_skill_unlocked = unlocked
 	pass
 
@@ -603,18 +602,5 @@ func _play_skill_ready_pop( accent : Color ) -> void:
 func _set_health_text( hp : float ) -> void:
 	_hp_label.text = "%d / %d" % [ int( ceil( hp ) ) , int( round( _max_hp ) ) ]
 	pass
-
-
-func _cn_number( n : int ) -> String:
-	match n:
-		1:
-			return "一"
-		2:
-			return "二"
-		3:
-			return "三"
-		4:
-			return "四"
-	return str( n )
 
 #endregion

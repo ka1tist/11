@@ -20,6 +20,10 @@ var blackboard : BossBlackboard
 @onready var bs_slam : BSSlam = %BSSlam
 @onready var bs_transition : BSTransition = %BSTransition
 @onready var bs_death : BSDeath = %BSDeath
+#受击退避由 Boss 的受击回调直接进入，不经决策引擎的 decide()
+@onready var bs_hurt : BSHurt = %BSHurt
+#二/三阶段专属技能同样由 Boss 的攻击计数判定直接进入
+@onready var bs_pb_skill : BSPbSkill = %BSPbSkill
 
 
 #按阶段决定下一步行为（等价于重构前的 _decide()）：近距离统一 attack，远距离按阶段分流
@@ -36,11 +40,15 @@ func decide() -> BossState:
 	#jump / dash 共用 5 秒内置冷却：冷却未好时一律以 run 追击
 	match blackboard.phase:
 		1:
-			#一阶段：跳跃快速接近
-			return bs_jump if boss.chase_ready() else bs_run
+			#一阶段：跳跃快速接近（追击冷却未好则改 run；用 if/else 避免两个状态类型不兼容告警）
+			if boss.chase_ready():
+				return bs_jump
+			return bs_run
 		2:
 			#二阶段：下蹲蓄力 → dash 冲刺 → attack 连招
-			return bs_charge if boss.chase_ready() else bs_run
+			if boss.chase_ready():
+				return bs_charge
+			return bs_run
 		_:
 			#三阶段：组合技就绪则使用；否则冲刺连招；两者都不可用时以 run 追击
 			if boss.skill_ready():

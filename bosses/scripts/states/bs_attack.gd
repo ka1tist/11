@@ -10,6 +10,12 @@ var timer : float = 0.0
 func enter() -> void:
 	#普通攻击进入即开始 1 秒内置冷却
 	boss.start_attack_cooldown()
+	#冲刺连招收尾的这一记普攻算在冲刺里，不计入二/三阶段专属技能的触发计数
+	if blackboard.skip_next_attack_count:
+		blackboard.skip_next_attack_count = false
+	else:
+		#计入二阶段专属技能的触发计数（贴近玩家打满两次即发动）
+		boss.notify_attack_performed()
 	boss.face_towards_target()
 	boss.velocity.x = 0.0
 	boss.play_animation( "attack" )

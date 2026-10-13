@@ -13,11 +13,20 @@ class_name Boss extends CharacterBody2D
 #复用已有的 BOSS 专用特效场景（落地砸击 / 左右光波）
 const GROUND_SLAM_SCENE : PackedScene = preload( "res://bosses/01/npbh_enemy_ground_slam.tscn" )
 const WAVE_SCENE : PackedScene = preload( "res://bosses/01/npbh_enemy_wave.tscn" )
+#二阶段专属技能的投射物
+const PB_SCENE : PackedScene = preload( "res://bosses/01/pb.tscn" )
+
+#死亡掉落：在尸体处留下的能力球（冲刺）
+const DASH_PICKUP_SCENE : PackedScene = preload( "res://general/ability_pickup/ability_pickup.tscn" )
+#能力球原点即球心，悬浮在距地面这个高度（与关卡里手工摆放的惯例一致）
+const PICKUP_GROUND_OFFSET : float = 24.0
+#能力球刚出现时的无敌时间：击破 BOSS 的那一下攻击判定往往还在生效，避免球一落地就被打碎
+const PICKUP_INVULNERABLE_TIME : float = 0.8
 
 #砸地爆发音效
 const GROUND_SLAM_AUDIO = preload( "res://bosses/01/audio/ground slam.wav" )
 
-const BOSS_NAME : String = "NEGA BOX"
+const BOSS_NAME : String = "旧日的幻影"
 
 #region /// 数值参数
 #生命与阶段
@@ -52,6 +61,12 @@ const DASH_MIN_TIME : float = 0.12
 const DASH_MAX_TIME : float = 0.9
 const AFTERIMAGE_INTERVAL : float = 0.05
 
+#蓄力表现：自身颜色在明暗之间循环，用来直观表示正在蓄力
+const CHARGE_DARK_COLOR : Color = Color( 0.45 , 0.45 , 0.45 , 1.0 )
+const CHARGE_LIGHT_COLOR : Color = Color( 1.0 , 1.0 , 1.0 , 1.0 )
+#单向渐变时长（一次完整往复为它的两倍）
+const CHARGE_FLASH_TIME : float = 0.12
+
 #三阶段：组合技
 const SKILL_COOLDOWN_MSEC : int = 10000
 const SKILL_CHARGE_TIME : float = 2.0
@@ -60,8 +75,23 @@ const SKILL_TOP_MARGIN : float = 48.0
 #技能释放粒子与精灵可视上沿之间的间距
 const RING_GAP : float = 20.0
 
+#受击退避：1 秒内被玩家连砍两刀 → 播放 hurt 动画并带残影向后急退，拉开与玩家的距离
+const HURT_COMBO_WINDOW_MSEC : int = 1000
+const HURT_RETREAT_SPEED : float = 320.0
+const HURT_RETREAT_TIME : float = 0.3
+
+#二/三阶段专属技能：贴近玩家完成该次数的普通攻击后触发（hurt 后撤 → attack_2 水平投掷 pb 投射物）
+const PB_ATTACK_COUNT : int = 2
+const PB_SPEED : float = 300.0
+
 #阶段过场时长（按阶段索引：0 占位 / 2 阶段 / 3 阶段）
 const TRANSITION_TIME : Array[ float ] = [ 0.0 , 1.1 , 1.3 , 1.5 ]
+
+#阶段推进时背景整体加深：在角色之后叠一层全屏暗色，二阶段轻微加深、三阶段在其基础上再加深
+const BACKGROUND_DARKEN_PHASE2 : float = 0.16
+const BACKGROUND_DARKEN_PHASE3 : float = 0.24
+#加深过渡时长
+const BACKGROUND_DARKEN_TIME : float = 0.6
 #endregion
 
 var sprite : Sprite2D
@@ -78,9 +108,13 @@ var blackboard : BossBlackboard
 
 var _facing : int = 1
 var _hurt_tween : Tween
+#蓄力时的明暗循环补间
+var _charge_tween : Tween
 #技能蓄力音效需要持续到下落阶段：autoload Audio 走的是「即用即走」的对象池播放器，无法中途停止，
 #因此持续型音效由 BOSS 自己持有的独立播放器承载
 var hold_audio_player : AudioStreamPlayer2D
+#阶段推进时压在世界之下的全屏暗色背景层（二/三阶段逐级加深）
+var background_overlay : ColorRect
 
 #技能冷却状态广播给 HUD（仅在可见变化时发射）
 var _skill_emit_q : int = -1
@@ -124,6 +158,7 @@ func setup() -> void:
 
 	_facing = 1
 	apply_facing()
+	create_background_overlay()
 
 	if state_machine and decision_engine and damage_area:
 		state_machine.setup( self , blackboard )
@@ -150,6 +185,9 @@ func _physics_process( delta : float ) -> void:
 
 	if not blackboard.combat_started:
 		begin_combat()
+
+	#二阶段专属技能：贴近玩家打满两次普通攻击后触发
+	update_pb_skill_readiness()
 
 	state_machine.physics_update( delta )
 
@@ -258,6 +296,10 @@ func anim_length( anim_name : String ) -> float:
 
 
 func play_animation( anim_name : String ) -> void:
+	#武器残影（Sprite 的子节点 Sprite2D）只有 attack / attack_2 动画带显隐轨道，
+	#其余动画不会碰它；若不先隐藏，攻击中途被打断（如受击退避 hurt）时它会停在上一次的可见状态而残留
+	if sprite_weapon:
+		sprite_weapon.visible = false
 	if animation_player.has_animation( anim_name ):
 		animation_player.play( anim_name )
 	pass
@@ -267,6 +309,51 @@ func set_damage_invulnerable( on : bool ) -> void:
 	if is_instance_valid( damage_area ):
 		#判定区在信号派发期间处于锁定状态，必须延迟设置
 		damage_area.set_deferred( "process_mode" , Node.PROCESS_MODE_DISABLED if on else Node.PROCESS_MODE_INHERIT )
+	pass
+
+
+#阶段过场期间关闭贴身碰撞伤害（HazardArea），过场结束后恢复。
+#判定区在信号派发期间处于锁定状态，必须延迟设置。
+func set_contact_damage( on : bool ) -> void:
+	if is_instance_valid( hazard_area ):
+		hazard_area.set_deferred( "monitoring" , on )
+		hazard_area.set_deferred( "visible" , on )
+	pass
+
+
+#创建背景加深层：挂在场地上、只画在最底，位于世界（角色/地面/墙壁）之下，
+#因此只压暗背景底色的可见部分，不会遮住角色与场景物件
+func create_background_overlay() -> void:
+	var world := get_parent()
+	if world == null:
+		return
+	var layer := CanvasLayer.new()
+	#世界（Node2D）绘制在图层 0；这里用 -1 保证排在最底
+	layer.layer = -1
+	var rect := ColorRect.new()
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rect.color = Color( 0.0 , 0.0 , 0.0 , 0.0 )
+	layer.add_child( rect )
+	background_overlay = rect
+	#BOSS 的 _ready() 正处于父节点（场地）实例化子节点的过程中，此刻父节点被锁定，
+	#add_child 会被拒绝（Parent node is busy setting up children），必须延后挂载；
+	#入树后再按视口铺满（CanvasLayer 的空间即屏幕）
+	world.add_child.call_deferred( layer )
+	rect.set_anchors_and_offsets_preset.call_deferred( Control.PRESET_FULL_RECT )
+	pass
+
+
+#阶段推进时调用：二阶段轻微加深背景、三阶段在二阶段基础上再加深，用短补间平滑过渡
+func apply_phase_background( phase : int ) -> void:
+	if background_overlay == null:
+		return
+	var a : float = 0.0
+	if phase >= 3:
+		a = BACKGROUND_DARKEN_PHASE3
+	elif phase >= 2:
+		a = BACKGROUND_DARKEN_PHASE2
+	var tw := create_tween()
+	tw.tween_property( background_overlay , "color:a" , a , BACKGROUND_DARKEN_TIME )
 	pass
 
 
@@ -335,6 +422,32 @@ func begin_combat() -> void:
 	pass
 
 
+#普通攻击每次实际出手时由 bs_attack 调用：计入二/三阶段专属技能的触发计数。
+#二/三阶段的攻击才计数（一阶段不计数）；死亡、阶段过场（无敌）与技能进行中一律清零。
+#冲刺连招收尾的那记普攻算在冲刺里，bs_attack 会跳过本次调用（见 blackboard.skip_next_attack_count）。
+func notify_attack_performed() -> void:
+	if blackboard.dead or blackboard.invulnerable or blackboard.phase < 2 or blackboard.pb_skill_locked:
+		blackboard.pb_attack_count = 0
+		return
+	blackboard.pb_attack_count += 1
+	pass
+
+
+#二/三阶段专属技能的就绪判定：贴近玩家打满 PB_ATTACK_COUNT 次普通攻击 → 触发。
+#在帧末统一判定，避免在 bs_attack.enter() 内部嵌套切换状态。
+func update_pb_skill_readiness() -> void:
+	if blackboard.dead or blackboard.invulnerable or blackboard.phase < 2 or blackboard.pb_skill_locked:
+		return
+	if blackboard.pb_attack_count < PB_ATTACK_COUNT:
+		return
+
+	blackboard.pb_attack_count = 0
+	#状态锁：技能流程期间不再重复触发，技能结束时由 bs_pb_skill.exit() 解锁
+	blackboard.pb_skill_locked = true
+	state_machine.change_state( decision_engine.bs_pb_skill )
+	pass
+
+
 func _on_damage_taken( a : AttackArea ) -> void:
 	#阶段过场（下蹲无敌）与死亡期间免疫伤害
 	if blackboard.dead or blackboard.invulnerable:
@@ -346,6 +459,14 @@ func _on_damage_taken( a : AttackArea ) -> void:
 	VisualEffects.spawn_damage_number( global_position + Vector2( 0 , -118 ) , a.damege , true )
 	flash_hurt()
 
+	#记录受击连锁：距离上一刀在 1 秒内则累加，否则重新从 1 开始
+	var now : int = Time.get_ticks_msec()
+	if now - blackboard.last_hit_msec <= HURT_COMBO_WINDOW_MSEC:
+		blackboard.hit_chain += 1
+	else:
+		blackboard.hit_chain = 1
+	blackboard.last_hit_msec = now
+
 	if blackboard.hp <= 0.0:
 		state_machine.change_state( decision_engine.bs_death )
 		return
@@ -355,6 +476,12 @@ func _on_damage_taken( a : AttackArea ) -> void:
 	if new_phase > blackboard.phase:
 		blackboard.phase = new_phase
 		state_machine.change_state( decision_engine.bs_transition )
+		return
+
+	#1 秒内被连砍两刀 → 受击退避：hurt 动画 + 带残影后撤
+	if blackboard.hit_chain >= 2:
+		blackboard.hit_chain = 0
+		state_machine.change_state( decision_engine.bs_hurt )
 	pass
 
 
@@ -372,6 +499,27 @@ func clear_hurt_tween() -> void:
 	if _hurt_tween:
 		_hurt_tween.kill()
 		_hurt_tween = null
+	pass
+
+
+#进入蓄力：自身颜色在明暗之间循环渐变，直观表示蓄力中（二/三阶段蓄力共用）
+#用 self_modulate 只改本体颜色，与受击闪白、死亡淡出所用的 modulate 互不干扰
+func start_charge_flash() -> void:
+	stop_charge_flash()
+	_charge_tween = create_tween()
+	_charge_tween.set_loops()
+	_charge_tween.set_trans( Tween.TRANS_SINE )
+	_charge_tween.tween_property( sprite , "self_modulate" , CHARGE_DARK_COLOR , CHARGE_FLASH_TIME )
+	_charge_tween.tween_property( sprite , "self_modulate" , CHARGE_LIGHT_COLOR , CHARGE_FLASH_TIME )
+	pass
+
+
+#结束蓄力：停掉循环补间并把颜色复位
+func stop_charge_flash() -> void:
+	if _charge_tween:
+		_charge_tween.kill()
+		_charge_tween = null
+	sprite.self_modulate = CHARGE_LIGHT_COLOR
 	pass
 
 #endregion
@@ -425,6 +573,43 @@ func spawn_wave( dir : int ) -> void:
 	aim_hazard_at_player( fx )
 	play_child_animation( fx )
 	#波体自身（npbh_enemy_wave.gd）持续向该侧推进，撞到墙壁后淡出销毁
+	pass
+
+
+#二/三阶段专属技能：沿面朝方向水平发射 pb 投射物（从身体中心射出，不追踪玩家）
+func spawn_pb() -> void:
+	var proj := PB_SCENE.instantiate() as PbProjectile
+	add_world_child( proj )
+	#与身体中心对齐（玩家站姿躯干也在这个高度），保证水平飞行能够命中
+	proj.global_position = global_position + Vector2( 0.0 , -45.0 )
+	#始终按当前面朝方向水平飞行，发射后不再改变方向
+	var dir : Vector2 = Vector2( float( _facing ) , 0.0 )
+	proj.setup( dir , PB_SPEED )
+	#发射的同时播放投射物自带的 default 动画
+	play_child_animation( proj )
+	#判定只保留玩家层（16）；墙壁由投射物自身的射线检测
+	aim_hazard_at_player( proj )
+	pass
+
+
+#死亡掉落：在尸体所在的地面上方留下一颗冲刺能力球，玩家击碎它即可获得冲刺
+func spawn_dash_pickup() -> void:
+	var pickup := DASH_PICKUP_SCENE.instantiate() as AbilityPickup
+	#先定类型再入树：入树时 _ready() 会按类型播放对应的图标动画
+	pickup.type = AbilityPickup.Type.DASH
+	add_world_child( pickup )
+	#向下探到最近的地面，把能力球摆在地面上方，空中死亡时也不会悬在半空
+	var from : Vector2 = global_position + Vector2( 0.0 , -1.0 )
+	var to : Vector2 = global_position + Vector2( 0.0 , 900.0 )
+	var query := PhysicsRayQueryParameters2D.create( from , to , 1 )
+	var hit : Dictionary = get_world_2d().direct_space_state.intersect_ray( query )
+	var ground_y : float = float( hit.position.y ) if not hit.is_empty() else global_position.y
+	pickup.global_position = Vector2( global_position.x , ground_y - PICKUP_GROUND_OFFSET )
+	#刚出现的瞬间无敌：击破 BOSS 的那一下攻击（判定可能仍与落点重叠）不会立刻把球打碎，
+	#复用玩家受击无敌的同一套机制（DamageArea 禁用 process_mode）
+	var pickup_damage_area := pickup.get_node_or_null( "Breakable/DamageArea" ) as DamageArea
+	if pickup_damage_area:
+		pickup_damage_area.make_invulnerable( PICKUP_INVULNERABLE_TIME )
 	pass
 
 

@@ -1,6 +1,7 @@
 class_name BSSlam extends BossState
 
 ## 三阶段组合技第三步：从屏幕顶端垂直砸向地面，落地触发砸击特效并回到决策。
+## 组合技的 10 秒内置冷却在下砸落地这一刻才重新起算（整段组合技期间不再倒计时）。
 
 func enter() -> void:
 	boss.face_towards_target()
@@ -26,6 +27,8 @@ func physics_update( _delta : float ) -> void:
 	boss.velocity.y = Boss.SLAM_SPEED
 	boss.move_and_slide()
 	if boss.is_on_floor():
+		#落地砸击的瞬间才重新起算 10 秒组合技冷却
+		boss.blackboard.skill_next_use_msec = Time.get_ticks_msec() + Boss.SKILL_COOLDOWN_MSEC
 		boss.slam_impact()
 		state_machine.change_state( boss.decision_engine.bs_decide )
 	pass

@@ -1,6 +1,6 @@
 class_name BSCharge extends BossState
 
-## 二阶段蓄力：下蹲 CHARGE_TIME 秒并散发能量粒子，随后进入 dash。
+## 二阶段蓄力：下蹲 CHARGE_TIME 秒、自身颜色明暗循环并散发能量粒子，随后进入 dash。
 
 const CHARGE_AUDIO = preload( "res://bosses/01/audio/charge.wav" )
 
@@ -11,6 +11,8 @@ var _fx_time : float = 0.0
 func enter() -> void:
 	boss.velocity = Vector2.ZERO
 	boss.play_animation( "crouch" )
+	#蓄力表现：自身颜色开始明暗循环
+	boss.start_charge_flash()
 	Audio.play_spatial_sound( CHARGE_AUDIO , boss.global_position )
 	timer = 0.0
 	_fx_time = 0.0
@@ -22,6 +24,8 @@ func re_enter() -> void:
 
 
 func exit() -> void:
+	#蓄力结束：颜色恢复
+	boss.stop_charge_flash()
 	pass
 
 

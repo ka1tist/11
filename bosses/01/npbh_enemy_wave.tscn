@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c37r74b4we3kd" path="res://bosses/01/sprites/pink_box_effects.png" id="1_v0ncy"]
 [ext_resource type="Script" uid="uid://lfjis050qg13" path="res://general/scripts/hazard_area.gd" id="2_emvfg"]
-[ext_resource type="Script" uid="uid://tf616fgfp1u8" path="res://bosses/01/npbh_enemy_wave.gd" id="3_wave"]
+[ext_resource type="Script" uid="uid://tf616fgfp1u8" path="res://bosses/scripts/npbh_enemy_wave.gd" id="3_wave"]
 
 [sub_resource type="Animation" id="Animation_c4bxu"]
 length = 0.001
@@ -46,7 +46,6 @@ _data = {
 size = Vector2(20, 89)
 
 [node name="NpbhEnemyWave" type="Node2D" unique_id=919646060]
-position = Vector2(0, 1)
 script = ExtResource("3_wave")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=78691433]

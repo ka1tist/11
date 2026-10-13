@@ -212,7 +212,7 @@ func get_loot_magnet_center() -> Vector2:
 	if ind:
 		return ind.global_position
 	return global_position  #兜底：指示器未就绪时用玩家原点
-	pass
+
 
 #把 loot_magnet_range 同步到子节点 MagnetRangeIndicator 的碰撞形状（运行时改范围时调用）
 func _sync_magnet_range_to_indicator() -> void:

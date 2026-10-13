@@ -44,6 +44,13 @@ func physics_update( delta : float ) -> void:
 
 	#抵达玩家附近或超时后衔接 attack；普通攻击若仍在冷却则回决策等待
 	if ( timer > Boss.DASH_MIN_TIME and absf( boss.dx_to_target() ) <= Boss.ATTACK_RANGE * 0.9 ) or timer >= Boss.DASH_MAX_TIME:
-		var next_state : BossState = boss.decision_engine.bs_attack if boss.attack_ready() else boss.decision_engine.bs_decide
+		#冲刺连招收尾的那记普攻算在冲刺里，不计入二/三阶段专属技能的触发计数
+		blackboard.skip_next_attack_count = true
+		#普攻仍冷却则回决策等待（用 if/else 而非三元，避免两个不同状态类型不兼容告警）
+		var next_state : BossState
+		if boss.attack_ready():
+			next_state = boss.decision_engine.bs_attack
+		else:
+			next_state = boss.decision_engine.bs_decide
 		state_machine.change_state( next_state )
 	pass

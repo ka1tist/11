@@ -260,6 +260,8 @@ func _input( event : InputEvent ) -> void:
 
 func _move_selection( event : InputEvent ) -> void:
 	var col : int = _selected_index % SLOT_COLUMNS
+	#行号按格数向下取整（丢弃小数）是预期行为
+	@warning_ignore( "integer_division" )
 	var row : int = _selected_index / SLOT_COLUMNS
 	if event.is_action_pressed( "left" , true ):
 		col = maxi( 0 , col - 1 )

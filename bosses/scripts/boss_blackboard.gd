@@ -23,3 +23,13 @@ var attack_next_use_msec : int = 0
 var chase_next_use_msec : int = 0
 #组合技冷却到期时间戳（毫秒）
 var skill_next_use_msec : int = 0
+
+#受击连锁：1 秒内被玩家连砍两刀时触发受击退避（hurt 状态）
+var hit_chain : int = 0
+var last_hit_msec : int = 0
+
+#二/三阶段专属技能：贴近玩家完成的普通攻击计数与状态锁
+var pb_attack_count : int = 0
+var pb_skill_locked : bool = false
+#冲刺连招收尾的那记普攻标记：冲刺结束时置位，由 bs_attack 读取后清除，不计入触发计数
+var skip_next_attack_count : bool = false
