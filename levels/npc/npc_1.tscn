@@ -215,12 +215,12 @@ vframes = 7
 libraries/ = SubResource("AnimationLibrary_fceui")
 
 [node name="PatrolLimit" type="Node2D" parent="." unique_id=1000000001]
-position = Vector2(-80, 0)
+position = Vector2(-56, 0)
 script = ExtResource("6_patrol")
 metadata/_custom_type_script = "uid://eh2apeu40cfr"
 
 [node name="PatrolLimit2" type="Node2D" parent="." unique_id=1000000002]
-position = Vector2(80, 0)
+position = Vector2(54, 0)
 script = ExtResource("6_patrol")
 side = 2
 metadata/_custom_type_script = "uid://eh2apeu40cfr"

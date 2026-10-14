@@ -363,17 +363,6 @@ metadata/_custom_type_script = "uid://eh2apeu40cfr"
 [node name="ghost" parent="." unique_id=2110338979 instance=ExtResource("12_6bkb3")]
 position = Vector2(-378, -24)
 
-[node name="PatrolLimit" type="Node2D" parent="ghost" unique_id=2133912483]
-position = Vector2(-88, 26)
-script = ExtResource("20_fabda")
-metadata/_custom_type_script = "uid://eh2apeu40cfr"
-
-[node name="PatrolLimit2" type="Node2D" parent="ghost" unique_id=102162231]
-position = Vector2(121, 24)
-script = ExtResource("20_fabda")
-side = 2
-metadata/_custom_type_script = "uid://eh2apeu40cfr"
-
 [node name="Slime2" parent="." unique_id=498398703 instance=ExtResource("13_2uxjf")]
 position = Vector2(-393, 177)
 
@@ -430,3 +419,6 @@ position = Vector2(53, 0)
 script = ExtResource("20_fabda")
 side = 2
 metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="ghost2" parent="." unique_id=1517064173 instance=ExtResource("12_6bkb3")]
+position = Vector2(50, 258)

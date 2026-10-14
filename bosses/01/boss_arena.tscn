@@ -72,10 +72,10 @@ shape = SubResource("RectangleShape2D_ceiling")
 [node name="PlayerSpawn" parent="." unique_id=1898701738 instance=ExtResource("2_spawn")]
 position = Vector2(80, 288)
 
-[node name="Boss01" parent="." unique_id=674933975 instance=ExtResource("3_boss")]
-position = Vector2(470, 288)
-
 [node name="MusicAutoTrigger" type="Node" parent="." unique_id=2003692195]
 script = ExtResource("4_smtfl")
 track = ExtResource("5_o5kva")
 metadata/_custom_type_script = "uid://bqm81bjcxucow"
+
+[node name="Boss01" parent="." unique_id=1072211599 instance=ExtResource("3_boss")]
+position = Vector2(535, 288)

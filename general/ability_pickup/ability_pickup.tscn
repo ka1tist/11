@@ -224,6 +224,9 @@ metadata/_custom_type_script = "uid://jl2mctya5sog"
 [sub_resource type="CircleShape2D" id="CircleShape2D_7h0lg"]
 radius = 15.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hint"]
+radius = 44.0
+
 [node name="AbilityPickup" type="Node2D" unique_id=899164570]
 z_index = 1
 script = ExtResource("1_xxigd")
@@ -271,3 +274,39 @@ metadata/_custom_type_script = "uid://c1unhfbuk57mo"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Breakable/DamageArea" unique_id=524377380]
 visible = false
 shape = SubResource("CircleShape2D_7h0lg")
+
+[node name="HintArea" type="Area2D" parent="." unique_id=913402771]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HintArea" unique_id=913402772]
+shape = SubResource("CircleShape2D_hint")
+debug_color = Color(0, 0.5950001, 0.7, 0)
+
+[node name="HintBox" type="PanelContainer" parent="." unique_id=913402773]
+visible = false
+offset_left = -104.0
+offset_top = -87.0
+offset_right = 102.0
+offset_bottom = -61.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HintBox" unique_id=913402774]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="Label" type="Label" parent="HintBox/MarginContainer" unique_id=913402775]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 10
+text = "当玩家获得此能力时贴近墙面可以进行爬墙"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -5,6 +5,9 @@ class_name BSPbSkill extends BossState
 ## 第一阶段：hurt 受击后撤，带与 dash 同款的残影拉开与玩家的距离；
 ## 第二阶段：播放 attack_2 并同时沿面朝方向水平发射 pb 投射物，动画结束后回到决策。
 
+#attack_2 投掷动作音效
+const ATTACK_2_AUDIO = preload( "res://general/audio/morph.wav" )
+
 #技能内部两段：先后撤、再投掷
 enum Phase { RETREAT , THROW }
 
@@ -66,5 +69,6 @@ func _start_throw() -> void:
 	_phase_time = 0.0
 	boss.face_towards_target()
 	boss.play_animation( "attack_2" )
+	Audio.play_spatial_sound( ATTACK_2_AUDIO , boss.global_position )
 	boss.spawn_pb()
 	pass

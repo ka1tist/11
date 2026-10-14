@@ -23,6 +23,10 @@
 [ext_resource type="Script" uid="uid://76ab3567driv" path="res://bosses/scripts/states/bs_death.gd" id="19_bsdeath"]
 [ext_resource type="Script" uid="uid://ce1dkoioenyex" path="res://bosses/scripts/states/bs_hurt.gd" id="20_bshurt"]
 [ext_resource type="Script" uid="uid://p1igjhxidan3" path="res://bosses/scripts/states/bs_pb_skill.gd" id="21_bspbskill"]
+[ext_resource type="Script" uid="uid://jodh8fuht3an" path="res://enemies/scripts/enemy_hit_particles.gd" id="24_qm7xy"]
+[ext_resource type="Script" uid="uid://jl2mctya5sog" path="res://00_global/visual_effects/hit_particle_settings.gd" id="25_rytcq"]
+[ext_resource type="Script" uid="uid://b2pvpyq1nchiw" path="res://general/scripts/loot_dropper.gd" id="26_rtqmv"]
+[ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="27_8aqhk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(38, 90)
@@ -357,6 +361,93 @@ size = Vector2(86, 22)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
 size = Vector2(52, 92.5)
 
+[sub_resource type="Gradient" id="Gradient_rtqmv"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ieygl"]
+gradient = SubResource("Gradient_rtqmv")
+width = 4
+height = 4
+
+[sub_resource type="Resource" id="Resource_7h0lg"]
+script = ExtResource("25_rytcq")
+count = 4
+color = Color(1, 0.015686275, 0.34117648, 1)
+texture = SubResource("GradientTexture2D_ieygl")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="Gradient" id="Gradient_qm7xy"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6rvqo"]
+gradient = SubResource("Gradient_qm7xy")
+width = 2
+height = 2
+
+[sub_resource type="Resource" id="Resource_8aqhk"]
+script = ExtResource("25_rytcq")
+count = 6
+color = Color(1, 0.015686275, 0.34117648, 1)
+texture = SubResource("GradientTexture2D_6rvqo")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="Gradient" id="Gradient_rytcq"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rytcq"]
+gradient = SubResource("Gradient_rytcq")
+width = 16
+height = 16
+use_hdr = true
+
+[sub_resource type="Resource" id="Resource_qm7xy"]
+script = ExtResource("25_rytcq")
+count = 32
+color = Color(1, 0.015686275, 0.34117648, 1)
+texture = SubResource("GradientTexture2D_rytcq")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="Gradient" id="Gradient_8aqhk"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8aqhk"]
+gradient = SubResource("Gradient_8aqhk")
+width = 8
+height = 8
+use_hdr = true
+
+[sub_resource type="Resource" id="Resource_rtqmv"]
+script = ExtResource("25_rytcq")
+count = 24
+color = Color(0.2, 0.10980392, 0.21960784, 1)
+texture = SubResource("GradientTexture2D_8aqhk")
+metadata/_custom_type_script = "uid://jl2mctya5sog"
+
+[sub_resource type="Resource" id="Resource_6rvqo"]
+script = ExtResource("27_8aqhk")
+item = "uid://ochny605wqw0"
+minimum = 50
+maximum = 50
+drop_chance = 1.0
+metadata/_custom_type_script = "uid://ddesufbcgmmcs"
+
+[sub_resource type="Gradient" id="Gradient_6rvqo"]
+offsets = PackedFloat32Array(0.40088758, 1)
+colors = PackedColorArray(0.38039216, 0, 0.10980392, 0.78431374, 1, 1, 1, 0.78431374)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7h0lg"]
+gradient = SubResource("Gradient_6rvqo")
+width = 42
+height = 90
+use_hdr = true
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+metadata/_snap_enabled = true
+
 [node name="Boss01" type="CharacterBody2D" unique_id=1072211599]
 collision_layer = 0
 collision_mask = 3
@@ -480,3 +571,20 @@ script = ExtResource("21_bspbskill")
 
 [node name="BossDecisionEngine" type="Node" parent="." unique_id=839873910]
 script = ExtResource("7_bde")
+
+[node name="EnemtHitParticles" type="Marker2D" parent="." unique_id=1420957856]
+position = Vector2(0, -45)
+script = ExtResource("24_qm7xy")
+hit_particles = Array[ExtResource("25_rytcq")]([SubResource("Resource_7h0lg"), SubResource("Resource_8aqhk")])
+death_particles = Array[ExtResource("25_rytcq")]([SubResource("Resource_qm7xy"), SubResource("Resource_rtqmv"), null])
+metadata/_custom_type_script = "uid://jodh8fuht3an"
+
+[node name="lootDropper" type="Marker2D" parent="." unique_id=1794784889]
+position = Vector2(0, -45)
+script = ExtResource("26_rtqmv")
+items = Array[ExtResource("27_8aqhk")]([SubResource("Resource_6rvqo")])
+metadata/_custom_type_script = "uid://b2pvpyq1nchiw"
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1626027599]
+position = Vector2(-5, -46)
+texture = SubResource("GradientTexture2D_7h0lg")

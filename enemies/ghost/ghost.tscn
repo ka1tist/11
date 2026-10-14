@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cnb0nq5yvwu2s" path="res://general/scripts/damage_modulate.gd" id="19_3kqxl"]
 [ext_resource type="Script" uid="uid://ddesufbcgmmcs" path="res://general/scripts/loot_data.gd" id="19_6kdvy"]
 [ext_resource type="Script" uid="uid://bg12sd4evf6j7" path="res://general/scripts/attack_area.gd" id="20_kg77k"]
+[ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="20_xbljs"]
 [ext_resource type="Script" uid="uid://cmerwjbm48r8" path="res://enemies/scripts/decision_engines/decision_engine_basic_flying.gd" id="21_fuvm8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5napv"]
@@ -388,3 +389,14 @@ metadata/_custom_type_script = "uid://cmerwjbm48r8"
 [node name="DaqmageModulate" type="Node" parent="." unique_id=969868115]
 script = ExtResource("19_3kqxl")
 metadata/_custom_type_script = "uid://cnb0nq5yvwu2s"
+
+[node name="PatrolLimit" type="Node2D" parent="." unique_id=1665366101]
+position = Vector2(-97, 15)
+script = ExtResource("20_xbljs")
+metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="PatrolLimit2" type="Node2D" parent="." unique_id=275055181]
+position = Vector2(88, 15)
+script = ExtResource("20_xbljs")
+side = 2
+metadata/_custom_type_script = "uid://eh2apeu40cfr"

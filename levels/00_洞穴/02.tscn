@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://tx37ae7n7ibj" path="res://enemies/skeleton/skeleton.tscn" id="21_a10pk"]
 [ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="22_3pv12"]
 [ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="23_x8roc"]
+[ext_resource type="PackedScene" uid="uid://clqy51ok0wmsf" path="res://enemies/ghost/ghost.tscn" id="24_3pv12"]
 
 [sub_resource type="Gradient" id="Gradient_wcxka"]
 colors = PackedColorArray(0.10980392, 0.14117648, 0.14509805, 1, 0.0476, 0.058800004, 0.07, 0)
@@ -297,3 +298,10 @@ position = Vector2(105, 0)
 script = ExtResource("22_3pv12")
 side = 2
 metadata/_custom_type_script = "uid://eh2apeu40cfr"
+
+[node name="ghost" parent="." unique_id=957958210 instance=ExtResource("24_3pv12")]
+position = Vector2(123, -124)
+
+[node name="ghost2" parent="." unique_id=951927033 instance=ExtResource("24_3pv12")]
+position = Vector2(505, 95)
+face_left_on_start = true

@@ -11,7 +11,7 @@ class_name PbProjectile extends Node2D
 const HIT_SETTINGS : HitParticleSettings = preload( "res://00_global/visual_effects/hit_particle_settings/pb击中.tres" )
 
 var dir : Vector2 = Vector2.RIGHT
-var speed : float = 300.0
+var speed : float = 350.0
 #已进入销毁流程：防止玩家与墙壁在同一帧内命中时重复销毁
 var _exploding : bool = false
 var animation_player : AnimationPlayer

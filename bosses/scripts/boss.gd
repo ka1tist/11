@@ -10,6 +10,11 @@ class_name Boss extends CharacterBody2D
 ##   jump/dash 共用 5 秒内置冷却，死亡动画，粒子/震屏过场。
 ## - 物理由各状态脚本自行处理（LEAP / SKILL_CHARGE 不调用 move_and_slide），与本体重构前一致。
 
+#被击败时的广播：掉落系统（lootDropper）等外部对象据此结算掉落，与小怪 Enemy.was_killed 同构
+@warning_ignore( "unused_signal" )
+signal was_killed()
+
+
 #复用已有的 BOSS 专用特效场景（落地砸击 / 左右光波）
 const GROUND_SLAM_SCENE : PackedScene = preload( "res://bosses/01/npbh_enemy_ground_slam.tscn" )
 const WAVE_SCENE : PackedScene = preload( "res://bosses/01/npbh_enemy_wave.tscn" )
@@ -89,7 +94,7 @@ const TRANSITION_TIME : Array[ float ] = [ 0.0 , 1.1 , 1.3 , 1.5 ]
 
 #阶段推进时背景整体加深：在角色之后叠一层全屏暗色，二阶段轻微加深、三阶段在其基础上再加深
 const BACKGROUND_DARKEN_PHASE2 : float = 0.16
-const BACKGROUND_DARKEN_PHASE3 : float = 0.24
+const BACKGROUND_DARKEN_PHASE3 : float = 0.32
 #加深过渡时长
 const BACKGROUND_DARKEN_TIME : float = 0.6
 #endregion

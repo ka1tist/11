@@ -18,6 +18,8 @@ func enter() -> void:
 	boss.apply_phase_background( 1 )
 	VisualEffects.camera_shake( 10.0 , 0.6 )
 	Messages.boss_defeated.emit()
+	#广播被击败：BOSS 上挂载的 lootDropper 监听 was_killed 结算掉落（与小怪一致）
+	boss.was_killed.emit()
 	#死亡掉落：在倒下的地方留下冲刺能力球（必须在 BOSS 销毁前生成到世界节点下）
 	#本状态是由受击信号（AttackArea 的 body_entered）触发进入的，此刻物理服务器正在派发查询信号，
 	#此时往场景里挂带判定形状的能力球会被拒绝（Can't change this state while flushing queries），故延后一帧

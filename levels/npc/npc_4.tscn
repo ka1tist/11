@@ -71,7 +71,7 @@ collision_layer = 0
 collision_mask = 3
 floor_snap_length = 2.0
 script = ExtResource("1_fdrgb")
-dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺", "祝你好运！"])
+dialog_lines = Array[String](["你好，旅行者！"])
 dialog_box_offset_y = -100.0
 move_speed = 60.0
 
@@ -83,6 +83,7 @@ shape = SubResource("RectangleShape2D_body")
 position = Vector2(6.666667, -45)
 scale = Vector2(-1.35, 1.4)
 texture = ExtResource("2_v44ta")
+flip_h = true
 hframes = 11
 vframes = 5
 

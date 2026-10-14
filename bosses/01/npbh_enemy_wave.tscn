@@ -45,6 +45,17 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
 size = Vector2(20, 89)
 
+[sub_resource type="Gradient" id="Gradient_emvfg"]
+offsets = PackedFloat32Array(0.8091716, 1)
+colors = PackedColorArray(0.5019608, 0.003921569, 0.15294118, 0.7254902, 1, 1, 1, 0.4745098)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7h0lg"]
+gradient = SubResource("Gradient_emvfg")
+height = 96
+fill_from = Vector2(1, 0.5)
+fill_to = Vector2(0, 0.5)
+metadata/_snap_enabled = true
+
 [node name="NpbhEnemyWave" type="Node2D" unique_id=919646060]
 script = ExtResource("3_wave")
 
@@ -60,6 +71,7 @@ frame = 9
 libraries/ = SubResource("AnimationLibrary_33w8w")
 
 [node name="HazardArea" type="Area2D" parent="." unique_id=214647555]
+visible = false
 script = ExtResource("2_emvfg")
 damege = 2.0
 metadata/_custom_type_script = "uid://lfjis050qg13"
@@ -67,3 +79,7 @@ metadata/_custom_type_script = "uid://lfjis050qg13"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea" unique_id=732719149]
 position = Vector2(-4, -45.5)
 shape = SubResource("RectangleShape2D_7h0lg")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=2017111369]
+position = Vector2(-26, -49)
+texture = SubResource("GradientTexture2D_7h0lg")

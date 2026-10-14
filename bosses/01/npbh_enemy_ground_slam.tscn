@@ -52,6 +52,7 @@ hframes = 5
 vframes = 3
 
 [node name="HazardArea" type="Area2D" parent="." unique_id=214647555]
+visible = false
 position = Vector2(4, 0)
 script = ExtResource("2_ne1q4")
 damege = 2.0

@@ -9,6 +9,9 @@ func _ready() -> void:
 		owner.was_killed.connect( drop_loot )
 	elif owner is Breakable:
 		owner.destroyed.connect( drop_loot )
+	elif owner is Boss:
+		#BOSS 与小怪同构：被击败时同样广播 was_killed，掉落逻辑保持一致
+		owner.was_killed.connect( drop_loot )
 	pass 
 
 

@@ -374,7 +374,7 @@ metadata/_custom_type_script = "uid://8nnga7xlfp2b"
 
 [node name="EdgeSensor" type="RayCast2D" parent="." unique_id=504968266]
 position = Vector2(15, -4)
-target_position = Vector2(0, 12)
+target_position = Vector2(0, 17)
 script = ExtResource("12_vut3x")
 metadata/_custom_type_script = "uid://r5kfmis11iq1"
 
@@ -406,14 +406,14 @@ metadata/_custom_type_script = "uid://b2pvpyq1nchiw"
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1852941574]
 visible = false
-position = Vector2(48, -41)
+position = Vector2(0, -41)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("19_mew8a")
 metadata/_custom_type_script = "uid://bg12sd4evf6j7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=875794057]
-position = Vector2(-6.25, 0)
+position = Vector2(41.75, 0)
 shape = SubResource("RectangleShape2D_7h0lg")
 debug_color = Color(0.70196074, 0.04972987, 0, 0.41960785)
 
