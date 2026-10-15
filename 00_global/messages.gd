@@ -42,6 +42,10 @@ signal boss_phase_changed( phase : int , phase_name : String )
 @warning_ignore( "unused_signal" )
 signal boss_defeated()
 
+#BOSS 被玩家交互唤醒（起身演出开始）：入场音乐等据此开始播放（唤醒前不播放）
+@warning_ignore( "unused_signal" )
+signal boss_awakened()
+
 #BOSS 组合技冷却：ratio 为回充进度(0→1)，ready 为是否可立即释放，
 #unlocked 为是否已解锁（进入第三阶段才解锁）。BOSS 本体光环与 BossHud 冷却图标据此显示。
 @warning_ignore( "unused_signal" )

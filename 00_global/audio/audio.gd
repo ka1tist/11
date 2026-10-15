@@ -64,13 +64,29 @@ func get_music_player( i : int ) -> AudioStreamPlayer:
 	else:
 		return music_2
 
-	
+
+#淡出并停止当前正在播放的音乐：Audio 是 autoload、播放器不随场景销毁，
+#进入「开场先不放音乐」的关卡（如 07 的 BOSS 战）时必须主动停掉上一关残留的曲子，否则它会一直播
+func stop_music() -> void:
+	var current_player : AudioStreamPlayer = get_music_player( current_track )
+	if current_player.stream == null:
+		return
+	for t in music_tweens:
+		t.kill()
+	music_tweens.clear()
+	fade_track_out( current_player )
+	pass
+
 
 func fade_track_out( player : AudioStreamPlayer ) -> void:
 	var tween : Tween = create_tween()
 	music_tweens.append( tween )
 	tween.tween_property( player , "volume_linear" , 0.0 , 1.5 )
-	tween.tween_callback( player.stop )
+	#淡出完成后停播并清空 stream：清空是为了不干扰 play_music 的「同一首就不重播」去重判断
+	#（若 stream 留着，停播后再播放同一首时会被误判成已在播放而静音）
+	tween.tween_callback( func() -> void:
+		player.stop()
+		player.stream = null )
 	pass
 
 

@@ -7,7 +7,7 @@ extends CanvasLayer
 
 #血条几何（内部分辨率 640x360，居中 440 宽，贴屏幕底部）
 const BAR_WIDTH : float = 440.0
-const BAR_HEIGHT : float = 18.0
+const BAR_HEIGHT : float = 12.0
 const BAR_BORDER : float = 2.0
 const BAR_MARGIN_BOTTOM : float = 22.0
 const BAR_LEFT : float = ( 640.0 - BAR_WIDTH ) * 0.5
@@ -116,8 +116,8 @@ func _build_ui() -> void:
 	_glow.name = "Glow"
 	_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_glow.color = COLOR_GLOW
-	_glow.position = Vector2( -7.0 , -7.0 )
-	_glow.size = Vector2( BAR_WIDTH + 14.0 , BAR_HEIGHT + 14.0 )
+	_glow.position = Vector2( -4.0 , -4.0 )
+	_glow.size = Vector2( BAR_WIDTH + 8.0 , BAR_HEIGHT + 8.0 )
 	_bar.add_child( _glow )
 
 	#外框：底 + 四周描边
@@ -188,7 +188,7 @@ func _build_ui() -> void:
 	_hp_label.size = Vector2( BAR_WIDTH - 8.0 , BAR_HEIGHT )
 	_hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_hp_label.add_theme_font_size_override( "font_size" , 12 )
+	_hp_label.add_theme_font_size_override( "font_size" , 10 )
 	_hp_label.add_theme_color_override( "font_color" , Color( 1.0 , 0.96 , 0.98 , 1.0 ) )
 	_hp_label.add_theme_color_override( "font_outline_color" , Color( 0.05 , 0.02 , 0.05 , 1.0 ) )
 	_hp_label.add_theme_constant_override( "outline_size" , 5 )

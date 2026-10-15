@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://1l4m6d3khflp" path="res://levels/props/钻石.tscn" id="11_bebe2"]
 [ext_resource type="PackedScene" uid="uid://cn77rh2w1lb5n" path="res://levels/props/隐藏左.tscn" id="11_uj8rf"]
 [ext_resource type="Material" uid="uid://bq0utih6663vc" path="res://materials_and_shaders/fog_fade_material.tres" id="12_tc81a"]
-[ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="13_8m5ul"]
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="13_41f62"]
 [ext_resource type="PackedScene" uid="uid://23s3b02y6rqq" path="res://levels/props/宝箱.tscn" id="14_4snpe"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="14_uj8rf"]
@@ -212,13 +211,6 @@ position = Vector2(544, 288)
 
 [node name="钻石" parent="Props" unique_id=1805056374 instance=ExtResource("11_bebe2")]
 position = Vector2(580, -319)
-
-[node name="AbilityPickup" parent="Props" unique_id=899164570 instance=ExtResource("13_8m5ul")]
-position = Vector2(63, 224)
-
-[node name="AbilityPickup2" parent="Props" unique_id=1426679867 instance=ExtResource("13_8m5ul")]
-position = Vector2(103, 224)
-type = 1
 
 [node name="宝箱" parent="Props" unique_id=94975966 instance=ExtResource("14_4snpe")]
 position = Vector2(798, 259)

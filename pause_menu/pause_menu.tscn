@@ -157,7 +157,6 @@ theme_override_fonts/font = SubResource("FontVariation_5hbt6")
 text = "地图"
 
 [node name="Map" type="Control" parent="Control/PauseScreen/OpenMapButton" unique_id=1895856850]
-visible = false
 anchors_preset = 0
 offset_top = 30.0
 offset_right = 372.0
@@ -196,7 +195,7 @@ entrances_left = Array[float]([41.4, 7.0])
 indicator_offset = Vector2(0, -632)
 
 [node name="MapNode3" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=520479031 instance=ExtResource("2_rd7dy")]
-modulate = Color(0.60522425, 0.25803313, 0.25803313, 1)
+modulate = Color(0.69803923, 0.69803923, 0.17254902, 1)
 layout_mode = 0
 offset_left = 124.0
 offset_top = 134.0
@@ -232,12 +231,25 @@ entrances_right = Array[float]([13.0])
 modulate = Color(0.42745098, 0.5254902, 0.5372549, 1)
 layout_mode = 0
 offset_left = 105.0
-offset_top = 108.0
+offset_top = 91.0
 offset_right = 162.0
 offset_bottom = 133.0
 linked_scene = "uid://b2ul4n86b0n5c"
+entrances_right = Array[float]([16.95])
 entrances_bottom = Array[float]([49.2, 5.15])
 indicator_offset = Vector2(-496, -135)
+
+[node name="MapNode7" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=2141875280 instance=ExtResource("2_rd7dy")]
+modulate = Color(0.42745098, 0.5254902, 0.5372549, 1)
+layout_mode = 0
+offset_left = 163.0
+offset_top = 92.0
+offset_right = 233.0
+offset_bottom = 114.0
+linked_scene = "uid://dvj8glks3e7gr"
+entrances_right = Array[float]([16.1])
+entrances_left = Array[float]([16.25])
+indicator_offset = Vector2(0, -80)
 
 [node name="PlayerIndicator" type="Control" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=1142013513]
 unique_name_in_owner = true
@@ -472,7 +484,6 @@ color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

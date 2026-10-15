@@ -88,7 +88,7 @@ turbulence_influence_max = 0.3
 turbulence_initial_displacement_min = -19.999998
 turbulence_initial_displacement_max = 20.000002
 
-[node name="Plant" type="AnimatedSprite2D" unique_id=1003046948]
+[node name="侧面火把" type="AnimatedSprite2D" unique_id=1003046948]
 sprite_frames = SubResource("SpriteFrames_7h0lg")
 autoplay = "default"
 frame_progress = 0.7683978

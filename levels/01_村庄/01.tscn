@@ -363,11 +363,11 @@ occluder = SubResource("OccluderPolygon2D_7h0lg")
 [node name="LightOccluder2D7" type="LightOccluder2D" parent="LightOccluder" unique_id=1497324492]
 occluder = SubResource("OccluderPolygon2D_ieygl")
 
-[node name="LevelTransition8" parent="." unique_id=394364620 instance=ExtResource("4_p24v7")]
+[node name="LevelTransition10" parent="." unique_id=394364620 instance=ExtResource("4_p24v7")]
 position = Vector2(0, 339)
 size = 5
-target_level = "uid://b2ul4n86b0n5c"
-target_area_name = "LevelTransition7"
+target_level = "uid://dvj8glks3e7gr"
+target_area_name = "LevelTransition9"
 
 [node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("3_p24v7")]
 position = Vector2(106, 305)

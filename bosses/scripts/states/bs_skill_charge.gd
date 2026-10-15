@@ -44,7 +44,7 @@ func physics_update( delta : float ) -> void:
 	_fx_time -= delta
 	if _fx_time <= 0.0:
 		_fx_time = 0.12
-		VisualEffects.play_effect_row( 1 , boss.global_position + Vector2( 0 , -60 ) , 0.9 , false , 10.0 )
+		VisualEffects.play_effect_row( 1 , boss.global_position + Vector2( 0 , -60 ) , 0.9 , false , 10.0 , boss )
 	#音效素材（0.8 秒）短于蓄力时长（2 秒），按素材长度重播以持续到下落
 	_audio_time -= delta
 	if _audio_time <= 0.0:

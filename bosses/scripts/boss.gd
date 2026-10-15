@@ -1,3 +1,4 @@
+@tool
 @icon( "res://general/icons/boss_orchestrator.svg" )
 class_name Boss extends CharacterBody2D
 
@@ -13,6 +14,13 @@ class_name Boss extends CharacterBody2D
 #被击败时的广播：掉落系统（lootDropper）等外部对象据此结算掉落，与小怪 Enemy.was_killed 同构
 @warning_ignore( "unused_signal" )
 signal was_killed()
+
+
+#开局朝向：勾选后 BOSS 出生即面朝左（与小怪 Enemy.face_left_on_start 同名同义，在关卡实例上按需勾选）
+@export var face_left_on_start : bool = false:
+	set( value ):
+		face_left_on_start = value
+		_update_face_left()
 
 
 #复用已有的 BOSS 专用特效场景（落地砸击 / 左右光波）
@@ -89,12 +97,24 @@ const HURT_RETREAT_TIME : float = 0.3
 const PB_ATTACK_COUNT : int = 2
 const PB_SPEED : float = 300.0
 
+#交互唤醒起身后的登场演出：无敌时长（同时也作为震屏时长），期间不输出贴身碰撞伤害
+const AWAKEN_INVULNERABLE_TIME : float = 2.0
+#登场震屏强度（PlayerCamera 的 max_shake_offset 为 15，取 6 为一次明显但不晃晕的震屏）
+const AWAKEN_SHAKE_STRENGTH : float = 6.0
+
+#玩家原点在脚下，躯干中心约在原点上方该高度（与玩家 DamageArea 的 CapsuleShape2D 偏移一致）
+const PLAYER_BODY_CENTER : Vector2 = Vector2( 0.0 , -26.0 )
+
 #阶段过场时长（按阶段索引：0 占位 / 2 阶段 / 3 阶段）
 const TRANSITION_TIME : Array[ float ] = [ 0.0 , 1.1 , 1.3 , 1.5 ]
 
-#阶段推进时背景整体加深：在角色之后叠一层全屏暗色，二阶段轻微加深、三阶段在其基础上再加深
-const BACKGROUND_DARKEN_PHASE2 : float = 0.16
-const BACKGROUND_DARKEN_PHASE3 : float = 0.32
+#阶段推进时背景整体加深：按原色整体压暗关卡背景美术，二阶段轻微加深、三阶段在其基础上再加深
+const BACKGROUND_DARKEN_PHASE2 : float = 0.2
+const BACKGROUND_DARKEN_PHASE3 : float = 0.5
+#要压暗的背景美术容器名：各关卡都是「视差背景 BGParallaxLayers + 地块层 TileMap」这两块。
+#只压暗视差背景会出现「天空变暗、洞窟岩壁纹丝不动」——岩壁瓦片铺满画面时会把视差背景整片盖住
+#（07 的竞技场就是被岩壁瓦片整片铺满），所以地块层必须一起压暗才看得出整体变暗
+const BACKGROUND_DARKEN_NODES : Array[ String ] = [ "BGParallaxLayers" , "TileMap" ]
 #加深过渡时长
 const BACKGROUND_DARKEN_TIME : float = 0.6
 #endregion
@@ -118,8 +138,15 @@ var _charge_tween : Tween
 #技能蓄力音效需要持续到下落阶段：autoload Audio 走的是「即用即走」的对象池播放器，无法中途停止，
 #因此持续型音效由 BOSS 自己持有的独立播放器承载
 var hold_audio_player : AudioStreamPlayer2D
-#阶段推进时压在世界之下的全屏暗色背景层（二/三阶段逐级加深）
+#阶段推进时要压暗的背景美术容器（按 BACKGROUND_DARKEN_NODES 依次收集：视差背景 + 地块层）
+var background_art : Array[ Node2D ] = []
+#各容器本来的 modulate，用于 BOSS 被击败后按原样恢复
+var background_art_base : Array[ Color ] = []
+#回退方案：关卡没有任何背景美术容器时（背景就是清屏色），用画在世界之下的全屏暗色层压暗清屏色
 var background_overlay : ColorRect
+#休眠：等待玩家进入检测范围并按交互键唤醒（休眠期保持 RESET 默认姿态与场景里配好的暗色外观）
+var waking : bool = false
+var player_in_range : bool = false
 
 #技能冷却状态广播给 HUD（仅在可见变化时发射）
 var _skill_emit_q : int = -1
@@ -128,6 +155,10 @@ var _skill_emit_unlocked : bool = false
 
 
 func _ready() -> void:
+	#编辑器里不跑运行时初始化（与小怪 Enemy 一致），朝向预览交给 face_left_on_start 的 setter
+	if Engine.is_editor_hint():
+		set_physics_process( false )
+		return
 	setup()
 	pass
 
@@ -161,14 +192,20 @@ func setup() -> void:
 	if sprite:
 		sprite_weapon = sprite.get_node_or_null( "Sprite2D" ) as Sprite2D
 
-	_facing = 1
+	#开局朝向：与关卡里摆放小怪一致，勾选 face_left_on_start 时出生即面朝左（含精灵镜像与攻击判定区翻转）
+	_facing = -1 if face_left_on_start else 1
 	apply_facing()
-	create_background_overlay()
+	setup_phase_background()
 
 	if state_machine and decision_engine and damage_area:
 		state_machine.setup( self , blackboard )
 		decision_engine.boss = self
 		decision_engine.blackboard = blackboard
+		#休眠开局：定格 RESET 默认姿态（上面 setup 已进入待机并播放 idle），
+		#同时暂时不可被攻击、不输出贴身伤害，等玩家按交互键唤醒
+		play_animation( "RESET" )
+		set_damage_invulnerable( true )
+		set_contact_damage( false )
 	else:
 		set_physics_process( false )
 	pass
@@ -178,18 +215,14 @@ func _physics_process( delta : float ) -> void:
 	if blackboard.dead:
 		return
 
-	#全程保持锁定：只在尚未锁定时尝试获取，已锁定则不主动丢弃
-	if not has_target():
-		blackboard.target = get_tree().get_first_node_in_group( "Player" ) as Player
-
-	#没有锁定玩家时：播放 idle 待机，不做任何攻击行为（不开始战斗、不广播冷却）
-	if blackboard.target == null:
-		state_machine.change_state( decision_engine.decide() )
+	#休眠：定格 RESET 默认姿态。玩家进入交互范围（与 BOSS 的 DamageArea 判定框一致）时提示交互，
+	#按下交互键才由 _on_player_interact 唤醒并开战；休眠期不锁定、不出手、不广播冷却
+	if not blackboard.combat_started:
+		if not waking:
+			update_dormant_interaction()
+		#仍跑待机的物理（重力/刹停），但不重播动画，保持 RESET 姿态定格
 		state_machine.physics_update( delta )
 		return
-
-	if not blackboard.combat_started:
-		begin_combat()
 
 	#二阶段专属技能：贴近玩家打满两次普通攻击后触发
 	update_pb_skill_readiness()
@@ -205,6 +238,23 @@ func _physics_process( delta : float ) -> void:
 
 func has_target() -> bool:
 	return is_instance_valid( blackboard.target ) and not blackboard.target.is_queued_for_deletion()
+
+
+#交互范围：与 BOSS 自身的 DamageArea 判定框完全一致（同一个矩形，取其 CollisionShape2D 的
+#全局中心与 RectangleShape2D 的半长；在编辑器里改它的大小，交互范围即同步变化）。
+#判定玩家躯干中心（原点在脚下的玩家，躯干中心在原点上方 PLAYER_BODY_CENTER）是否落在矩形内。
+func in_interact_range( candidate : Player ) -> bool:
+	if damage_area == null:
+		return false
+	var shape_node := damage_area.get_node_or_null( "CollisionShape2D" ) as CollisionShape2D
+	if shape_node == null:
+		return false
+	var hurt_shape := shape_node.shape as RectangleShape2D
+	if hurt_shape == null:
+		return false
+	var offset : Vector2 = candidate.global_position + PLAYER_BODY_CENTER - shape_node.global_position
+	var half : Vector2 = hurt_shape.size * 0.5
+	return absf( offset.x ) <= half.x and absf( offset.y ) <= half.y
 
 
 func dx_to_target() -> float:
@@ -237,6 +287,16 @@ func apply_facing() -> void:
 	sprite_weapon.flip_h = left
 	sprite_weapon.position.x = -26.666 if left else 26.666
 	attack_area.flip( _facing )
+	pass
+
+
+#编辑器里勾选 face_left_on_start 时立刻翻转预览（与小怪 Enemy._update_face_left 同一套写法）
+func _update_face_left() -> void:
+	if not Engine.is_editor_hint():
+		return
+	for c in get_children():
+		if c is Sprite2D:
+			c.flip_h = face_left_on_start
 	pass
 
 
@@ -326,8 +386,41 @@ func set_contact_damage( on : bool ) -> void:
 	pass
 
 
-#创建背景加深层：挂在场地上、只画在最底，位于世界（角色/地面/墙壁）之下，
-#因此只压暗背景底色的可见部分，不会遮住角色与场景物件
+#阶段背景加深的准备：收集关卡里的背景美术容器（BACKGROUND_DARKEN_NODES，即视差背景 + 地块层），
+#记下它们本来的 modulate 以便 BOSS 被击败后按原样恢复；压暗的是这些容器本身、不碰角色与道具，
+#也不受图层次序与相机滚动影响。
+#若关卡一个都没有（画面背景就是清屏色，例如独立竞技场里 Background 多边形 visible=false），
+#则回退到「画在世界之下的全屏暗色层」去压暗清屏色。
+func setup_phase_background() -> void:
+	var world := get_parent()
+	if world == null:
+		return
+	for node_name in BACKGROUND_DARKEN_NODES:
+		_add_background_art( world.get_node_or_null( node_name ) as Node2D )
+	#地块层也可能不套在 TileMap 容器里、直接挂在关卡根下（06 就是这样），一并收进来，
+	#否则那些关卡只会压暗视差背景，出现「天空变暗、地面纹丝不动」
+	for child in world.get_children():
+		if child is TileMapLayer:
+			_add_background_art( child as Node2D )
+	if background_art.is_empty():
+		#不给静默失败留余地：找不到任何背景美术容器时明确报警，并走清屏色回退路径
+		push_warning( "Boss：关卡里找不到任何背景美术容器 %s，阶段加深将只能压暗清屏色" % str( BACKGROUND_DARKEN_NODES ) )
+		create_background_overlay()
+	pass
+
+
+#登记一个要随阶段压暗的背景美术节点（记录它本来的 modulate 供恢复），重复登记会被忽略
+func _add_background_art( art : Node2D ) -> void:
+	if art == null or background_art.has( art ):
+		return
+	background_art.append( art )
+	background_art_base.append( art.modulate )
+	pass
+
+
+#回退方案：创建背景加深层，挂在场地上、只画在最底（CanvasLayer -1 位于整个世界之下），
+#压暗的是关卡内容没盖住的清屏色部分；关卡自己有背景美术时这层会被整片盖住、完全看不到，
+#所以只在上面找不到背景美术时才用它（竞技场的背景就是清屏色，这条路径在那里有效）
 func create_background_overlay() -> void:
 	var world := get_parent()
 	if world == null:
@@ -348,17 +441,30 @@ func create_background_overlay() -> void:
 	pass
 
 
-#阶段推进时调用：二阶段轻微加深背景、三阶段在二阶段基础上再加深，用短补间平滑过渡
+#阶段推进时调用：二阶段轻微加深背景、三阶段在二阶段基础上再加深；传入 1（BOSS 被击败）时补回原样。
+#补间一律挂在被改动的节点上创建 —— BOSS 被击败后自身会被释放，绑在 BOSS 上的补间会中途夭折、颜色卡在半路
 func apply_phase_background( phase : int ) -> void:
-	if background_overlay == null:
-		return
 	var a : float = 0.0
 	if phase >= 3:
 		a = BACKGROUND_DARKEN_PHASE3
 	elif phase >= 2:
 		a = BACKGROUND_DARKEN_PHASE2
-	var tw := create_tween()
-	tw.tween_property( background_overlay , "color:a" , a , BACKGROUND_DARKEN_TIME )
+	#按各容器原本的颜色整体乘 k：传入 1 时 k = 1 即原样（打完 BOSS 恢复）
+	var k : float = 1.0 - a
+	for i in background_art.size():
+		var art := background_art[ i ]
+		if not is_instance_valid( art ):
+			continue
+		var base := background_art_base[ i ]
+		var target := Color( base.r * k , base.g * k , base.b * k , base.a )
+		art.create_tween().tween_property( art , "modulate" , target , BACKGROUND_DARKEN_TIME )
+	if not background_art.is_empty():
+		#诊断输出：确认本阶段加深确实执行、执行到哪几个容器（排查「看不出变化」时据此定位，确认无误后可删）
+		print( "[Boss] 阶段背景加深：phase=%d a=%.2f 容器=%d" % [ phase , a , background_art.size() ] )
+		return
+	if background_overlay != null:
+		var overlay_tween := background_overlay.create_tween()
+		overlay_tween.tween_property( background_overlay , "color:a" , a , BACKGROUND_DARKEN_TIME )
 	pass
 
 
@@ -413,6 +519,62 @@ func _ring_offset_y() -> float:
 	var frame_h : float = float( tex.get_height() ) / float( maxi( sprite.vframes , 1 ) )
 	var top : float = sprite.position.y - sprite.scale.y * frame_h * 0.5
 	return top - RING_GAP
+
+#endregion
+
+
+#region /// 休眠 / 交互唤醒
+
+#休眠期每帧检测：玩家进入/离开交互范围（与 BOSS 的 DamageArea 判定框一致）时切换交互提示。
+#与开关、存档点的写法一致：进入范围时提示按键图标并监听交互广播，离开时收回提示并断连
+func update_dormant_interaction() -> void:
+	var player : Player = get_tree().get_first_node_in_group( "Player" ) as Player
+	var in_range : bool = player != null and in_interact_range( player )
+	if in_range == player_in_range:
+		return
+	player_in_range = in_range
+	if in_range:
+		Messages.input_hint_changed.emit( "interact" )
+		if not Messages.player_interacted.is_connected( _on_player_interact ):
+			Messages.player_interacted.connect( _on_player_interact )
+	else:
+		Messages.input_hint_changed.emit( "" )
+		if Messages.player_interacted.is_connected( _on_player_interact ):
+			Messages.player_interacted.disconnect( _on_player_interact )
+	pass
+
+
+#玩家在检测范围内按下交互键：外观恢复正常（休眠期是场景里配好的暗色）→
+#播放 start 苏醒动画 → 起身后 2 秒登场演出（无敌 + 关闭碰撞伤害 + 震屏）→ 亮血条正式开战
+func _on_player_interact( player : Player ) -> void:
+	if blackboard.combat_started or waking:
+		return
+	waking = true
+	player_in_range = false
+	if Messages.player_interacted.is_connected( _on_player_interact ):
+		Messages.player_interacted.disconnect( _on_player_interact )
+	Messages.input_hint_changed.emit( "" )
+	sprite.modulate = Color.WHITE
+	play_animation( "start" )
+	#苏醒：入场音乐等据此开始播放（休眠期不放）
+	Messages.boss_awakened.emit()
+	await animation_player.animation_finished
+	if blackboard.dead:
+		waking = false
+		return
+	#起身后的登场演出：2 秒无敌、关闭贴身碰撞伤害，同时震屏；期间血条不出现、玩家打不到它
+	set_damage_invulnerable( true )
+	set_contact_damage( false )
+	VisualEffects.camera_shake( AWAKEN_SHAKE_STRENGTH , AWAKEN_INVULNERABLE_TIME )
+	await get_tree().create_timer( AWAKEN_INVULNERABLE_TIME ).timeout
+	waking = false
+	if blackboard.dead:
+		return
+	set_damage_invulnerable( false )
+	set_contact_damage( true )
+	blackboard.target = player
+	begin_combat()
+	pass
 
 #endregion
 
@@ -538,11 +700,12 @@ func spawn_afterimage() -> void:
 	if world == null:
 		return
 	var ghost := Node2D.new()
+	#插在 BOSS 前一位并沿用 BOSS 自己的 z_index：残影稳定画在 BOSS 身后、背景/地面之前
+	#（BOSS 的 z_index 会被关卡实例覆盖，这里若写死层号，残影反而会盖到 BOSS 身上）
+	var idx : int = get_index()
 	world.add_child( ghost )
-	world.move_child( ghost , 0 )
-	#残影落在世界根节点索引 0，会排在不透明背景（Background）之前被完全盖住，
-	#必须显式抬 z_index，与玩家下落攻击残影（player_sprite.gd 的 ghost()）保持一致
-	ghost.z_index = 1
+	world.move_child( ghost , idx )
+	ghost.z_index = z_index
 	ghost.global_transform = global_transform
 	ghost.modulate = Color( 0.958 , 0.595 , 0.595 , 0.75 )
 
@@ -625,7 +788,10 @@ func slam_impact() -> void:
 	spawn_wave( -1 )
 	spawn_wave( 1 )
 	VisualEffects.hit_dust( global_position )
-	VisualEffects.play_effect_row( 0 , global_position + Vector2( 0 , -20 ) , 1.7 , false , 16.0 )
+	#尖刺爆发特效：单帧 128x128、Sprite2D 默认以帧中心为原点，抬高半个帧高（64 × 1.7 = 108.8）后
+	#特效最下面正好落在 BOSS 脚底（BOSS 原点即脚底、砸地瞬间就在这里触发），不再埋进地面。
+	#末位传 self：特效跟随 BOSS 的 z_index、插在 BOSS 前一位，不论关卡实例把 BOSS 调成几层都不会挡在它前面
+	VisualEffects.play_effect_row( 0 , global_position + Vector2( 0 , -108.8 ) , 1.7 , false , 16.0 , self )
 	VisualEffects.camera_shake( 14.0 , 0.5 )
 	pass
 

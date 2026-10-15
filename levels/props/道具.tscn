@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://gblf6jbfs6h0"]
+
+[ext_resource type="Texture2D" uid="uid://coakk12n0iliu" path="res://levels/tilesets/sprites/sun.png" id="1_odxdy"]
+[ext_resource type="Script" uid="uid://bea5h3nhgpclc" path="res://general/scripts/light_flicker.gd" id="2_0sfr5"]
+[ext_resource type="Script" uid="uid://bpitp2t2qq1h4" path="res://levels/props/prop_phase_reveal.gd" id="3_reveal"]
+
+[sub_resource type="Gradient" id="Gradient_eduya"]
+offsets = PackedFloat32Array(0.19378698, 0.39201182, 0.5872781, 1)
+colors = PackedColorArray(0.6556657, 0.0060773017, 0.21187113, 1, 1, 0.015686275, 0.34117648, 1, 1, 0.015686275, 0.34117648, 0.69411767, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_268pn"]
+gradient = SubResource("Gradient_eduya")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.49658704, 0.48634812)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eb7w0"]
+light_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n3k8o"]
+particle_flag_disable_z = true
+direction = Vector3(1, 8, 0)
+initial_velocity_min = 400.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 4.0
+turbulence_enabled = true
+turbulence_influence_max = 0.3
+turbulence_initial_displacement_min = -19.999998
+turbulence_initial_displacement_max = 20.000002
+
+[node name="道具" type="Sprite2D" unique_id=1690379567]
+modulate = Color(0.5370987, 0.003921569, 0.16734654, 1)
+texture = ExtResource("1_odxdy")
+script = ExtResource("3_reveal")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=345460165]
+energy = 0.5
+texture = SubResource("GradientTexture2D_268pn")
+script = ExtResource("2_0sfr5")
+flicker_intensity = 0.2
+flicker_frenquency = 0.1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=101165383]
+material = SubResource("CanvasItemMaterial_eb7w0")
+amount = 18
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_n3k8o")

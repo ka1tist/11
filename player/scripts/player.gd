@@ -331,6 +331,9 @@ func _on_player_healed( amount : float ) -> void:
 #使用血瓶：没有血瓶或已满血时直接返回（不消耗道具、不回血）；
 #否则消耗 1 瓶并回复固定生命值（hp setter 会把结果钳制到不超过 max_hp）
 func use_potion() -> void:
+	#死亡后禁止喝药水：hp 归零的当帧就已广播死亡（_is_dead），此时按快捷键不再消耗/回血
+	if _is_dead:
+		return
 	if potion <= 0:
 		return
 	if hp >= max_hp:

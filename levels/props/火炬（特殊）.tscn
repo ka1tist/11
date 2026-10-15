@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://uspc8b50na2v"]
+
+[ext_resource type="PackedScene" uid="uid://8a37ifxjeefd" path="res://levels/props/火炬.tscn" id="1_mi422"]
+[ext_resource type="Texture2D" uid="uid://uq0kvpqegvvp" path="res://levels/tilesets/sprites/forgotten_forest_example_tileset.png" id="2_l63f5"]
+[ext_resource type="Script" path="res://levels/props/torch_phase_extinguish.gd" id="3_phase"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7h0lg"]
+atlas = ExtResource("2_l63f5")
+region = Rect2(512, 290, 32, 30)
+
+[node name="火炬（特殊）" type="Node2D" unique_id=560780436]
+script = ExtResource("3_phase")
+
+[node name="火炬" parent="." unique_id=1981103534 instance=ExtResource("1_mi422")]
+frame_progress = 0.85937107
+
+[node name="熄灭" type="Sprite2D" parent="." unique_id=1211446139]
+visible = false
+modulate = Color(0.5936789, 0.5936789, 0.5936789, 1)
+texture = SubResource("AtlasTexture_7h0lg")

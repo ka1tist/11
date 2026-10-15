@@ -210,7 +210,7 @@ target_area_name = "LevelTransition4"
 position = Vector2(641, -80)
 size = 3
 location = 1
-target_level = "uid://dqo7i51a1wgcf"
+target_level = "uid://dvj8glks3e7gr"
 target_area_name = "LevelTransition8"
 
 [node name="MusicAutoTrigger" type="Node" parent="." unique_id=1784924617]
