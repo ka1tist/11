@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://duk3pmrsv7v26" path="res://general/audio/ability_crack.wav" id="4_dxffq"]
 [ext_resource type="AudioStream" uid="uid://pdb1j17hjsv" path="res://general/audio/ability_acquire.wav" id="5_wvp8x"]
 [ext_resource type="Script" uid="uid://c1unhfbuk57mo" path="res://general/scripts/damage_area.gd" id="6_ugn6l"]
+[ext_resource type="FontFile" uid="uid://cwsu3k6lb8wkk" path="res://general/fonts/AaXiangSuJiangHu-Ben-2.ttf" id="7_font"]
 
 [sub_resource type="Animation" id="Animation_1ggl3"]
 length = 0.001
@@ -227,6 +228,10 @@ radius = 15.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_hint"]
 radius = 44.0
 
+[sub_resource type="FontVariation" id="FontVariation_glyph"]
+base_font = ExtResource("7_font")
+spacing_glyph = 1
+
 [node name="AbilityPickup" type="Node2D" unique_id=899164570]
 z_index = 1
 script = ExtResource("1_xxigd")
@@ -286,10 +291,10 @@ debug_color = Color(0, 0.5950001, 0.7, 0)
 
 [node name="HintBox" type="PanelContainer" parent="." unique_id=913402773]
 visible = false
-offset_left = -104.0
-offset_top = -87.0
-offset_right = 102.0
-offset_bottom = -61.0
+offset_left = -123.0
+offset_top = -67.0
+offset_right = 122.0
+offset_bottom = -41.0
 mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HintBox" unique_id=913402774]
@@ -306,6 +311,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = SubResource("FontVariation_glyph")
 theme_override_font_sizes/font_size = 10
 text = "当玩家获得此能力时贴近墙面可以进行爬墙"
 horizontal_alignment = 1

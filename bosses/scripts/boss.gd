@@ -38,6 +38,8 @@ const PICKUP_INVULNERABLE_TIME : float = 0.8
 
 #砸地爆发音效
 const GROUND_SLAM_AUDIO = preload( "res://bosses/01/audio/ground slam.wav" )
+#被击败、能力球落地时的音效
+const PICKUP_DROP_AUDIO = preload( "res://general/audio/宝石.wav" )
 
 const BOSS_NAME : String = "旧日的幻影"
 
@@ -773,6 +775,8 @@ func spawn_dash_pickup() -> void:
 	var hit : Dictionary = get_world_2d().direct_space_state.intersect_ray( query )
 	var ground_y : float = float( hit.position.y ) if not hit.is_empty() else global_position.y
 	pickup.global_position = Vector2( global_position.x , ground_y - PICKUP_GROUND_OFFSET )
+	#落地音效：响在球真正出现的位置上
+	Audio.play_spatial_sound( PICKUP_DROP_AUDIO , pickup.global_position )
 	#刚出现的瞬间无敌：击破 BOSS 的那一下攻击（判定可能仍与落点重叠）不会立刻把球打碎，
 	#复用玩家受击无敌的同一套机制（DamageArea 禁用 process_mode）
 	var pickup_damage_area := pickup.get_node_or_null( "Breakable/DamageArea" ) as DamageArea

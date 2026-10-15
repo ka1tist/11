@@ -228,7 +228,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_641rt"]
 resource_name = "death"
-length = 0.65
+length = 0.7
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -423,40 +423,6 @@ color = Color(1, 0.015686275, 0.34117648, 1)
 texture = SubResource("GradientTexture2D_6rvqo")
 metadata/_custom_type_script = "uid://jl2mctya5sog"
 
-[sub_resource type="Gradient" id="Gradient_rytcq"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_rytcq"]
-gradient = SubResource("Gradient_rytcq")
-width = 16
-height = 16
-use_hdr = true
-
-[sub_resource type="Resource" id="Resource_qm7xy"]
-script = ExtResource("25_rytcq")
-count = 32
-color = Color(1, 0.015686275, 0.34117648, 1)
-texture = SubResource("GradientTexture2D_rytcq")
-metadata/_custom_type_script = "uid://jl2mctya5sog"
-
-[sub_resource type="Gradient" id="Gradient_8aqhk"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8aqhk"]
-gradient = SubResource("Gradient_8aqhk")
-width = 8
-height = 8
-use_hdr = true
-
-[sub_resource type="Resource" id="Resource_rtqmv"]
-script = ExtResource("25_rytcq")
-count = 24
-color = Color(0.2, 0.10980392, 0.21960784, 1)
-texture = SubResource("GradientTexture2D_8aqhk")
-metadata/_custom_type_script = "uid://jl2mctya5sog"
-
 [sub_resource type="Resource" id="Resource_6rvqo"]
 script = ExtResource("27_8aqhk")
 item = "uid://ochny605wqw0"
@@ -596,7 +562,6 @@ script = ExtResource("7_bde")
 position = Vector2(0, -45)
 script = ExtResource("24_qm7xy")
 hit_particles = Array[ExtResource("25_rytcq")]([SubResource("Resource_7h0lg"), SubResource("Resource_8aqhk")])
-death_particles = Array[ExtResource("25_rytcq")]([SubResource("Resource_qm7xy"), SubResource("Resource_rtqmv"), null])
 metadata/_custom_type_script = "uid://jodh8fuht3an"
 
 [node name="lootDropper" type="Marker2D" parent="." unique_id=1794784889]

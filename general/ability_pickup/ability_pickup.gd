@@ -3,7 +3,9 @@
 class_name AbilityPickup extends Node2D
 
 
-enum Type { DASH , DOUBLE_JUMP , GROUND_SLAM , WALL_CLIMB }
+#空壳 NULL 必须排在末尾：关卡里的 type 是以整数存进 .tscn 的（如 type = 3 表示 WALL_CLIMB），
+#往前面插新值会把所有已摆好的能力球静默改成空壳
+enum Type { DASH , DOUBLE_JUMP , GROUND_SLAM , WALL_CLIMB , NULL }
 @export var type : Type = Type.DOUBLE_JUMP :
 	set ( value ):
 		type = value
@@ -32,9 +34,13 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	
-	if SaveManager.persistent_data.get_or_add( get_ability_name() , "" ) == "acquired":
-		queue_free()
-		return
+	#空壳不参与能力存档：它没有能力名（get_ability_name 返回空串），写进存档会往 persistent_data
+	#里塞一个空 key，而所有空壳共用这一把 key——第一个被打碎后，后面每个空壳一进关卡就会误判
+	#「已获得」而自己消失
+	if type != Type.NULL:
+		if SaveManager.persistent_data.get_or_add( get_ability_name() , "" ) == "acquired":
+			queue_free()
+			return
 	
 	breakable.destroyed.connect( _on_destroyed )
 	breakable.damage_taken.connect( _on_damage_taken )
@@ -43,10 +49,12 @@ func _ready() -> void:
 
 
 func _on_destroyed() -> void:
-	SaveManager.persistent_data[ get_ability_name() ] = "acquired"
 	_reward_ability()
-	# 保存能力进度（保留存档点位置），确保死亡重生后能力不丢失
-	SaveManager.save_progress()
+	#空壳击破不发能力、也不写存档：只能被打碎，什么都不会发生，下次进关卡它还会在原地
+	if type != Type.NULL:
+		SaveManager.persistent_data[ get_ability_name() ] = "acquired"
+		# 保存能力进度（保留存档点位置），确保死亡重生后能力不丢失
+		SaveManager.save_progress()
 	orb_anim.play( "destroy" )
 	await orb_anim.animation_finished
 	queue_free()
@@ -109,6 +117,9 @@ func _hide_hint() -> void:
 
 
 func _reward_ability() -> void:
+	#空壳：击破不获得任何能力
+	if type == Type.NULL:
+		return
 	var player : Player = get_tree().get_first_node_in_group( "Player" )
 	match type:
 		Type.DOUBLE_JUMP:
@@ -130,10 +141,19 @@ func _set_animation() -> void:
 	#%唯一节点无法解析（会报Node not found），直接跳过；_ready()中会再设置一次
 	if not is_inside_tree():
 		return
+	#空壳不显示能力图标（编辑器里从空壳切回其它类型时要恢复显示，所以两态都显式赋值）。
+	#OrbAnim 只补间 AbilitySprite 的 modulate，不会把这里的 visible 改回去
+	var icon := get_node_or_null( "%AbilitySprite" ) as Sprite2D
+	if icon:
+		icon.visible = type != Type.NULL
 	if not ability_anim:
 		if not has_node( "%AbilityAnim" ):
 			return
 		ability_anim = %AbilityAnim
+	if type == Type.NULL:
+		#空壳没有对应动画（动画库里没有空串名字的动画，play("") 会报 Animation not found），停掉即可
+		ability_anim.stop()
+		return
 	ability_anim.play( get_ability_name() )
 	pass
 
@@ -162,4 +182,6 @@ func get_hint_text() -> String:
 			return "当玩家获得此能力时可以按↓+x进行下砸"
 		Type.WALL_CLIMB:
 			return "当玩家获得此能力时贴近墙面可以进行爬墙"
+		Type.NULL:
+			return "遇到此类道具时需要玩家使用攻击击破"
 	return ""

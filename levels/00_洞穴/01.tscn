@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="12_2djti"]
 [ext_resource type="PackedScene" uid="uid://cetlc1xpatj7t" path="res://levels/props/石头.tscn" id="13_6ghqg"]
 [ext_resource type="AudioStream" uid="uid://bh3sirdlc81ov" path="res://music/cave.ogg" id="13_oanuc"]
+[ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="18_3mp3m"]
 [ext_resource type="PackedScene" uid="uid://cbh55exd3wr0y" path="res://enemies/slime_2/slime_2.tscn" id="18_6ghqg"]
 [ext_resource type="PackedScene" uid="uid://tx37ae7n7ibj" path="res://enemies/skeleton/skeleton.tscn" id="20_kjnvi"]
 [ext_resource type="Script" uid="uid://eh2apeu40cfr" path="res://general/scripts/patrol_limit.gd" id="21_work7"]
@@ -41,16 +42,16 @@ height = 256
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0.03242321)
 
-[sub_resource type="Gradient" id="Gradient_work7"]
+[sub_resource type="Gradient" id="Gradient_kjnvi"]
 offsets = PackedFloat32Array(0.15604027, 0.77684563)
 colors = PackedColorArray(0.061100002, 0.12196165, 0.13, 0.21960784, 1, 1, 1, 1)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ame6f"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_work7"]
 frequency = 0.0061
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7h0lg"]
-noise = SubResource("FastNoiseLite_ame6f")
-color_ramp = SubResource("Gradient_work7")
+noise = SubResource("FastNoiseLite_work7")
+color_ramp = SubResource("Gradient_kjnvi")
 seamless = true
 normalize = false
 seamless_blend_skirt = 0.5
@@ -197,6 +198,10 @@ position = Vector2(81, 289)
 
 [node name="操作" parent="Props" unique_id=960810658 instance=ExtResource("7_labnj")]
 position = Vector2(81, 276)
+text = "操作说明：
+移动：↑↓← →
+攻击：x  跳跃：z  恢复：a
+"
 
 [node name="插地火把" parent="Props" unique_id=109864954 instance=ExtResource("10_wcxka")]
 position = Vector2(1080, 0)
@@ -216,6 +221,10 @@ position = Vector2(-8, 254)
 
 [node name="石头" parent="Props" unique_id=620941812 instance=ExtResource("13_6ghqg")]
 position = Vector2(-194, 270)
+
+[node name="AbilityPickup" parent="Props" unique_id=899164570 instance=ExtResource("18_3mp3m")]
+position = Vector2(179, 270)
+type = 4
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=226576766]
 z_index = 2

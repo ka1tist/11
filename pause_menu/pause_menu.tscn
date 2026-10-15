@@ -174,10 +174,10 @@ color = Color(0.2509804, 0.2509804, 0.2509804, 0.60784316)
 [node name="MapNode" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=179225958 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
 layout_mode = 0
-offset_left = 84.0
-offset_top = 159.0
-offset_right = 162.0
-offset_bottom = 187.0
+offset_left = 7.0
+offset_top = 160.0
+offset_right = 85.0
+offset_bottom = 188.0
 linked_scene = "uid://d31trrcaeoqp4"
 entrances_right = Array[float]([21.8])
 entrances_bottom = Array[float]([2.35])
@@ -186,10 +186,10 @@ indicator_offset = Vector2(-232, -240)
 [node name="MapNode2" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=760710721 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42940325, 0.5270626, 0.5368285, 1)
 layout_mode = 0
-offset_left = 163.0
-offset_top = 140.0
-offset_right = 206.0
-offset_bottom = 187.0
+offset_left = 86.0
+offset_top = 141.0
+offset_right = 129.0
+offset_bottom = 188.0
 linked_scene = "uid://bmwnfmk7co6hw"
 entrances_left = Array[float]([41.4, 7.0])
 indicator_offset = Vector2(0, -632)
@@ -197,10 +197,10 @@ indicator_offset = Vector2(0, -632)
 [node name="MapNode3" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=520479031 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.69803923, 0.69803923, 0.17254902, 1)
 layout_mode = 0
-offset_left = 124.0
-offset_top = 134.0
-offset_right = 162.0
-offset_bottom = 152.0
+offset_left = 47.0
+offset_top = 135.0
+offset_right = 85.0
+offset_bottom = 153.0
 linked_scene = "uid://bjqpdbunwtlh0"
 entrances_top = Array[float]([30.0])
 entrances_right = Array[float]([13.0])
@@ -209,20 +209,20 @@ indicator_offset = Vector2(-112, 8)
 
 [node name="MapNode4" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=571848955 instance=ExtResource("2_rd7dy")]
 layout_mode = 0
-offset_left = 84.0
-offset_top = 188.0
-offset_right = 108.0
-offset_bottom = 200.0
+offset_left = 7.0
+offset_top = 189.0
+offset_right = 31.0
+offset_bottom = 201.0
 linked_scene = "uid://dyiru1a34m4a5"
 entrances_top = Array[float]([2.0])
 indicator_offset = Vector2(96, 11)
 
 [node name="MapNode5" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=34950281 instance=ExtResource("2_rd7dy")]
 layout_mode = 0
-offset_left = 97.0
-offset_top = 134.0
-offset_right = 123.0
-offset_bottom = 152.0
+offset_left = 20.0
+offset_top = 135.0
+offset_right = 46.0
+offset_bottom = 153.0
 linked_scene = "uid://3p4f65n1soqw"
 entrances_top = Array[float]([13.2])
 entrances_right = Array[float]([13.0])
@@ -230,26 +230,37 @@ entrances_right = Array[float]([13.0])
 [node name="MapNode6" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=608097032 instance=ExtResource("2_rd7dy")]
 modulate = Color(0.42745098, 0.5254902, 0.5372549, 1)
 layout_mode = 0
-offset_left = 105.0
-offset_top = 91.0
-offset_right = 162.0
-offset_bottom = 133.0
+offset_left = 28.0
+offset_top = 92.0
+offset_right = 85.0
+offset_bottom = 134.0
 linked_scene = "uid://b2ul4n86b0n5c"
 entrances_right = Array[float]([16.95])
 entrances_bottom = Array[float]([49.2, 5.15])
 indicator_offset = Vector2(-496, -135)
 
 [node name="MapNode7" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=2141875280 instance=ExtResource("2_rd7dy")]
-modulate = Color(0.42745098, 0.5254902, 0.5372549, 1)
+modulate = Color(0.92156863, 0, 0, 1)
 layout_mode = 0
-offset_left = 163.0
-offset_top = 92.0
-offset_right = 233.0
-offset_bottom = 114.0
+offset_left = 86.0
+offset_top = 93.0
+offset_right = 156.0
+offset_bottom = 115.0
 linked_scene = "uid://dvj8glks3e7gr"
 entrances_right = Array[float]([16.1])
 entrances_left = Array[float]([16.25])
 indicator_offset = Vector2(0, -80)
+
+[node name="MapNode8" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=362160228 instance=ExtResource("2_rd7dy")]
+modulate = Color(0.69803923, 0.69803923, 0.17254902, 1)
+layout_mode = 0
+offset_left = 157.0
+offset_top = 65.0
+offset_right = 362.0
+offset_bottom = 114.0
+linked_scene = "uid://dqo7i51a1wgcf"
+entrances_left = Array[float]([44.0])
+indicator_offset = Vector2(0, -624)
 
 [node name="PlayerIndicator" type="Control" parent="Control/PauseScreen/OpenMapButton/Map" unique_id=1142013513]
 unique_name_in_owner = true
@@ -484,6 +495,7 @@ color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

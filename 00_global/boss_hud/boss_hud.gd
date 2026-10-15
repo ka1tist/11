@@ -432,6 +432,9 @@ func show_banner( text : String , color : Color = Color( 1.0 , 0.85 , 0.5 ) ) ->
 	_banner.scale = Vector2.ONE
 	_banner.modulate.a = 0.0
 	_banner_tween = create_tween()
+	#按当前时间缩放反向补偿速度：击败 BOSS 的慢动作期间 delta 被引擎缩放，补偿后横幅仍按真实秒数播放
+	#（平时 time_scale 为 1，补偿系数即 1，与原来一致）
+	_banner_tween.set_speed_scale( 1.0 / maxf( Engine.time_scale , 0.001 ) )
 	_banner_tween.tween_property( _banner , "modulate:a" , 1.0 , BANNER_FADE_IN )
 	_banner_tween.tween_interval( BANNER_HOLD )
 	_banner_tween.tween_property( _banner , "modulate:a" , 0.0 , BANNER_FADE_OUT )
@@ -479,9 +482,10 @@ func _on_phase_changed( phase : int , _phase_name : String ) -> void:
 
 func _on_defeated() -> void:
 	show_banner( "BOSS 已被击败" , Color( 1.0 , 0.95 , 0.7 ) )
-	flash( Color( 1 , 1 , 1 , 1 ) , 0.9 , 0.6 )
-	#略作停顿再收起血条，让玩家看到血条清空的过程
-	await get_tree().create_timer( 1.2 ).timeout
+	#原有的击杀全屏白闪已移除：击败瞬间的演出改由 VisualEffects 的聚焦慢动作承担（镜头锁定 + 2 秒慢动作）。
+	#略作停顿再收起血条，让玩家看到血条清空的过程；计时器忽略时间缩放，
+	#否则慢动作期间这 1.2 秒会被拉成 4.8 秒
+	await get_tree().create_timer( 1.2 , true , false , true ).timeout
 	hide_bar()
 	pass
 
