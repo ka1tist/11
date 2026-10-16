@@ -20,6 +20,11 @@ signal back_to_title_screen()
 @warning_ignore( "unused_signal" )
 signal player_died()
 
+#玩家被摆到出生点之后（读档 / 死亡重生把玩家放到存档点坐标的那一帧）：
+#按位置决定自身状态的场景元素据此校正（典型是村庄的房子，见 房子.gd）
+@warning_ignore( "unused_signal" )
+signal player_spawned()
+
 @warning_ignore( "unused_signal" )
 signal coin_collected( coin : int )
 

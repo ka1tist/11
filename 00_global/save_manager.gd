@@ -176,6 +176,10 @@ func setup_player() -> void:
 		Inventory.add_item( DIAMOND_ITEM , player.diamond - diamond_in_bag )
 
 	player.global_position = Vector2( save_data.get( "x" , 0 ) , save_data.get( "y" , 0 ) )
+	#落位完成后广播：按位置决定自身状态的场景元素据此校正（典型是村庄的房子——
+	#存档存的是玩家站在存档点上的坐标，而房屋每次进场景都是「屋外」外观、
+	#内景地面碰撞关闭，不校正会让玩家站在内景坐标上却穿过地板掉到屋外）
+	Messages.player_spawned.emit()
 	pass
 
 

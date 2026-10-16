@@ -5,6 +5,9 @@ extends Area2D
 const DOOR_OPEN_AUDIO := preload("uid://deotw4t0rcr5v")
 # 关门音效：交互后 TileMapLayer2 / 3 / 4 可见（进入屋内）时播放
 const DOOR_CLOSE_AUDIO := preload("uid://c3e1r3g1smm7m")
+# 读档出生修正：玩家与室内存档点的距离在这个范围内即判定为「出生在屋内存档点上」
+# （存档点自身的检测矩形是 48x24.6，玩家站在床边存档时离它的原点不超过约 24px，取 48 留足余量）
+const SPAWN_AT_SAVE_POINT_DISTANCE : float = 48.0
 
 ## 房屋进出交互脚本
 ## 玩家进入门口的 Area2D 区域后按 action 键（S / X / 手柄 Y），
@@ -103,6 +106,8 @@ func _ready() -> void:
 	# 房屋整体区域检测：玩家离开后延迟自动切回屋外
 	_house_area.body_entered.connect(_on_house_body_entered)
 	_house_area.body_exited.connect(_on_house_body_exited)
+	# 读档 / 死亡重生的出生位置校正（须在下面的 await 之前连上，信号可能在 _ready 挂起期间到达）
+	Messages.player_spawned.connect(_on_player_spawned)
 	# 兼容玩家出生点就在区域内的情况（例如场景切换后落在门口 / 屋内）
 	await get_tree().physics_frame
 	for body in get_overlapping_bodies():
@@ -285,6 +290,28 @@ func _apply_state() -> void:
 		save_point.visible = _is_inside
 		save_point.modulate.a = 1.0
 		save_point.set_interaction_enabled(_is_inside)
+
+
+# ---------- 载入存档的出生状态校正 ----------
+
+## 读档 / 死亡重生落位后校正房屋状态：存档保存的是玩家站在存档点上的坐标，
+## 而房屋每次进场景都是「屋外」开局（外观图层可见、内景图层隐藏且内景地面碰撞关闭），
+## 不校正的话玩家会站在内景坐标上却没有地板，直接穿过房子掉到屋外。
+## 出生点落在本房屋某个室内存档点上时，直接把房屋置为屋内：瞬时切换（不做交叉淡变、
+## 不播门音效——出生瞬间并没有「开门进屋」这个过程），内景图层与地面碰撞立刻生效。
+func _on_player_spawned() -> void:
+	if _is_inside:
+		return
+	var player := get_tree().get_first_node_in_group("Player") as Player
+	if player == null:
+		return
+	for save_point in _interior_save_points:
+		if player.global_position.distance_to(save_point.global_position) > SPAWN_AT_SAVE_POINT_DISTANCE:
+			continue
+		_is_inside = true
+		_apply_state()
+		return
+	pass
 
 
 # ---------- Area2D 区域检测 ----------
