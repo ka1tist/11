@@ -35,6 +35,8 @@ func enter() -> void:
 		picked_anim = _pick_attack_animation()
 	_stationary = true  #两种攻击都原地播放
 	enemy.play_animation( picked_anim )
+	#攻击起手帧：按内置冷却尝试施加霸体（本类没有调用父类 enter，故单独加这一句）
+	enemy.start_attack_armor()
 	duration = enemy.animation.current_animation_length
 	timer = 0
 	_bullet_fired = false

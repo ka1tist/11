@@ -19,6 +19,8 @@ func enter() -> void:
 	var picked_anim : String = _pick_attack_animation()
 	_stationary = stationary_animations.has( picked_anim )
 	enemy.play_animation( picked_anim )
+	#攻击起手帧：按内置冷却尝试施加霸体（刷新到整段攻击动作；冷却中则本次攻击没有霸体）
+	enemy.start_attack_armor()
 	duration = enemy.animation.current_animation_length
 	timer = 0
 	blackboard.can_decide = false

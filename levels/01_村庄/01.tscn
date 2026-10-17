@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://1l4m6d3khflp" path="res://levels/props/钻石.tscn" id="16_e5hmq"]
 [ext_resource type="PackedScene" uid="uid://dt0p3n1o5dqol" path="res://levels/npc/npc_4.tscn" id="19_g7a6y"]
 [ext_resource type="Script" uid="uid://jo6eu1xfw4tb" path="res://levels/npc/scripts/npc_1.gd" id="20_1cfis"]
+[ext_resource type="PackedScene" uid="uid://dl6k0m21la3wx" path="res://general/ability_pickup/ability_pickup.tscn" id="20_w6xkr"]
 [ext_resource type="PackedScene" uid="uid://cvlsf5ts5srph" path="res://levels/props/房子02.tscn" id="23_eeby2"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_tco3u"]
@@ -333,6 +334,17 @@ script = ExtResource("20_1cfis")
 [node name="npc_5" parent="Props" unique_id=939545599 instance=ExtResource("19_g7a6y")]
 position = Vector2(3445, 280)
 script = ExtResource("20_1cfis")
+
+[node name="AbilityPickup" parent="Props" unique_id=899164570 instance=ExtResource("20_w6xkr")]
+position = Vector2(512, 319)
+type = 1
+
+[node name="AbilityPickup2" parent="Props" unique_id=836894714 instance=ExtResource("20_w6xkr")]
+position = Vector2(608, 320)
+
+[node name="AbilityPickup3" parent="Props" unique_id=1366745539 instance=ExtResource("20_w6xkr")]
+position = Vector2(709, 319)
+type = 2
 
 [node name="LightOccluder" type="Node2D" parent="." unique_id=1515569031]
 

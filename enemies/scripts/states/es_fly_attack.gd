@@ -16,6 +16,8 @@ var speed_sample : float = 1.0
 
 func enter() -> void:
 	enemy.play_animation( animation_name if animation_name else "attack" )
+	#攻击起手帧：按内置冷却尝试施加霸体（本类继承 EnemyState，故单独加这一句）
+	enemy.start_attack_armor()
 	duration = enemy.animation.current_animation_length
 	timer = 0
 	blackboard.can_decide = false

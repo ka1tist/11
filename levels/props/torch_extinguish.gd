@@ -22,6 +22,12 @@ var _base_modulate : Color = Color.WHITE
 
 
 func _ready() -> void:
+	#BOSS 已被击败（存档持久化标记）：火把保持战后状态——点着的、且不再有「靠近熄灭」特性。
+	#这条状态原本由 boss_defeated 信号带来，但 BOSS 已被击败后不会再出现、信号也就不会再来，
+	#所以改为直接读存档标记；放在最前面一并跳过下面那次「出生就在范围内」的补检测
+	if Boss.is_defeated_recorded():
+		_disabled = true
+		return
 	detect_area.body_entered.connect( _on_body_entered )
 	#BOSS 被击败 → 熄灭的火把亮回去，并永久关闭靠近熄灭特性
 	Messages.boss_defeated.connect( _on_boss_defeated )

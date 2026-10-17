@@ -43,6 +43,12 @@ const PICKUP_DROP_AUDIO = preload( "res://general/audio/宝石.wav" )
 
 const BOSS_NAME : String = "旧日的幻影"
 
+#被击败的持久化标记：击败判定帧写进存档的 persistent_data，再次进入本关卡时 BOSS 不再出现
+#（BOSS 只打一次，与小怪不同）。写法与 AbilityPickup 一致（key → 状态字符串）。
+#7 里的火把等道具在 _ready 里也读这个标记来恢复「战后」状态
+const DEFEATED_FLAG : String = "boss_01_defeated"
+const DEFEATED_FLAG_VALUE : String = "defeated"
+
 #region /// 数值参数
 #生命与阶段
 const MAX_HP : float = 24.0
@@ -146,6 +152,8 @@ var background_art : Array[ Node2D ] = []
 var background_art_base : Array[ Color ] = []
 #回退方案：关卡没有任何背景美术容器时（背景就是清屏色），用画在世界之下的全屏暗色层压暗清屏色
 var background_overlay : ColorRect
+#三阶段组合技下砸的落点参照：关卡里的道具节点（props/道具），惰性解析并缓存，见 slam_target_x
+var slam_target : Node2D
 #休眠：等待玩家进入检测范围并按交互键唤醒（休眠期保持 RESET 默认姿态与场景里配好的暗色外观）
 var waking : bool = false
 var player_in_range : bool = false
@@ -160,6 +168,10 @@ func _ready() -> void:
 	#编辑器里不跑运行时初始化（与小怪 Enemy 一致），朝向预览交给 face_left_on_start 的 setter
 	if Engine.is_editor_hint():
 		set_physics_process( false )
+		return
+	#已被击败过（存档持久化标记）：本关不再出现 BOSS，只把死亡掉落补在原地
+	if is_defeated_recorded():
+		restore_after_defeat()
 		return
 	setup()
 	pass
@@ -346,6 +358,25 @@ func screen_top_center() -> Vector2:
 	elif has_target():
 		center = blackboard.target.global_position
 	return Vector2( center.x , center.y - view.y * 0.5 + SKILL_TOP_MARGIN )
+
+
+#三阶段组合技（跃顶 skill_01 → 蓄力 skill_02 → 下砸）的落点 x：固定取关卡里道具（props/道具）的 x，
+#与玩家/相机当前所在位置无关——按相机中心算的话，玩家贴到竞技场边缘时镜头被限制夹住，落点会跟着偏。
+#下砸是从跃顶点垂直落下，所以固定了跃顶点 x 就等于固定了砸地位置。
+#首次使用时按路径解析并缓存；解析不到（本 BOSS 被放到了没摆道具的关卡）退回屏幕中心那套，并明确报警
+func slam_target_x() -> float:
+	if slam_target == null or not is_instance_valid( slam_target ):
+		var parent := get_parent()
+		if parent != null:
+			slam_target = parent.get_node_or_null( "props/道具" ) as Node2D
+			#兜底：道具直接挂在关卡根下（不带 props 容器）
+			if slam_target == null:
+				slam_target = parent.get_node_or_null( "道具" ) as Node2D
+		if slam_target == null:
+			push_warning( "Boss：找不到落点参照道具（props/道具），下砸落点退回屏幕中心" )
+	if slam_target == null:
+		return screen_top_center().x
+	return slam_target.global_position.x
 
 
 func phase_display_name() -> String:
@@ -762,12 +793,42 @@ func spawn_pb() -> void:
 	pass
 
 
+#region /// 击败状态的持久化
+
+#该 BOSS 是否已被击败过（读存档持久化标记）。关卡里的道具（火把等）也用它恢复战后状态
+static func is_defeated_recorded() -> bool:
+	return SaveManager.persistent_data.get( DEFEATED_FLAG , "" ) == DEFEATED_FLAG_VALUE
+
+
+#击败落盘：写入标记并保存进度。与拾取能力球的 save_progress 同一套——只更新进度、
+#保留存档点位置，所以击败 BOSS 不会把重生点搬进 BOSS 房
+func record_defeat() -> void:
+	SaveManager.persistent_data[ DEFEATED_FLAG ] = DEFEATED_FLAG_VALUE
+	SaveManager.save_progress()
+	pass
+
+
+#再次进入本关（已被击败过）时的战后状态：本体直接销毁，只把死亡掉落补回原地。
+#掉落无条件调用即可——能力球在 _ready 里会自检「该能力是否已获得」，已获得则自行销毁且不发声，
+#所以不会重复出现；这样也避免了「击败后没捡球就离开」导致冲刺永久拿不到的软锁
+func restore_after_defeat() -> void:
+	spawn_dash_pickup()
+	queue_free()
+	pass
+
+#endregion
+
+
 #死亡掉落：在尸体所在的地面上方留下一颗冲刺能力球，玩家击碎它即可获得冲刺
 func spawn_dash_pickup() -> void:
 	var pickup := DASH_PICKUP_SCENE.instantiate() as AbilityPickup
 	#先定类型再入树：入树时 _ready() 会按类型播放对应的图标动画
 	pickup.type = AbilityPickup.Type.DASH
 	add_world_child( pickup )
+	#该能力已获得时，能力球会在入树的 _ready() 里自行 queue_free（见 AbilityPickup._ready）：
+	#此时不必再摆位置、探地面与播放掉落音效，直接收工（也避免了战后重进本关时的空响）
+	if pickup.is_queued_for_deletion():
+		return
 	#向下探到最近的地面，把能力球摆在地面上方，空中死亡时也不会悬在半空
 	var from : Vector2 = global_position + Vector2( 0.0 , -1.0 )
 	var to : Vector2 = global_position + Vector2( 0.0 , 900.0 )

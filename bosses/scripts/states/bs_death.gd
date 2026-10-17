@@ -27,6 +27,9 @@ func enter() -> void:
 	Messages.boss_defeated.emit()
 	#广播被击败：BOSS 上挂载的 lootDropper 监听 was_killed 结算掉落（与小怪一致）
 	boss.was_killed.emit()
+	#击败标记落盘：再次进入本关时 BOSS 不再出现（只打一次的 BOSS），
+	#死亡掉落由 Boss.restore_after_defeat 在下次进关时补回，不会因本关没捡球而永久丢失
+	boss.record_defeat()
 	#聚焦演出结束的时刻：掉落能力球与销毁本体都要等它，保证球一定出现在慢动作之后。
 	#时长取自 VisualEffects 的同一组常量（慢动作 2s + 时间缩放恢复 0.5s，都是真实秒数）
 	_focus_end_ms = Time.get_ticks_msec() + int( ( VisualEffects.DEFEAT_FOCUS_HOLD + VisualEffects.DEFEAT_FOCUS_RESTORE ) * 1000.0 )

@@ -10,9 +10,8 @@ size = Vector2(56, 64)
 [node name="操作" type="Node2D" unique_id=960810658]
 script = ExtResource("2_sign")
 text = "操作说明：
-移动：↑↓←→
-攻击：x  跳跃：z  闪避：c
-下落攻击：↓+x 恢复：a"
+移动：↑↓← →
+攻击：x  跳跃：z  恢复：a"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1172321732]
 texture = ExtResource("1_p3qmo")
@@ -53,7 +52,6 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 10
 text = "操作说明：
-移动：↑↓←→
-攻击：x  跳跃：z  闪避：c
-下落攻击：↓+x 恢复：a"
+移动：↑↓← →
+攻击：x  跳跃：z  恢复：a"
 vertical_alignment = 1
