@@ -29,9 +29,17 @@ var blackboard : Blackboard
 #玩家死亡后冻结：true时停止一切物理/AI更新，仅保持死亡瞬间的画面
 var frozen : bool = false
 
-#攻击霸体：攻击起手时施加，持续整段攻击动作，期间免疫击退/眩晕等控制效果（伤害照常结算）。
-#内置 5 秒冷却：一次攻击触发过后，5 秒内的攻击不再触发霸体（每只小怪各自独立计时）
+#攻击霸体：攻击起手时计数，每第 armor_every_n_attacks 次攻击起手的这一次获得霸体，
+#持续整段攻击动作，期间免疫击退/眩晕等控制效果（伤害照常结算，死亡判定照旧）。
+#计数以「攻击起手次数」为准：第一下攻击中途被打断（切进击退/眩晕）也照样算作一次，
+#所以紧接着的第二下攻击依然会拿到霸体。内置 5 秒冷却：触发过一次后，5 秒内的攻击不再触发
+#（每只小怪各自独立计时；墙钟计时，不受 Engine.time_scale 影响）
 const ARMOR_COOLDOWN_MSEC : int = 5000
+#每第几次攻击起手授予霸体：2 = 第一下不给（可被抢断）、第二下给、第三下不给、第四下给…
+#改成 1 即每次攻击都授予霸体（按节奏调试用，关卡里可逐只小怪单独调）
+@export_range( 1 , 8 , 1 ) var armor_every_n_attacks : int = 2
+#已经起手过的攻击次数（含被打断的那些）：只增不减，不做重置，所以节奏不会被抢断打乱
+var attack_count : int = 0
 #霸体是否处于激活状态（调试标记：可直接在远程调试器里查看）
 var armor_active : bool = false
 #本次霸体结束的墙钟时刻（Time.get_ticks_msec）
@@ -142,22 +150,30 @@ func play_animation( anim_name : String ) -> void:
 
 #region /// 攻击霸体
 
-#攻击起手调用（各攻击状态 enter 里、播放攻击动画之后）：本次攻击获得霸体，持续整段攻击动作，
-#期间免疫击退/眩晕等控制效果。5 秒内置冷却未过时直接返回——攻击照常进行，只是没有霸体。
-#冷却从「触发这一刻」起算且只在触发时写入，所以冷却期内的攻击不会把冷却往后推（不会重置异常），
-#霸体也不会叠加：一次攻击只授予一次，且同一次攻击不可能重复进入。
+#攻击起手调用（各攻击状态 enter 里、播放攻击动画之后）：累计一次攻击起手，
+#本次是第 armor_every_n_attacks 次且 5 秒冷却已过 → 授予霸体（覆盖整段攻击动作）。
+#第一下不给霸体、可被玩家抢断（中断后切进击退/眩晕，本次攻击作废），
+#但计数照加不误，所以紧接着的第二下攻击依然会拿到霸体。
+#冷却只在真正授予时写入，冷却期内的攻击不会把冷却往后推（不存在重置异常）；
+#霸体用「单个激活标记 + 到期时刻」表示，物理上不可能叠加，同一次攻击也不可能重复起手。
 func start_attack_armor() -> void:
 	var now : int = Time.get_ticks_msec()
+	attack_count += 1
+	var every : int = maxi( armor_every_n_attacks , 1 )
+	if attack_count % every != 0:
+		if debug_armor:
+			print( "[霸体] %s 未触发：本次是第 %d 次攻击起手（每 %d 次授予）" % [ String( name ) , attack_count , every ] )
+		return
 	if now < armor_ready_msec:
 		if debug_armor:
-			print( "[霸体] %s 未触发，冷却剩余 %.2fs" % [ String( name ) , armor_cooldown_left() ] )
+			print( "[霸体] %s 未触发：第 %d 次攻击起手，但冷却剩余 %.2fs" % [ String( name ) , attack_count , armor_cooldown_left() ] )
 		return
 	var action_time : float = _attack_action_time()
 	armor_active = true
 	armor_end_msec = now + int( action_time * 1000.0 )
 	armor_ready_msec = now + ARMOR_COOLDOWN_MSEC
 	if debug_armor:
-		print( "[霸体] %s 触发，持续 %.2fs，冷却 %.2fs" % [ String( name ) , action_time , float( ARMOR_COOLDOWN_MSEC ) / 1000.0 ] )
+		print( "[霸体] %s 触发：第 %d 次攻击起手，持续 %.2fs，冷却 %.2fs" % [ String( name ) , attack_count , action_time , float( ARMOR_COOLDOWN_MSEC ) / 1000.0 ] )
 	pass
 
 

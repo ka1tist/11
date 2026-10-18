@@ -269,7 +269,7 @@ metadata/_custom_type_script = "uid://bqm81bjcxucow"
 
 [node name="Slime2" parent="." unique_id=2105144600 instance=ExtResource("18_6ghqg")]
 position = Vector2(508, 0)
-debug_armor = null
+armor_every_n_attacks = null
 
 [node name="PatrolLimit" type="Node2D" parent="Slime2" unique_id=550824783]
 position = Vector2(-34, 0)
@@ -284,7 +284,7 @@ metadata/_custom_type_script = "uid://eh2apeu40cfr"
 
 [node name="Slime3" parent="." unique_id=1282908389 instance=ExtResource("18_6ghqg")]
 position = Vector2(784, -16)
-debug_armor = null
+armor_every_n_attacks = null
 
 [node name="PatrolLimit" type="Node2D" parent="Slime3" unique_id=210542867]
 position = Vector2(-54, 0)
@@ -299,7 +299,7 @@ metadata/_custom_type_script = "uid://eh2apeu40cfr"
 
 [node name="Skeleton" parent="." unique_id=1204967465 instance=ExtResource("20_kjnvi")]
 position = Vector2(976, 254)
-debug_armor = null
+armor_every_n_attacks = null
 
 [node name="PatrolLimit" type="Node2D" parent="Skeleton" unique_id=879807737]
 position = Vector2(-118, 0)

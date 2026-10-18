@@ -175,6 +175,52 @@ unique_name_in_owner = true
 layout_mode = 2
 text = " 结 束 游 戏 "
 
+[node name="SettingMenu" type="VBoxContainer" parent="Control" unique_id=2000000405]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -28.0
+offset_right = 80.0
+offset_bottom = 152.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Logo" type="Control" parent="Control/SettingMenu" unique_id=483187559]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/SettingMenu/Logo" unique_id=1599969712]
+position = Vector2(0, -56.999992)
+scale = Vector2(0.32500002, 0.32000002)
+texture = ExtResource("9_1oos5")
+hframes = 8
+vframes = 16
+frame = 86
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/SettingMenu/Logo" unique_id=87272789]
+libraries/ = SubResource("AnimationLibrary_jabur")
+autoplay = &"start"
+
+[node name="声音设置" type="Button" parent="Control/SettingMenu" unique_id=889324249]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = " 声 音 设 置 "
+
+[node name="键位设置" type="Button" parent="Control/SettingMenu" unique_id=1360630466]
+unique_name_in_owner = true
+layout_mode = 2
+text = " 键 位 设 置 "
+
 [node name="NewMainMenu" type="VBoxContainer" parent="Control" unique_id=1640816709]
 unique_name_in_owner = true
 visible = false
@@ -285,7 +331,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "  加 载 存 档 3 "
 
-[node name="SettingMenu" type="VBoxContainer" parent="Control" unique_id=600479227]
+[node name="SettingMusicMenu" type="VBoxContainer" parent="Control" unique_id=600479227]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -302,21 +348,21 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
-[node name="Label" type="Label" parent="Control/SettingMenu" unique_id=1111422793]
+[node name="Label" type="Label" parent="Control/SettingMusicMenu" unique_id=1111422793]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_uiiip")
 text = "声音设置"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/SettingMenu" unique_id=1346088157]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/SettingMusicMenu" unique_id=1346088157]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer2" unique_id=1111032644]
+[node name="Label" type="Label" parent="Control/SettingMusicMenu/HBoxContainer2" unique_id=1111032644]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "音乐设置"
 
-[node name="MusicSlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer2" unique_id=1707084205]
+[node name="MusicSlider" type="HSlider" parent="Control/SettingMusicMenu/HBoxContainer2" unique_id=1707084205]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -325,15 +371,15 @@ max_value = 1.0
 step = 0.05
 value = 0.5
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Control/SettingMenu" unique_id=486536359]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/SettingMusicMenu" unique_id=486536359]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer3" unique_id=994404844]
+[node name="Label" type="Label" parent="Control/SettingMusicMenu/HBoxContainer3" unique_id=994404844]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "音效设置"
 
-[node name="SFXSlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer3" unique_id=1168228135]
+[node name="SFXSlider" type="HSlider" parent="Control/SettingMusicMenu/HBoxContainer3" unique_id=1168228135]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -342,15 +388,15 @@ max_value = 1.0
 step = 0.05
 value = 0.5
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Control/SettingMenu" unique_id=174699091]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/SettingMusicMenu" unique_id=174699091]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/SettingMenu/HBoxContainer4" unique_id=146688177]
+[node name="Label" type="Label" parent="Control/SettingMusicMenu/HBoxContainer4" unique_id=146688177]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "UI设置"
 
-[node name="UISlider" type="HSlider" parent="Control/SettingMenu/HBoxContainer4" unique_id=1489389423]
+[node name="UISlider" type="HSlider" parent="Control/SettingMusicMenu/HBoxContainer4" unique_id=1489389423]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -358,6 +404,43 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.05
 value = 0.5
+
+[node name="SettingKeyMenu" type="VBoxContainer" parent="Control" unique_id=2000000406]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -84.0
+offset_right = 200.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/SettingKeyMenu" unique_id=2000000407]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_uiiip")
+text = "键位设置"
+horizontal_alignment = 1
+
+[node name="KeyGrid" type="GridContainer" parent="Control/SettingKeyMenu" unique_id=2000000408]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="Hint" type="Label" parent="Control/SettingKeyMenu" unique_id=2000000409]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "点击按键后按下新键即可修改，按 Esc 取消改键或返回"
+horizontal_alignment = 1
 
 [node name="MusicAutoTrigger" type="Node" parent="." unique_id=773671215]
 script = ExtResource("10_jabur")

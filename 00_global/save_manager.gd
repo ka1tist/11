@@ -2,6 +2,18 @@ extends Node
 
 const CONFIG_FILE_PATH = "user://settings.cfg"
 const SLOTS : Array[ String ] = [ "save_01","save_02","save_03" ]
+#参与配置保存/恢复的键位动作：与 title_screen 的键位设置菜单里展示的一一对应（顺序即界面行序）。
+#不含 ui_accept / ui_cancel：那是引擎内置的界面导航键，不开放给玩家改
+const CONFIG_INPUT_ACTIONS : Array[ String ] = [ "left" , "right" , "up" , "down" , "attack" , "jump" , "dash" , "action" , "pause" , "health" ]
+#移动动作 -> 界面导航动作。标题界面（主菜单/设置/键位）的焦点移动用的是引擎内置的
+#ui_left/ui_right/ui_up/ui_down，和本游戏的移动动作是两套独立映射；不同步的话，
+#玩家把「向上」改到别的键之后，在标题界面里按新键就没反应（而暂停菜单/背包/商店用的是移动动作，会正常跟随）
+const DIRECTION_UI_ACTIONS : Dictionary = {
+	"left" : "ui_left" ,
+	"right" : "ui_right" ,
+	"up" : "ui_up" ,
+	"down" : "ui_down" ,
+}
 const DIAMOND_ITEM := preload( "res://pause_menu/bag/items/diamond.tres" )
 
 var current_slot : int = 0 
@@ -127,7 +139,7 @@ func save_progress() -> void:
 	
 	
 func load_game( slot : int ) -> void:
-	if not FileAccess.file_exists( get_file_name( current_slot ) ):
+	if not FileAccess.file_exists( get_file_name( slot ) ):
 		return
 	current_slot = slot
 		
@@ -187,8 +199,8 @@ func get_file_name( slot : int ) -> String:
 	return "user://" + SLOTS[ slot ] + ".sav"
 
 
-func save_file_exists( _slot : int ) -> bool:
-	return FileAccess.file_exists( get_file_name( current_slot ) )
+func save_file_exists( slot : int ) -> bool:
+	return FileAccess.file_exists( get_file_name( slot ) )
 	
 
 
@@ -211,6 +223,22 @@ func save_configuration() -> void:
 	config.set_value( "audio" , "music" , AudioServer.get_bus_volume_linear( 2 ) )
 	config.set_value( "audio" , "sfx" , AudioServer.get_bus_volume_linear( 3 ) )
 	config.set_value( "audio" , "ui" , AudioServer.get_bus_volume_linear( 4 ) )
+	#键位：按动作保存当前的全部键盘绑定（手柄/摇杆绑定不落盘，始终用 project.godot 的默认值）
+	var keys : Dictionary = {}
+	for action in CONFIG_INPUT_ACTIONS:
+		if not InputMap.has_action( action ):
+			continue
+		var list : Array = []
+		for e in InputMap.action_get_events( action ):
+			if e is InputEventKey:
+				var k : InputEventKey = e
+				list.append( {
+					"physical_keycode" : k.physical_keycode ,
+					"keycode" : k.keycode ,
+				} )
+		if not list.is_empty():
+			keys[ action ] = list
+	config.set_value( "input" , "keys" , keys )
 	config.save( CONFIG_FILE_PATH )
 	pass
 
@@ -228,5 +256,51 @@ func load_configuration() -> void:
 	AudioServer.set_bus_volume_linear( 2 , config.get_value( "audio" , "music" , 0.8 ) )
 	AudioServer.set_bus_volume_linear( 3 , config.get_value( "audio" , "sfx" , 1.0 ) )
 	AudioServer.set_bus_volume_linear( 4 , config.get_value( "audio" , "ui" , 1.0 ) )
+	#键位：把配置里存的键盘绑定写回 InputMap（没有配置时这里拿到空字典，等于不动作）
+	_apply_saved_input( config.get_value( "input" , "keys" , {} ) )
+	#改过方向键的话，界面导航键也要跟着走，否则标题界面里按新方向键没反应
+	sync_direction_ui_actions()
+	pass
+
+
+#把配置里保存的键位写回 InputMap：只动键盘绑定（InputEventKey），
+#手柄按键/摇杆绑定原样保留。InputMap 没有「只删键盘键」的接口，所以整组清空后再把非键盘的挂回去
+func _apply_saved_input( saved : Dictionary ) -> void:
+	for action in saved:
+		if not InputMap.has_action( action ):
+			continue
+		var kept : Array[ InputEvent ] = []
+		for e in InputMap.action_get_events( action ):
+			if not ( e is InputEventKey ):
+				kept.append( e )
+		InputMap.action_erase_events( action )
+		for e in kept:
+			InputMap.action_add_event( action , e )
+		for entry in saved[ action ]:
+			var key := InputEventKey.new()
+			key.physical_keycode = int( entry.get( "physical_keycode" , 0 ) )
+			key.keycode = int( entry.get( "keycode" , 0 ) )
+			InputMap.action_add_event( action , key )
+	pass
+
+
+#把方向动作当前的键盘绑定同步进 ui_left/ui_right/ui_up/ui_down，让标题界面的菜单
+#跟着玩家自己的方向键走。规则与游戏动作一致：只替换键盘绑定，手柄/摇杆（十字键）原样保留。
+#方向键的引擎默认值与移动键默认值本来就是同一组方向键，所以没改过键位的玩家行为不变
+func sync_direction_ui_actions() -> void:
+	for action in DIRECTION_UI_ACTIONS:
+		var ui_action : String = DIRECTION_UI_ACTIONS[ action ]
+		if not InputMap.has_action( action ) or not InputMap.has_action( ui_action ):
+			continue
+		var kept : Array[ InputEvent ] = []
+		for e in InputMap.action_get_events( ui_action ):
+			if not ( e is InputEventKey ):
+				kept.append( e )
+		InputMap.action_erase_events( ui_action )
+		for e in kept:
+			InputMap.action_add_event( ui_action , e )
+		for e in InputMap.action_get_events( action ):
+			if e is InputEventKey:
+				InputMap.action_add_event( ui_action , e )
 	pass
 #endregion
