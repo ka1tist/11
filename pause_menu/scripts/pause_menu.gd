@@ -17,6 +17,10 @@ class_name PauseMenu extends CanvasLayer
 @onready var music_slider: HSlider = %MusicSlider
 @onready var sfx_slider: HSlider = %SFXSlider
 @onready var ui_slider: HSlider = %UISlider
+
+#键位设置面板（与标题界面共用 KeyBindMenu），入口是系统设置里的「按键设置」按钮
+@onready var key_bind_menu: KeyBindMenu = %KeyBindMenu
+@onready var control_button: Button = $Control/System/VBoxContainer/ContorlButton/Control
 #endregion
 
 var player : Player 
@@ -25,6 +29,9 @@ var player_position : Vector2
 func _ready() -> void:
 	show_pause_screen()
 	system_menu_button.pressed.connect( show_system_menu )
+	#键位面板的 Esc 由它自己处理（改键中只取消改键），其余情况发信号回到系统设置界面
+	control_button.pressed.connect( show_control_menu )
+	key_bind_menu.back_requested.connect( _on_control_menu_back )
 	open_map_button.pressed.connect( _on_open_map_button_pressed )
 	bag_button.pressed.connect( _on_bag_button_pressed )
 	#背包内“退出”按钮是离开物品选择模式的唯一入口
@@ -71,6 +78,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func show_pause_screen() -> void:
 	pause_screen.visible = true
 	system.visible = false
+	key_bind_menu.visible = false
+	key_bind_menu.close()
 	map.visible = false
 	bag.visible = false
 	pass
@@ -106,7 +115,22 @@ func show_system_menu() -> void:
 		return
 	pause_screen.visible = false
 	system.visible = true
+	key_bind_menu.visible = false
+	key_bind_menu.close()
 	map_button.grab_focus()
+	pass
+
+
+#系统设置里的「按键设置」：键位面板本身就是一层界面，返回时回到系统设置
+func show_control_menu() -> void:
+	system.visible = false
+	key_bind_menu.visible = true
+	key_bind_menu.open()
+	pass
+
+
+func _on_control_menu_back() -> void:
+	show_system_menu()
 	pass
 
 

@@ -277,9 +277,10 @@ func _apply_saved_input( saved : Dictionary ) -> void:
 		for e in kept:
 			InputMap.action_add_event( action , e )
 		for entry in saved[ action ]:
+			#keycode 一类属性是枚举类型（Key），int 赋值要显式转过去
 			var key := InputEventKey.new()
-			key.physical_keycode = int( entry.get( "physical_keycode" , 0 ) )
-			key.keycode = int( entry.get( "keycode" , 0 ) )
+			key.physical_keycode = int( entry.get( "physical_keycode" , 0 ) ) as Key
+			key.keycode = int( entry.get( "keycode" , 0 ) ) as Key
 			InputMap.action_add_event( action , key )
 	pass
 
@@ -302,5 +303,25 @@ func sync_direction_ui_actions() -> void:
 		for e in InputMap.action_get_events( action ):
 			if e is InputEventKey:
 				InputMap.action_add_event( ui_action , e )
+	pass
+
+
+#把键位恢复成 project.godot 的出厂默认（键盘与手柄绑定一并还原）。
+#改键只动运行时的 InputMap，ProjectSettings 里的 input/<action> 自始至终没被改过，
+#所以直接读它拿到的就是默认值；按键 / 手柄 / 摇杆事件原样挂回，忽略其中序列化出的空槽
+func restore_default_input() -> void:
+	for action in CONFIG_INPUT_ACTIONS:
+		if not InputMap.has_action( action ):
+			continue
+		var defaults : Dictionary = ProjectSettings.get_setting( "input/" + action , {} )
+		var events : Array = defaults.get( "events" , [] )
+		if events.is_empty():
+			continue
+		InputMap.action_erase_events( action )
+		for e in events:
+			if e is InputEvent:
+				InputMap.action_add_event( action , e )
+	#方向键回到默认后，界面导航键要重新对齐
+	sync_direction_ui_actions()
 	pass
 #endregion

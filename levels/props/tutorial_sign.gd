@@ -2,6 +2,8 @@ class_name TutorialSign extends Node2D
 
 #靠近时显示的文本内容，可在编辑器中按实例修改
 @export_multiline var text : String = "操作提示"
+#勾选后忽略 text，改为按玩家当前的键位自动生成操作说明（操作说明牌用）
+@export var auto_controls_text : bool = false
 #检测范围大小
 @export var detect_size : Vector2 = Vector2( 56 , 64 )
 
@@ -14,7 +16,7 @@ var _tween : Tween
 
 
 func _ready() -> void:
-	text_label.text = text
+	text_label.text = controls_text() if auto_controls_text else text
 	( collision_shape.shape as RectangleShape2D ).size = detect_size
 	text_box.visible = false
 	area_2d.body_entered.connect( _on_body_entered )
@@ -61,3 +63,17 @@ func _hide_text_box() -> void:
 	_tween.tween_property( text_box , "modulate:a" , 0.0 , 0.15 )
 	_tween.tween_callback( func() -> void: text_box.visible = false )
 	pass
+
+
+#按当前键位拼出操作说明：键位名统一走 InputKeyNames（能力球说明读的也是它），
+#所以玩家改过键之后，牌子上显示的也是他实际按的键
+func controls_text() -> String:
+	return "操作说明：\n移动：%s%s%s%s\n攻击：%s  跳跃：%s  恢复：%s" % [
+		InputKeyNames.action_key_name( "up" ) ,
+		InputKeyNames.action_key_name( "down" ) ,
+		InputKeyNames.action_key_name( "left" ) ,
+		InputKeyNames.action_key_name( "right" ) ,
+		InputKeyNames.action_key_name( "attack" ) ,
+		InputKeyNames.action_key_name( "jump" ) ,
+		InputKeyNames.action_key_name( "health" ) ,
+	]

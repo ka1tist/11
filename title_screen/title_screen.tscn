@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dkunrh3ijoobn" path="res://player/spires/凯尔希.png" id="9_1oos5"]
 [ext_resource type="Script" uid="uid://bqm81bjcxucow" path="res://music/music_auto_trigger.gd" id="10_jabur"]
 [ext_resource type="AudioStream" uid="uid://hf3gn5mg4eff" path="res://music/title1.ogg" id="11_uiiip"]
+[ext_resource type="Script" path="res://general/scripts/key_bind_menu.gd" id="12_keybind"]
 
 [sub_resource type="Animation" id="Animation_1oos5"]
 length = 0.001
@@ -415,13 +416,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -84.0
+offset_top = -150.0
 offset_right = 200.0
-offset_bottom = 144.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 14
 alignment = 1
+script = ExtResource("12_keybind")
 
 [node name="Label" type="Label" parent="Control/SettingKeyMenu" unique_id=2000000407]
 layout_mode = 2
@@ -435,6 +437,11 @@ layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 4
 columns = 4
+
+[node name="恢复默认" type="Button" parent="Control/SettingKeyMenu" unique_id=2000000410]
+unique_name_in_owner = true
+layout_mode = 2
+text = " 恢 复 默 认 "
 
 [node name="Hint" type="Label" parent="Control/SettingKeyMenu" unique_id=2000000409]
 layout_mode = 2

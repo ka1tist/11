@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bbne74ub21hfx" path="res://pause_menu/scripts/abilities_list.gd" id="3_b4s0c"]
 [ext_resource type="Texture2D" uid="uid://cvgif0t51o31n" path="res://player/spires/abilities.png" id="4_s1glv"]
 [ext_resource type="Script" uid="uid://d04vaexkuo0si" path="res://pause_menu/bag/bag.gd" id="5_bag"]
+[ext_resource type="Script" uid="uid://bpmte13k4clq7" path="res://general/scripts/key_bind_menu.gd" id="6_keybind"]
 
 [sub_resource type="FontVariation" id="FontVariation_7h0lg"]
 spacing_glyph = 8
@@ -495,7 +496,6 @@ color = Color(0.12156863, 0.41960785, 0.5803922, 1)
 
 [node name="System" type="Control" parent="Control" unique_id=877829041]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -506,14 +506,17 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/System" unique_id=2040334425]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -192.0
-offset_top = 38.0
+offset_top = -136.5
 offset_right = 192.0
-offset_bottom = 344.0
+offset_bottom = 136.5
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=1172298144]
@@ -532,6 +535,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = SubResource("FontVariation_i8n5y")
 text = "返回标题"
+
+[node name="ContorlButton" type="HBoxContainer" parent="Control/System/VBoxContainer" unique_id=1629150299]
+custom_maximum_size = Vector2(190, -1)
+layout_mode = 2
+
+[node name="Control" type="Button" parent="Control/System/VBoxContainer/ContorlButton" unique_id=421270014]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_ieygl")
+text = "按键设置"
 
 [node name="Label" type="Label" parent="Control/System/VBoxContainer" unique_id=1404166118]
 layout_mode = 2
@@ -588,3 +601,47 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.05
 value = 0.5
+
+[node name="KeyBindMenu" type="VBoxContainer" parent="Control" unique_id=2100000001]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+script = ExtResource("6_keybind")
+
+[node name="Label" type="Label" parent="Control/KeyBindMenu" unique_id=2100000002]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_ieygl")
+text = "键位设置"
+horizontal_alignment = 1
+
+[node name="KeyGrid" type="GridContainer" parent="Control/KeyBindMenu" unique_id=2100000003]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="恢复默认" type="Button" parent="Control/KeyBindMenu" unique_id=2100000005]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_ieygl")
+text = " 恢 复 默 认 "
+
+[node name="Hint" type="Label" parent="Control/KeyBindMenu" unique_id=2100000004]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "点击按键后按下新键即可修改，按 Esc 取消改键或返回"
+horizontal_alignment = 1

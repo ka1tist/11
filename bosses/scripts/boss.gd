@@ -171,7 +171,12 @@ func _ready() -> void:
 		return
 	#已被击败过（存档持久化标记）：本关不再出现 BOSS，只把死亡掉落补在原地
 	if is_defeated_recorded():
-		restore_after_defeat()
+		#这一分支不跑 setup()，blackboard 为空，而 _physics_process 会直接读它，先关掉物理处理
+		set_physics_process( false )
+		#必须延后一帧执行：_ready 期间父节点仍在搭建子节点（Node.data.blocked > 0），
+		#此时 add_child 会失败——能力球进不了场景树，既躲不过 _ready 里「该能力已获得则自毁」
+		#的自检（会重复掉一颗球），又让 DamageArea.make_invulnerable 里的 get_tree() 变成 null
+		restore_after_defeat.call_deferred()
 		return
 	setup()
 	pass

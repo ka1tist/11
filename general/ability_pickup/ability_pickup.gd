@@ -171,15 +171,19 @@ func get_ability_name() -> String:
 	return""
 
 
-#靠近时显示的能力说明文案（按能力类型区分）
+#靠近时显示的能力说明文案（按能力类型区分）。
+#提到按键的地方按玩家当前键位生成（与「操作」提示牌一致），改过键之后说明里显示的也是他实际按的键
 func get_hint_text() -> String:
 	match type:
 		Type.DOUBLE_JUMP:
 			return "当玩家获得此能力时可在空中进行二段跳跃"
 		Type.DASH:
-			return "当玩家获得此能力时按c可进行闪避"
+			return "当玩家获得此能力时按%s可进行闪避" % InputKeyNames.action_key_name( "dash" )
 		Type.GROUND_SLAM:
-			return "当玩家获得此能力时可以按↓+x进行下砸"
+			return "当玩家获得此能力时可以按%s+%s进行下砸" % [
+				InputKeyNames.action_key_name( "down" ) ,
+				InputKeyNames.action_key_name( "attack" ) ,
+			]
 		Type.WALL_CLIMB:
 			return "当玩家获得此能力时贴近墙面可以进行爬墙"
 		Type.NULL:

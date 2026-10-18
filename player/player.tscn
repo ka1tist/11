@@ -440,6 +440,22 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hintkey"]
+content_margin_left = 5.0
+content_margin_top = 2.0
+content_margin_right = 5.0
+content_margin_bottom = 2.0
+bg_color = Color(0.2901961, 0.2901961, 0.30588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15686275, 0.15686275, 0.16862746, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rptt4"]
 size = Vector2(57, 48.000053)
 
@@ -631,6 +647,23 @@ scale = Vector2(-1.1207023, 1)
 texture = ExtResource("8_rgyib")
 hframes = 16
 frame = 15
+
+[node name="KeyCap" type="Label" parent="InputHints" unique_id=2010000001]
+visible = false
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 12.0
+offset_bottom = 7.0
+scale = Vector2(-1, 1)
+pivot_offset = Vector2(12, 11)
+theme_override_colors/font_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_hintkey")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=2079898119]
 unique_name_in_owner = true

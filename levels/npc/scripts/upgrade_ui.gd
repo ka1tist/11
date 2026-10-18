@@ -240,7 +240,7 @@ func _make_option_row( text : String , row_size : Vector2 ) -> Panel:
 
 
 func _make_label( text : String , pos : Vector2 , size : Vector2 , font_size : int , color : Color ,
-		align : int = HORIZONTAL_ALIGNMENT_CENTER ) -> Label:
+		align : HorizontalAlignment = HORIZONTAL_ALIGNMENT_CENTER ) -> Label:
 	var label := Label.new()
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.text = text
