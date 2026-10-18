@@ -120,7 +120,8 @@ func physics_process(_delta: float) -> PlayerState:
 			player.jump_count = 0
 			return jump
 		return idle
-	#下落中贴墙（已解锁爬墙能力且正按向墙面）：进入爬墙
+	#贴墙进入爬墙：能力已解锁、正按向墙面，且已越过跳跃最高点（上升途中不接，见 get_wall_climb_side）。
+	#无论长按跳满高度、短按松键提前转入 fall，还是空中下坠，都在这里统一接墙
 	if player.get_wall_climb_side() != 0:
 		return wall_climb
 	player.velocity.x = player.direction.x * player.move_speed

@@ -403,10 +403,11 @@ func is_wall_on_side( world_side : int ) -> bool:
 	return false
 
 
-#跳跃/下落中是否应触发爬墙：能力已解锁、未落地、正按向墙面、且不在蹬墙跳禁用冷却内时
-#返回墙所在世界方向（+1右/-1左），否则0
+#跳跃/下落中是否应触发爬墙：能力已解锁、未落地、正按向墙面、且不在蹬墙跳禁用冷却内、
+#并且已越过跳跃最高点（velocity.y >= 0）时，返回墙所在世界方向（+1右/-1左），否则0。
+#上升途中（velocity.y < 0）一律不接墙：先把跳跃按长按/短按应到的高度走完，越过最高点后才允许贴墙进入爬墙
 func get_wall_climb_side() -> int:
-	if wall_climb == false or wall_climb_cooldown > 0.0 or is_on_floor() or direction.x == 0.0:
+	if wall_climb == false or wall_climb_cooldown > 0.0 or is_on_floor() or velocity.y < 0.0 or direction.x == 0.0:
 		return 0
 	var side : int = 1 if direction.x > 0.0 else -1
 	return side if is_wall_on_side( side ) else 0

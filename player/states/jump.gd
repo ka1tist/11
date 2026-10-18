@@ -64,9 +64,8 @@ func physics_process(_delta: float) -> PlayerState:
 		return idle
 	elif player.velocity.y >= 0:
 		return fall
-	#上升中贴墙（已解锁爬墙能力且正按向墙面）：进入爬墙
-	if player.get_wall_climb_side() != 0:
-		return wall_climb
+	#上升途中不接墙：先让跳跃按长按/短按到达应有高度（松开跳跃键会立即转入 fall）。
+	#越过最高点（上一分支转 fall）或松开后，才由 fall 的贴墙判定进入爬墙
 	player.velocity.x = player.direction.x * player.move_speed
 	return next_state
 

@@ -8,7 +8,7 @@ class_name PlayerStateWallClimb extends PlayerState
 @onready var sprite_2d_5: Sprite2D = $"../../Sprite2D5"
 
 #贴墙停顿时间（秒）：上墙后停在墙面停顿，播放climb_stay，之后开始下滑
-@export var stay_time : float = 0.3
+@export var stay_time : float = 0
 #下滑速度（像素/秒）：停顿结束后匀速下滑，播放climb
 @export var slide_speed : float = 60.0
 
