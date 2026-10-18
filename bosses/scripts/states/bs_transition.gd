@@ -16,6 +16,10 @@ func enter() -> void:
 	boss.play_animation( "crouch" )
 	#切阶段时背景整体加深：二阶段轻微、三阶段在此基础上再加深
 	boss.apply_phase_background( boss.blackboard.phase )
+	#切阶段时 BOSS 自身同步变化：二阶段整体转暗红、三阶段与二阶段同色（不再继续加深）
+	boss.apply_phase_tint( boss.blackboard.phase )
+	#三阶段附加微弱自发光（前两阶段保持熄灭）
+	boss.apply_phase_light( boss.blackboard.phase )
 	#过场配套增强：强力震屏 + HUD 横幅/闪光（由 boss_phase_changed 驱动）
 	VisualEffects.camera_shake( 8.0 , 0.5 )
 	Messages.boss_phase_changed.emit( boss.blackboard.phase , boss.phase_display_name() )

@@ -47,6 +47,7 @@ Player=""
 
 [gui]
 
+theme/custom="res://general/theme/game_theme.tres"
 theme/custom_font="uid://cwsu3k6lb8wkk"
 
 [input]

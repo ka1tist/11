@@ -273,10 +273,6 @@ tile_set = ExtResource("2_xtpjv")
 [node name="Props" type="Node2D" parent="." unique_id=1052060436]
 position = Vector2(48, -8)
 
-[node name="npc_1" parent="Props" unique_id=1625428518 instance=ExtResource("13_fy4ii")]
-position = Vector2(1119, 343)
-dialog_lines = Array[String](["你好，旅行者！", "这是一个小村庄，你可以随便转转", "祝你好运！"])
-
 [node name="煮锅" parent="Props" unique_id=687056835 instance=ExtResource("7_fsliq")]
 position = Vector2(1036, 322)
 scale = Vector2(1.5, 1.5)
@@ -345,6 +341,10 @@ position = Vector2(608, 320)
 [node name="AbilityPickup3" parent="Props" unique_id=1366745539 instance=ExtResource("20_w6xkr")]
 position = Vector2(709, 319)
 type = 2
+
+[node name="npc_1" parent="Props" unique_id=768519391 instance=ExtResource("13_fy4ii")]
+position = Vector2(1101, 344)
+scale = Vector2(1.2, 1.2)
 
 [node name="LightOccluder" type="Node2D" parent="." unique_id=1515569031]
 

@@ -15,6 +15,9 @@ func enter() -> void:
 	boss.stop_damage_output()
 	#蓄力途中被打死时停掉持续音效，避免死亡演出期间还在循环
 	boss.stop_hold_audio()
+	#被击杀：BGM 慢慢淡出（Audio.stop_music 内部是 1.5 秒淡出），让死亡演出安静下来。
+	#死亡演出带 2 秒慢动作，Engine.time_scale 会把补间一起拖慢，所以实际淡出更慢、更贴合演出节奏
+	Audio.stop_music()
 	boss.set_damage_invulnerable( true )
 	boss.play_animation( "death" )
 	#击败 BOSS 后背景恢复原样（传入 1 阶段即无加深，补间回 0）

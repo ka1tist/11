@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://2mllrl6p03it"]
 
-[ext_resource type="Script" path="res://levels/npc/scripts/npc_2.gd" id="1_pljk2"]
+[ext_resource type="Script" uid="uid://sgfdldi0uunf" path="res://levels/npc/scripts/npc_2.gd" id="1_pljk2"]
 [ext_resource type="Texture2D" uid="uid://34rj1c27it1n" path="res://levels/npc/sprites/Male Skin2.png" id="2_qo0lq"]
 [ext_resource type="Texture2D" uid="uid://6bn5vqoyhs3k" path="res://levels/npc/sprites/Blue Shirt v2.png" id="3_x5gh7"]
 [ext_resource type="Texture2D" uid="uid://dixkgro4m208f" path="res://levels/npc/sprites/Blue Pants.png" id="4_8v7xn"]

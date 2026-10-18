@@ -112,6 +112,9 @@ const AWAKEN_SHAKE_STRENGTH : float = 6.0
 
 #玩家原点在脚下，躯干中心约在原点上方该高度（与玩家 DamageArea 的 CapsuleShape2D 偏移一致）
 const PLAYER_BODY_CENTER : Vector2 = Vector2( 0.0 , -26.0 )
+#BOSS 的视觉中心（精灵中心，即 boss_01 里精灵的 position）相对原点的偏移：
+#BOSS 原点同样在脚下，精灵整体画在原点上方；三阶段跃顶点与蓄力粒子都按这个中心对齐
+const VISUAL_CENTER_OFFSET : Vector2 = Vector2( 0.0 , -60.0 )
 
 #阶段过场时长（按阶段索引：0 占位 / 2 阶段 / 3 阶段）
 const TRANSITION_TIME : Array[ float ] = [ 0.0 , 1.1 , 1.3 , 1.5 ]
@@ -125,10 +128,23 @@ const BACKGROUND_DARKEN_PHASE3 : float = 0.5
 const BACKGROUND_DARKEN_NODES : Array[ String ] = [ "BGParallaxLayers" , "TileMap" ]
 #加深过渡时长
 const BACKGROUND_DARKEN_TIME : float = 0.6
+
+#阶段推进时 BOSS 自身的配色：乘在精灵原色上（苏醒时精灵已置为 Color.WHITE，所以这里就是最终颜色）。
+#二阶段整体转暗红；三阶段与二阶段保持一致、不再继续加深；索引 0 占位不用，与 MAX_PHASE 对齐
+const PHASE_TINT : Array[ Color ] = [
+	Color( 1.0 , 1.0 , 1.0 , 1.0 ) ,
+	Color( 1.0 , 1.0 , 1.0 , 1.0 ) ,
+	Color( 0.92 , 0.52 , 0.52 , 1.0 ) ,
+	Color( 0.92 , 0.52 , 0.52 , 1.0 ) ,
+]
+#三阶段专属：BOSS 自身发出微弱的光。仅三阶段点亮（阶段过场渐入），能量取适中值，避免盖过场景本身的光照
+const PHASE_LIGHT_ENERGY : float = 0.8
 #endregion
 
 var sprite : Sprite2D
 var sprite_weapon : Sprite2D
+#三阶段微弱自发光（PointLight2D）：仅三阶段点亮，随 BOSS 一起移动、被击败后随之释放
+var phase_light : PointLight2D
 var animation_player : AnimationPlayer
 var attack_area : AttackArea
 #贴身碰撞伤害判定（HazardArea 是 AttackArea 的子类，需单独捕获，否则会被 attack_area 抢先命中）
@@ -152,7 +168,8 @@ var background_art : Array[ Node2D ] = []
 var background_art_base : Array[ Color ] = []
 #回退方案：关卡没有任何背景美术容器时（背景就是清屏色），用画在世界之下的全屏暗色层压暗清屏色
 var background_overlay : ColorRect
-#三阶段组合技下砸的落点参照：关卡里的道具节点（props/道具），惰性解析并缓存，见 slam_target_x
+#三阶段组合技（跃顶 skill_01 → 蓄力 skill_02 → 下砸）的落点参照：关卡里的道具节点（props/道具），
+#惰性解析并缓存，见 slam_target_pos
 var slam_target : Node2D
 #休眠：等待玩家进入检测范围并按交互键唤醒（休眠期保持 RESET 默认姿态与场景里配好的暗色外观）
 var waking : bool = false
@@ -194,6 +211,8 @@ func setup() -> void:
 			animation_player = c
 		elif c is Sprite2D and not sprite:
 			sprite = c
+		elif c is PointLight2D and not phase_light:
+			phase_light = c
 		elif c is DamageArea and not damage_area:
 			damage_area = c
 			c.damage_taken.connect( _on_damage_taken )
@@ -365,11 +384,14 @@ func screen_top_center() -> Vector2:
 	return Vector2( center.x , center.y - view.y * 0.5 + SKILL_TOP_MARGIN )
 
 
-#三阶段组合技（跃顶 skill_01 → 蓄力 skill_02 → 下砸）的落点 x：固定取关卡里道具（props/道具）的 x，
-#与玩家/相机当前所在位置无关——按相机中心算的话，玩家贴到竞技场边缘时镜头被限制夹住，落点会跟着偏。
-#下砸是从跃顶点垂直落下，所以固定了跃顶点 x 就等于固定了砸地位置。
+#三阶段组合技（跃顶 skill_01 → 蓄力 skill_02 → 下砸）的跃顶点：取关卡里道具（props/道具，
+#三阶段才点亮的太阳）自身的位置，与玩家/相机位置无关——道具就是给玩家看的落点标记。
+#老写法只取道具的 x（y 仍按相机可视区上沿算），相机一动 BOSS 就停在道具上方或下方，跟道具对不上，
+#所以这里连 y 一起取。道具位置对齐的是 BOSS 的视觉中心（精灵中心在原点上方 VISUAL_CENTER_OFFSET），
+#所以返回值要减去这个偏移，BOSS 才正好立在道具上（蓄力粒子也是按这个中心喷的）。
+#下砸是从跃顶点垂直落下，所以跃顶点 x 同时就是砸地位置。
 #首次使用时按路径解析并缓存；解析不到（本 BOSS 被放到了没摆道具的关卡）退回屏幕中心那套，并明确报警
-func slam_target_x() -> float:
+func slam_target_pos() -> Vector2:
 	if slam_target == null or not is_instance_valid( slam_target ):
 		var parent := get_parent()
 		if parent != null:
@@ -378,10 +400,10 @@ func slam_target_x() -> float:
 			if slam_target == null:
 				slam_target = parent.get_node_or_null( "道具" ) as Node2D
 		if slam_target == null:
-			push_warning( "Boss：找不到落点参照道具（props/道具），下砸落点退回屏幕中心" )
+			push_warning( "Boss：找不到落点参照道具（props/道具），跃顶点退回屏幕正上方中心" )
 	if slam_target == null:
-		return screen_top_center().x
-	return slam_target.global_position.x
+		return screen_top_center()
+	return slam_target.global_position - VISUAL_CENTER_OFFSET
 
 
 func phase_display_name() -> String:
@@ -690,12 +712,44 @@ func _on_damage_taken( a : AttackArea ) -> void:
 	pass
 
 
+#阶段推进时 BOSS 自身配色加深（二阶段暗红、三阶段更深红）。
+#受击闪白补间也在写 sprite.modulate，先停掉再改色，否则两段补间会互相打架
+func apply_phase_tint( phase : int ) -> void:
+	if sprite == null:
+		return
+	if _hurt_tween:
+		_hurt_tween.kill()
+	_hurt_tween = null
+	sprite.create_tween().tween_property( sprite , "modulate" , phase_tint( phase ) , BACKGROUND_DARKEN_TIME )
+	pass
+
+
+#指定阶段对应的精灵颜色（受击闪白回落的终点也用它，避免把阶段配色刷回白色）
+func phase_tint( phase : int ) -> Color:
+	return PHASE_TINT[ clampi( phase , 1 , MAX_PHASE ) ]
+
+
+#当前阶段配色：二三阶段的特效统一取它作为 modulate，保证特效外观与 BOSS 同步变化
+func current_tint() -> Color:
+	return phase_tint( blackboard.phase )
+
+
+#阶段推进时切换 BOSS 自身的微弱光源：仅三阶段点亮，其余阶段熄灭（渐入/渐出）。
+#补间挂光源节点自身创建——BOSS 被击败后本体释放，绑在 BOSS 上的补间会中途夭折（同 apply_phase_background）
+func apply_phase_light( phase : int ) -> void:
+	if phase_light == null:
+		return
+	var target : float = PHASE_LIGHT_ENERGY if phase >= MAX_PHASE else 0.0
+	phase_light.create_tween().tween_property( phase_light , "energy" , target , BACKGROUND_DARKEN_TIME )
+	pass
+
+
 func flash_hurt() -> void:
 	if _hurt_tween:
 		_hurt_tween.kill()
 	sprite.modulate = Color( 2.0 , 1.1 , 1.2 , 1.0 )
 	_hurt_tween = create_tween()
-	_hurt_tween.tween_property( sprite , "modulate" , Color.WHITE , 0.12 )
+	_hurt_tween.tween_property( sprite , "modulate" , phase_tint( blackboard.phase ) , 0.12 )
 	pass
 
 
@@ -745,9 +799,13 @@ func spawn_afterimage() -> void:
 	world.move_child( ghost , idx )
 	ghost.z_index = z_index
 	ghost.global_transform = global_transform
-	ghost.modulate = Color( 0.958 , 0.595 , 0.595 , 0.75 )
+	#残影颜色取 BOSS 当前阶段配色，只把不透明度降到 0.75；副本另置纯白，
+	#避免副本自带阶段配色与这里的配色叠乘后比 BOSS 本体更暗
+	var tint := current_tint()
+	ghost.modulate = Color( tint.r , tint.g , tint.b , 0.75 )
 
 	var copy : Sprite2D = sprite.duplicate() as Sprite2D
+	copy.modulate = Color.WHITE
 	copy.flip_h = sprite.flip_h
 	ghost.add_child( copy )
 
@@ -761,6 +819,8 @@ func spawn_afterimage() -> void:
 func spawn_ground_slam() -> void:
 	var fx := GROUND_SLAM_SCENE.instantiate() as Node2D
 	add_world_child( fx )
+	#特效颜色取 BOSS 当前阶段配色（modulate 会一并作用于它的子精灵）
+	fx.modulate = current_tint()
 	fx.global_position = global_position + Vector2( 0 , 4 )
 	aim_hazard_at_player( fx )
 	play_child_animation( fx )
@@ -771,6 +831,8 @@ func spawn_ground_slam() -> void:
 func spawn_wave( dir : int ) -> void:
 	var fx := WAVE_SCENE.instantiate() as Node2D
 	add_world_child( fx )
+	#特效颜色取 BOSS 当前阶段配色（撞墙淡出只补间 modulate:a，不会冲掉这里的配色）
+	fx.modulate = current_tint()
 	#光波场景的精灵与判定以「根节点 y 即地面线」为锚点设计（帧高 128，精灵 y 偏移 -64 使底边正好落在根节点上），
 	#砸地时 BOSS 原点就在地面线，故这里不再额外抬高，否则整体浮空
 	fx.global_position = global_position + Vector2( float( dir ) * 50.0 , 0.0 )
@@ -786,6 +848,8 @@ func spawn_wave( dir : int ) -> void:
 func spawn_pb() -> void:
 	var proj := PB_SCENE.instantiate() as PbProjectile
 	add_world_child( proj )
+	#投射物颜色取 BOSS 当前阶段配色（连同它自带的光源一起被染色）
+	proj.modulate = current_tint()
 	#与身体中心对齐（玩家站姿躯干也在这个高度），保证水平飞行能够命中
 	proj.global_position = global_position + Vector2( 0.0 , -45.0 )
 	#始终按当前面朝方向水平飞行，发射后不再改变方向
@@ -860,7 +924,8 @@ func slam_impact() -> void:
 	VisualEffects.hit_dust( global_position )
 	#尖刺爆发特效：单帧 128x128、Sprite2D 默认以帧中心为原点，抬高半个帧高（64 × 1.7 = 108.8）后
 	#特效最下面正好落在 BOSS 脚底（BOSS 原点即脚底、砸地瞬间就在这里触发），不再埋进地面。
-	#末位传 self：特效跟随 BOSS 的 z_index、插在 BOSS 前一位，不论关卡实例把 BOSS 调成几层都不会挡在它前面
+	#末位传 self：特效跟随 BOSS 的 z_index、插在 BOSS 前一位，不论关卡实例把 BOSS 调成几层都不会挡在它前面；
+	#同时 VisualEffects 会读 BOSS 的 current_tint()，让尖刺爆发与 BOSS 同步变化
 	VisualEffects.play_effect_row( 0 , global_position + Vector2( 0 , -108.8 ) , 1.7 , false , 16.0 , self )
 	VisualEffects.camera_shake( 14.0 , 0.5 )
 	pass

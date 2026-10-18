@@ -3,6 +3,7 @@
 [ext_resource type="TileSet" uid="uid://bwq630g7e2meb" path="res://levels/tilesets/洞穴.tres" id="1_qfips"]
 [ext_resource type="Script" uid="uid://bfp57l00qgc4a" path="res://levels/props/房子.gd" id="2_house"]
 [ext_resource type="PackedScene" uid="uid://dvxst87870rxt" path="res://levels/npc/npc_3.tscn" id="3_05ygm"]
+[ext_resource type="PackedScene" uid="uid://dffmx5fy2d6ud" path="res://general/player_spawn/player_spawn.tscn" id="4_5hd4x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ieygl"]
 size = Vector2(31.5, 46)
@@ -56,3 +57,5 @@ polygon = PackedVector2Array(-160, 0, -160, -384, 160, -384, 160, 0)
 
 [node name="npc_3" parent="." unique_id=1197330069 instance=ExtResource("3_05ygm")]
 dialog_lines = Array[String](["你好，旅行者！", "你需要买东西吗，我这都有，童叟无欺"])
+
+[node name="PlayerSpawn" parent="." unique_id=61038727 instance=ExtResource("4_5hd4x")]

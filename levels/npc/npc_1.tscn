@@ -216,6 +216,7 @@ libraries/ = SubResource("AnimationLibrary_fceui")
 
 [node name="PatrolLimit" type="Node2D" parent="." unique_id=1000000001]
 position = Vector2(-56, 0)
+scale = Vector2(1.2, 1.2)
 script = ExtResource("6_patrol")
 metadata/_custom_type_script = "uid://eh2apeu40cfr"
 

@@ -303,6 +303,12 @@ func _tween_modulate_alpha( canvas : CanvasItem , alpha : float , time : float )
 #「它之后、它之前的背景/地面之前」——既不会被不透明背景盖住，也不会挡住它
 func play_effect( first_frame : int , last_frame : int , pos : Vector2 , scale_mult : float = 1.0 , flip : bool = false , fps : float = FX_DEFAULT_FPS , under : Node2D = null ) -> void:
 	var fx := OneShotEffect.new()
+	#特效配色：under 暴露出 current_tint() 时（传 BOSS 本体即是如此）用它的当前阶段配色，否则保持原色。
+	#从 under 上取而非加参数：调用方只要传 BOSS 本体，特效颜色就自然跟着 BOSS 一起变化
+	if under != null and under.has_method( "current_tint" ):
+		var tint : Variant = under.call( "current_tint" )
+		if tint is Color:
+			fx.modulate = tint
 	if under != null and under.get_parent() != null:
 		var world : Node = under.get_parent()
 		var idx : int = under.get_index()
@@ -320,7 +326,7 @@ func play_effect( first_frame : int , last_frame : int , pos : Vector2 , scale_m
 
 
 #按特效表内的行号播放整行（row 为行索引，0 起）：0 尖刺爆发 / 1 像素爆散 / 2 垂直消散
-#under 语义同 play_effect：传 BOSS 本体时特效自动跟随它的层级、贴它身后
+#under 语义同 play_effect：传 BOSS 本体时特效自动跟随它的层级、贴它身后，并取它当前的阶段配色
 func play_effect_row( row : int , pos : Vector2 , scale_mult : float = 1.0 , flip : bool = false , fps : float = FX_DEFAULT_FPS , under : Node2D = null ) -> void:
 	var first : int = BOSS_EFFECTS_COLUMNS * clampi( row , 0 , BOSS_EFFECTS_ROWS - 1 )
 	var last : int = first + BOSS_EFFECTS_COLUMNS - 1

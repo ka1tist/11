@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cbwescvermjmm" path="res://levels/tilesets/sprites/Torch.png" id="1_odj27"]
 [ext_resource type="PackedScene" uid="uid://cxrfpicqh2ruo" path="res://levels/props/插地火把.tscn" id="2_odj27"]
-[ext_resource type="Script" path="res://levels/props/torch_extinguish.gd" id="3_torch"]
+[ext_resource type="Script" uid="uid://dxpft815shb13" path="res://levels/props/torch_extinguish.gd" id="3_torch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aoias"]
 atlas = ExtResource("1_odj27")
@@ -59,7 +59,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7h0lg"]
-size = Vector2(20, 32)
+size = Vector2(20, 72)
 
 [node name="插地火把（特殊）" type="Node2D" unique_id=454909419]
 script = ExtResource("3_torch")
@@ -79,5 +79,5 @@ collision_mask = 16
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=855728199]
-position = Vector2(0, -16)
+position = Vector2(0, -36)
 shape = SubResource("RectangleShape2D_7h0lg")
