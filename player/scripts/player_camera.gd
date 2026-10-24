@@ -47,12 +47,20 @@ var _focus_in_speed : float = 4.0
 var _focus_out_speed : float = 2.0
 #是否处于"聚焦专用的高跟随速度"状态
 var _focus_boosted : bool = false
+#手动平滑后的镜头位置（本地坐标，未取整）：引擎自带的 position_smoothing 会输出亚像素位置，
+#配合 rendering/2d/snap/snap_2d_transforms_to_pixel 时整屏会在相邻像素间来回跳，改由本脚本平滑
+var _smooth_position : Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
 	_base_position = position
 	_base_smoothing_speed = position_smoothing_speed
 	_base_zoom = zoom
+	_smooth_position = position
+	#关闭引擎自带平滑，改为本脚本手动平滑后把落点对齐到整像素：
+	#项目开着 rendering/2d/snap/snap_2d_transforms_to_pixel，亚像素的镜头位置会让整屏绘制
+	#在相邻像素之间反复跳（静止/贴边时尤其明显，表现为整屏 1px 抖动）
+	position_smoothing_enabled = false
 	VisualEffects.camera_shook.connect( _apply_shake )
 	VisualEffects.camera_focused.connect( _on_focus_requested )
 	VisualEffects.camera_focus_released.connect( _on_focus_released )
@@ -67,7 +75,7 @@ func _process( delta: float ) -> void:
 	update_look_down( real_delta )
 	update_focus( real_delta )
 	update_shake( real_delta )
-	_apply_position()
+	_apply_position( real_delta )
 	pass
 
 
@@ -131,22 +139,30 @@ func update_focus( real_delta : float ) -> void:
 #缩放同时从关卡基础 zoom 平滑放大到 zoom*focus_zoom（视野收窄，BOSS 在画面里更大）。
 #位置写在本地 position 上而不是 global_position：父节点（玩家根）带 x 镜像缩放时也能自动对齐；
 #zoom 则每帧由这里写入，聚焦期间会盖过 LevelBounds 对 zoom 的重设（击败当帧会重算一次），
-#所以镜头不会在放大途中被拽回 1.0
-func _apply_position() -> void:
+#所以镜头不会在放大途中被拽回 1.0。
+#平滑由本脚本执行（引擎平滑已关闭），最后把落点取整到整像素：整数画布变换才能让开启整像素
+#对齐的整屏绘制稳定，不会在相邻像素间来回跳。
+func _apply_position( delta : float ) -> void:
 	var parent := get_parent() as Node2D
 	if parent == null:
 		return
 	var follow : Vector2 = _base_position + Vector2( 0.0 , look_down_distance * _ease_in_out( _look_blend ) )
+	var desired : Vector2 = follow
 	if _focus_blend > 0.0:
 		#注意用父节点的 to_local：本节点的 to_local 是相对自身的，取不到目标位置的本地坐标
 		var t : float = _ease_in_out( _focus_blend )
-		position = follow.lerp( parent.to_local( _focus_position ) , t )
+		desired = follow.lerp( parent.to_local( _focus_position ) , t )
 		#放大：视野越小，镜头可见范围越窄，BOSS 越靠近画面中心（同时贴着关卡边界时也更容易居中）
 		zoom = _base_zoom.lerp( _base_zoom * focus_zoom , t )
-	else:
-		position = follow
-		#未聚焦期间完全不动 zoom：关卡（LevelBounds）按自身尺寸设定的 zoom 归它管，镜头只在聚焦期间临时放大
-		pass
+	#与引擎平滑同样的指数收敛；聚焦期间用更高的跟随速度（速度为 0 时直接跟随）
+	var speed : float = focus_smoothing_speed if _focus_boosted else _base_smoothing_speed
+	var weight : float = 1.0 - exp( -speed * delta ) if speed > 0.0 else 1.0
+	#大位移（关卡瞬移/传送）直接跟上，避免镜头慢慢爬过去
+	if desired.distance_to( _smooth_position ) > 200.0:
+		weight = 1.0
+	_smooth_position = _smooth_position.lerp( desired , clampf( weight , 0.0 , 1.0 ) )
+	position = parent.to_local( parent.to_global( _smooth_position ).round() )
+	pass
 
 
 #缓入缓出（smoothstep）：所有位移都过这一层缓动，起停处没有速度突变
@@ -199,6 +215,8 @@ func _on_scene_transition( _t , _o ) -> void:
 		_focus_boosted = false
 		position_smoothing_speed = _base_smoothing_speed
 	position = _base_position
+	#手动平滑的状态同步复位：新关卡第一帧就落在玩家身上，不会从上一关的位置滑过来
+	_smooth_position = _base_position
 	#聚焦若在新场景淡入前被打断，放大倍率可能还停在中途，一并收回基础 zoom
 	zoom = _base_zoom
 	reset_smoothing.call_deferred()
