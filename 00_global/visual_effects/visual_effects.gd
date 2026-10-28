@@ -26,6 +26,12 @@ const FX_DEFAULT_FPS : float = 14.0
 
 signal camera_shook( strength : float , duration : float )
 
+#演出（视频/过场）序列镜头广播（PlayerCamera 接收）：
+#推入 = 目标世界坐标 + 过渡时长（0.3~0.8 秒，越界会被限制）+ 相对基础 zoom 的整数倍缩放；
+#回归 = 回到玩家跟随的过渡时长。任何演出脚本只需发这两个信号，不用持有 PlayerCamera 引用。
+signal camera_sequence_started( world_pos : Vector2 , duration : float , zoom_level : float )
+signal camera_sequence_released( duration : float )
+
 #region /// 击败 BOSS 的聚焦慢动作
 
 ## 击败 BOSS 的演出（由死亡状态在击败判定帧调用一次，见 boss_defeat_focus）：
@@ -135,6 +141,19 @@ func hit_particles( pos: Vector2 , dir: Vector2 , settings : HitParticleSettings
 
 func camera_shake( strength : float = 1.0 , duration : float = 0.25 ) -> void:
 	camera_shook.emit( strength , duration )
+	pass
+
+
+#演出（视频/过场）序列：镜头平滑推入并锁定到 world_pos（0.3~0.8 秒），
+#zoom_level 为整数倍缩放（1 = 不缩放）。到达后保持，直到调用 camera_sequence_release。
+func camera_sequence_to( world_pos : Vector2 , duration : float = 0.5 , zoom_level : float = 1.0 ) -> void:
+	camera_sequence_started.emit( world_pos , duration , zoom_level )
+	pass
+
+
+#结束演出序列镜头：平滑回到玩家跟随（0.3~0.8 秒）
+func camera_sequence_release( duration : float = 0.5 ) -> void:
+	camera_sequence_released.emit( duration )
 	pass
 
 

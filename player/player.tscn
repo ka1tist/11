@@ -630,6 +630,7 @@ target_position = Vector2(-15, 0)
 process_mode = 3
 position = Vector2(0, -48)
 position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 script = ExtResource("8_8t03j")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1399614184]
