@@ -45,12 +45,16 @@ func _ready() -> void:
 		player_position = player.global_position
 	PlayerHud.show_coin_permanent()
 	PlayerHud.show_up_permanent()
+	#通知外部（主要是 BossHud）：暂停界面已打开，底部 BOSS 血条需要平滑收起
+	Messages.pause_menu_opened.emit()
 	pass
 
 
 func _exit_tree() -> void:
 	PlayerHud.hide_coin_display()
 	PlayerHud.hide_up_display()
+	#通知外部：暂停界面已关闭，恢复战斗场景时 BOSS 血条平滑恢复显示
+	Messages.pause_menu_closed.emit()
 	pass
 
 

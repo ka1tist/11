@@ -59,3 +59,11 @@ signal boss_skill_cooldown( ratio : float , ready : bool , unlocked : bool )
 #敌人受击：伤害数字/飘字据此在命中位置弹出数值
 @warning_ignore( "unused_signal" )
 signal enemy_damaged( pos : Vector2 , amount : float )
+
+#暂停菜单打开 / 关闭：BossHud 据此把底部血条平滑收起 / 恢复。
+#只广播界面事件，不影响暂停本身（暂停由玩家脚本 / 暂停菜单各自设置 get_tree().paused）
+@warning_ignore( "unused_signal" )
+signal pause_menu_opened()
+
+@warning_ignore( "unused_signal" )
+signal pause_menu_closed()

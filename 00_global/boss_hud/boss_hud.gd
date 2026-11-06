@@ -47,6 +47,10 @@ const BANNER_FADE_IN : float = 0.25
 const BANNER_HOLD : float = 1.1
 const BANNER_FADE_OUT : float = 0.45
 
+#暂停菜单期间的收起 / 恢复时长：只动透明度，不做位移，避免和暂停界面弹出时产生闪烁
+const PAUSE_FADE_OUT : float = 0.18
+const PAUSE_FADE_IN : float = 0.22
+
 var _root : Control
 var _bar : Control
 var _glow : ColorRect
@@ -81,6 +85,14 @@ var _intro_tween : Tween
 var _skill_pulse_tween : Tween
 var _skill_pop_tween : Tween
 
+#血条组当前是否处于「战斗中」（show_bar 置真，hide_bar / reset_hud 置假）。
+#暂停收起只切可见性与透明度，绝不改动血量比例、残影条、刻度、标签文本、技能冷却等数据，
+#所以恢复显示时不需要重新加载，原有状态原样呈现
+var _bar_active : bool = false
+#暂停期间是否已把血条组收起（防止重复收起 / 关闭时误恢复）
+var _pause_hidden : bool = false
+var _pause_fade_tween : Tween
+
 
 func _ready() -> void:
 	layer = 3
@@ -90,6 +102,8 @@ func _ready() -> void:
 	Messages.boss_phase_changed.connect( _on_phase_changed )
 	Messages.boss_defeated.connect( _on_defeated )
 	Messages.boss_skill_cooldown.connect( _on_skill_cooldown )
+	Messages.pause_menu_opened.connect( _on_pause_menu_opened )
+	Messages.pause_menu_closed.connect( _on_pause_menu_closed )
 	SceneManager.load_scene_started.connect( reset_hud )
 	pass
 
@@ -325,6 +339,15 @@ func _build_skill_icon() -> void:
 #显示血条并进入战斗（max_hp<=0 时按 1 处理避免除零）
 func show_bar( boss_name : String , max_hp : float ) -> void:
 	_max_hp = maxf( max_hp , 1.0 )
+	#新一场战斗：清掉暂停收起的残留状态，保证血条组从正常透明度开始
+	_bar_active = true
+	_pause_hidden = false
+	if _pause_fade_tween:
+		_pause_fade_tween.kill()
+		_pause_fade_tween = null
+	_bar.modulate.a = 1.0
+	if _skill_icon:
+		_skill_icon.modulate.a = 1.0
 	_name_label.text = boss_name
 	_bar.visible = true
 	_name_label.visible = true
@@ -358,6 +381,12 @@ func show_bar( boss_name : String , max_hp : float ) -> void:
 
 #隐藏血条与数值（BOSS 死亡后 / 切换场景）
 func hide_bar() -> void:
+	#战斗结束：取消暂停收起状态，之后关闭暂停菜单也不会再把血条恢复出来
+	_bar_active = false
+	_pause_hidden = false
+	if _pause_fade_tween:
+		_pause_fade_tween.kill()
+		_pause_fade_tween = null
 	_bar.visible = false
 	_name_label.visible = false
 	_hp_label.visible = false
@@ -371,6 +400,11 @@ func hide_bar() -> void:
 
 #完整复位（用于切场景）：清掉所有残留动画与横幅
 func reset_hud() -> void:
+	_bar_active = false
+	_pause_hidden = false
+	if _pause_fade_tween:
+		_pause_fade_tween.kill()
+		_pause_fade_tween = null
 	if _bar:
 		hide_bar()
 		_bar.modulate.a = 1.0
@@ -438,6 +472,63 @@ func show_banner( text : String , color : Color = Color( 1.0 , 0.85 , 0.5 ) ) ->
 	_banner_tween.tween_property( _banner , "modulate:a" , 1.0 , BANNER_FADE_IN )
 	_banner_tween.tween_interval( BANNER_HOLD )
 	_banner_tween.tween_property( _banner , "modulate:a" , 0.0 , BANNER_FADE_OUT )
+	pass
+
+#endregion
+
+
+#region /// 暂停菜单联动
+
+#暂停打开：把屏幕底部的血条组（血条 + 左侧技能图标）平滑淡出并收起。
+#只改可见性与透明度，血量数值、残影条、阶段刻度、技能冷却等数据全部原样保留
+func _on_pause_menu_opened() -> void:
+	if not _bar_active or _pause_hidden:
+		return
+	_pause_hidden = true
+	#入场动画可能还在跑：它的 modulate:a 补间会和淡出抢同一属性，先收尾到终态
+	if _intro_tween:
+		_intro_tween.kill()
+		_intro_tween = null
+		_bar.position.y = BAR_TOP
+	_fade_bar_group( 0.0 , PAUSE_FADE_OUT , true )
+	pass
+
+
+#暂停关闭：血条组从当前透明度平滑恢复；若暂停期间战斗已结束（血条已被收起）则不恢复
+func _on_pause_menu_closed() -> void:
+	if not _pause_hidden:
+		return
+	_pause_hidden = false
+	if not _bar_active:
+		return
+	_bar.visible = true
+	_skill_icon.visible = true
+	_fade_bar_group( 1.0 , PAUSE_FADE_IN , false )
+	pass
+
+
+#血条组统一淡入 / 淡出。暂停期间场景树处于 paused，补间必须声明 TWEEN_PAUSE_PROCESS 才会推进
+func _fade_bar_group( target_alpha : float , duration : float , hide_when_done : bool ) -> void:
+	if _pause_fade_tween:
+		_pause_fade_tween.kill()
+	var tween := create_tween()
+	tween.set_pause_mode( Tween.TWEEN_PAUSE_PROCESS )
+	tween.set_parallel( true )
+	tween.tween_property( _bar , "modulate:a" , target_alpha , duration )
+	if _skill_icon:
+		tween.tween_property( _skill_icon , "modulate:a" , target_alpha , duration )
+	if hide_when_done:
+		tween.chain().tween_callback( _finish_pause_hide )
+	_pause_fade_tween = tween
+	pass
+
+
+#淡出结束：真正隐藏（暂停期间也要生效，避免暂停界面层级低于 HUD 时血条透出来）
+func _finish_pause_hide() -> void:
+	if not _pause_hidden:
+		return
+	_bar.visible = false
+	_skill_icon.visible = false
 	pass
 
 #endregion
